@@ -1,0 +1,60 @@
+Description: 
+
+Exploration of the BunDLe-Net framework through the application of Post-Hoc methods for evaluation of feature saliency and geometric analysis of learned latent spaces.
+
+The project consists of the following initial milestones 
+
+Identification, motivation, and comparative application of two Post-Hoc methods for evaluating how a trained BunDLe-Net model assigns saliency to features.
+Development of an interactive and extendable visualization containing (a) learned latent space plots (b) results of the post-hoc analysis.
+After the initial milestones are completed, we will discuss (you will contact us) possible extensions regarding the analysis of the learned latent space, for instance with a RNN. 
+
+Plan for chapters:
+
+1. Introduction 
+
+	Here shortly about what are Neuro-Cognitive Multilevel Causal Models, why they are important and of course the goal of the research/key contribution of this paper and what research gap is it filling
+
+2. Literature Overview
+	
+	Section I: Defining what is a manifold and why we change the approach from singular neurons to neural manifolds
+	
+	Section II: Dimensionality reduction in neuroscience - methods like PCA vs non-linear methods and how are they used in neuroscience
+
+	Section III: The BundleNet framework - the change from previous approaches/ the architecture/ how does it work ect
+
+	Section IV: Post-Hoc Explainability (XAI) Methods in Deep Learning - introcusting why is it important to solve black-box problem, how post hoc methods works for models working on time-series and dynamic data, articles about posthoc methods and examples how were they already used in other models (how do you prove the XAI method works well?), maybe modles similar to bundle net if I find articles like that, here also proving why I decided to use particular post-hoc methods.
+
+	Section V: Visualization of latent space and XAI methods results (?)
+
+3. Dataset and methodology
+	
+	Section I: "data analysis" about used dataset, explain how the data was prepared for the modelling part and 
+
+	Section II: describe what methods I used to obtain the results( process of traning the model, hyperparamethers, how I checked if the XAI methods that were used are stabile and perfomed well)
+
+	Section III: Described how the dashboard was coded and how a person can use it (?)
+
+4. Empirical results 
+
+	Section I: How BundleNet is projecting the data into the latent space (geometric analysis)
+	
+	Section II: how each post-hoc method performed, and compare how they performed (what model see what was more importante ect.) Here gonna be probably some sub-chapters but for now I don't have an idea for it - it will come in later when I will start to code the results.
+
+	Section III: Presentation of the dashboard working (?)
+
+5. Discussion and Conclucions
+
+	 Reminder what the point of the research was, what were the outcomes and what they mean.
+What do XAI methods say about data - what were the critical features ect. What might be possible extensions to this research (future work) and what were the limitations to this research 
+
+6. Bibliography/List of tables/ List of figures ...
+
+ 
+
+	
+
+
+	
+	
+	
+
