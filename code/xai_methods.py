@@ -70,3 +70,62 @@ def get_shap_values(bundle_model, x_tensor, target_class, background_tensor=None
     target_shap_2d = target_shap.reshape(batch_size, -1)
     
     return target_shap_2d
+
+
+def generate_and_save_full_matrices(bundle_model, x_raw, b_raw, filename_prefix="worm_1"):
+    # 1. NAPRAWA WYMIARÓW
+    if len(x_raw.shape) > 2:
+        x_raw = x_raw[:, 0]
+        
+    num_features = 131
+    try:
+        x_raw = x_raw.reshape(x_raw.shape[0], num_features)
+    except ValueError:
+        raise ValueError(f"Nie można spłaszczyć danych do 131 neuronów. Kształt: {x_raw.shape}")
+
+    b_aligned = b_raw[:len(x_raw)]
+    x_tensor = torch.tensor(x_raw, dtype=torch.float32, requires_grad=True)
+    targets = torch.tensor(b_aligned, dtype=torch.long)
+    
+    wrapper = BehaviorWrapper(bundle_model).eval()
+    
+    # 2. Generowanie Integrated Gradients
+    print("Obliczam Integrated Gradients...")
+    ig = IntegratedGradients(wrapper)
+    ig_attr = ig.attribute(x_tensor, target=targets, n_steps=20, internal_batch_size=256)
+    ig_matrix = ig_attr.detach().cpu().numpy()
+    
+    # 3. Generowanie SHAP
+    print("Obliczam SHAP... (To potrwa, zrób sobie przerwę)")
+    explainer = shap.GradientExplainer(wrapper, x_tensor)
+    shap_values = explainer.shap_values(x_tensor)
+    
+    shap_matrix = np.zeros_like(ig_matrix)
+    shap_array = np.array(shap_values)
+    
+    # 4. Twarde i bezpieczne przypisywanie klas (Kotwica na 131 neuronach)
+    for i in range(x_tensor.shape[0]):
+        current_class = int(b_aligned[i])
+        
+        if isinstance(shap_values, list):
+            frame_shap = shap_values[current_class][i]
+        else:
+            # Sprawdzamy, w którym miejscu SHAP ukrył wymiar neuronów
+            if shap_array.shape[-1] == num_features:
+                # Układ np. (3058, 8, 131)
+                frame_shap = shap_array[i, current_class, :]
+            elif shap_array.shape[1] == num_features:
+                # Układ np. (3058, 131, 8) - to przypadek z Twojego błędu!
+                frame_shap = shap_array[i, :, current_class]
+            else:
+                # Fallback, jeśli wymiary znów zmutują
+                frame_shap = shap_array[i, ..., current_class]
+                
+        shap_matrix[i] = frame_shap.reshape(-1)
+        
+    # 5. Zapis do plików numpy
+    np.save(f"{filename_prefix}_ig.npy", ig_matrix)
+    np.save(f"{filename_prefix}_shap.npy", shap_matrix)
+    print(f"Gotowe! Zapisano IG ({ig_matrix.shape}) oraz SHAP ({shap_matrix.shape})")
+    
+    return ig_matrix, shap_matrix

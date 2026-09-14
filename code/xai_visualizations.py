@@ -1,10 +1,17 @@
 
 # Libraries 
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import shap
 import torch
+import plotly.graph_objects as go
+import plotly.colors as pc
+import ipywidgets as widgets
+from plotly.subplots import make_subplots
+
+################### GLOBAL PANEL ##########################################################################################
 
 def plot_global_importance(attributions_shap, attributions_ig, neuron_names, top_n=10, title="Global Neuron Importance"):
 
@@ -61,6 +68,194 @@ def plot_global_importance(attributions_shap, attributions_ig, neuron_names, top
     plt.legend()
     plt.tight_layout()
     plt.show()
+
+
+def generate_comparison_table(attributions_shap, attributions_ig, neuron_names, top_n=10):
+    num_features = len(neuron_names)
+
+    ############# PREPARING DATA #############################################
+    if hasattr(attributions_shap, 'detach'):
+        attributions_shap = attributions_shap.detach().cpu().numpy()
+    if hasattr(attributions_ig, 'detach'):
+        attributions_ig = attributions_ig.detach().cpu().numpy()
+        
+    attr_2d_shap = attributions_shap.reshape(-1, num_features)
+    attr_2d_ig = attributions_ig.reshape(-1, num_features)
+
+    ################ MEANS OF XAI ATTRIBUITION ###############################
+    ig_scores = np.mean(np.abs(attr_2d_ig), axis=0)
+    shap_scores = np.mean(np.abs(attr_2d_shap), axis=0)
+
+    net_shap = np.mean(attr_2d_shap, axis=0) # SHap nettro is a sum of positive and negative influeances 
+
+    ################# RANKING CRETAING ###########################
+    ig_idx = np.argsort(ig_scores)[-top_n:][::-1]
+    shap_idx = np.argsort(shap_scores)[-top_n:][::-1]
+    pos_idx = np.argsort(net_shap)[-top_n:][::-1]
+    neg_idx = np.argsort(net_shap)[:top_n]
+    neuron_array = np.array(neuron_names)
+
+    ############ DATA FRAME SHAPE ################################
+    df = pd.DataFrame({
+        'Place': range(1, top_n + 1),
+        'Top IG': neuron_array[ig_idx],
+        'Top SHAP (Global)': neuron_array[shap_idx],
+        'SHAP Positive (Netto +)': neuron_array[pos_idx],
+        'SHAP Negative (Netto -)': neuron_array[neg_idx]
+    })
+
+    return df.set_index('Place')
+
+
+
+def plot_shap_beeswarm(shap_attr, x_raw, neuron_names):
+    """
+    Generuje wykres kropkowy SHAP. 
+    Wymaga oryginalnych danych wejściowych (x_raw), aby przypisać kolory (poziom wapnia).
+    """
+    ############### DATA PREPARATION ##########################
+    if torch.is_tensor(shap_attr):
+        shap_attr = shap_attr.detach().cpu().numpy()
+    if torch.is_tensor(x_raw):
+        x_raw = x_raw.detach().cpu().numpy()
+        
+    num_features = len(neuron_names)
+    shap_2d = shap_attr.reshape(-1, num_features)
+    x_raw_2d = x_raw.reshape(-1, num_features)
+    
+    if x_raw_2d.shape[0] != shap_2d.shape[0]:
+        print(f" Attencione!: X has a  {x_raw_2d.shape[0]} windowns, and SHAP has a {shap_2d.shape[0]}.")
+        x_raw_2d = x_raw_2d[:shap_2d.shape[0]]
+        
+    ############## PLOTTING #####################################
+    shap.summary_plot(
+        shap_values=shap_2d, 
+        features=x_raw_2d, 
+        feature_names=list(neuron_names), 
+        plot_type="dot",
+        show=True
+    )
+
+####################### WORM SPECIFIC PANEL #########################################################
+
+
+def create_wide_interactive_panel(latent_Y, behaviors, shap_matrix, ig_matrix, neuron_names, behavior_names, palette):
+    neuron_array = np.array(neuron_names)
+    
+    # 1. Lewy panel: Model 3D
+    fig_3d = go.FigureWidget()
+    
+    # Główna trajektoria używa teraz Twojej palety
+    fig_3d.add_trace(go.Scatter3d(
+        x=latent_Y[:, 0], y=latent_Y[:, 1], z=latent_Y[:, 2],
+        mode='lines',
+        line=dict(
+            width=5, 
+            color=behaviors,
+            colorscale=palette, # Wstrzyknięcie własnych kolorów
+            cmin=0,             # Twarde zakotwiczenie od pierwszego koloru
+            cmax=len(palette)-1, # Twarde zakotwiczenie do ostatniego koloru
+            showscale=False 
+        ),
+        hoverinfo='text',
+        text=[f"Czas: {i}<br>Klasa: {behavior_names[int(b)]}" for i, b in enumerate(behaviors)]
+    ))
+    
+    # Generowanie legendy w oparciu o Twoją paletę
+    for b_val in np.unique(behaviors):
+        idx = int(b_val)
+        # Pobieramy kolor przypisany do konkretnego indeksu zachowania
+        color = palette[idx % len(palette)] 
+        
+        fig_3d.add_trace(go.Scatter3d(
+            x=[None], y=[None], z=[None],
+            mode='lines',
+            line=dict(color=color, width=5),
+            name=behavior_names[idx],
+            showlegend=True
+        ))
+
+    fig_3d.update_layout(
+        title="Latent Space (Kliknij linię)", 
+        margin=dict(l=0, r=0, b=0, t=80), 
+        width=600, height=800,
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5)
+    )
+
+    # 2. Prawy panel: Wykresy XAI (bez zmian)
+    fig_xai = go.FigureWidget(make_subplots(
+        rows=2, cols=1, 
+        subplot_titles=("SHAP (Wartości Surowe)", "Integrated Gradients (Wartości Surowe)"),
+        vertical_spacing=0.25 
+    ))
+    
+    fig_xai.add_trace(go.Bar(x=neuron_array, y=np.zeros(len(neuron_names)), marker_color='#8B0A50'), row=1, col=1)
+    fig_xai.add_trace(go.Bar(x=neuron_array, y=np.zeros(len(neuron_names)), marker_color='#00688B'), row=2, col=1)
+    
+    fig_xai.update_xaxes(type='category', rangeslider=dict(visible=True, thickness=0.05))
+    fig_xai.update_layout(showlegend=False, margin=dict(l=0, r=20, b=0, t=40), width=800, height=800)
+
+    # 3. Akcja po kliknięciu (bez zmian)
+    def update_xai(trace, points, state):
+        if not points.point_inds: return
+        t_idx = points.point_inds[0]
+        
+        shap_raw = shap_matrix[t_idx]
+        ig_raw = ig_matrix[t_idx]
+        
+        shap_idx = np.argsort(np.abs(shap_raw))[::-1]
+        ig_idx = np.argsort(np.abs(ig_raw))[::-1]
+        
+        with fig_xai.batch_update():
+            b_name = behavior_names[int(behaviors[t_idx])]
+            fig_xai.layout.title.text = f"Klatka: {t_idx} | Klasa zachowania: {b_name}"
+            
+            fig_xai.data[0].x = neuron_array[shap_idx]
+            fig_xai.data[0].y = shap_raw[shap_idx]
+            
+            fig_xai.data[1].x = neuron_array[ig_idx]
+            fig_xai.data[1].y = ig_raw[ig_idx]
+            
+            fig_xai.layout.xaxis.range = [-0.5, 19.5]
+            fig_xai.layout.xaxis2.range = [-0.5, 19.5]
+
+    fig_3d.data[0].on_click(update_xai)
+
+    layout = widgets.Layout(width='100%', display='flex', flex_flow='row')
+    return widgets.HBox([fig_3d, fig_xai], layout=layout)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def plot_transition_heatmap(attributions_window, neuron_names, top_n=15, title="Transition Trigger Heatmap"):
@@ -137,34 +332,3 @@ def plot_full_temporal_dashboard(x_raw, behaviors, behavior_names, ig_matrix, ne
     plt.show()
 
 
-def plot_shap_beeswarm(shap_attr, x_raw, neuron_names):
-    """
-    Generuje wykres kropkowy SHAP. 
-    Wymaga oryginalnych danych wejściowych (x_raw), aby przypisać kolory (poziom wapnia).
-    """
-    # Upewniamy się, że dane to płaskie tablice 2D (okna_czasowe, neurony)
-    if torch.is_tensor(shap_attr):
-        shap_attr = shap_attr.detach().cpu().numpy()
-    if torch.is_tensor(x_raw):
-        x_raw = x_raw.detach().cpu().numpy()
-        
-    # 2. Twarde wyrównanie wymiarów do 2D (czas, neurony)
-    num_features = len(neuron_names)
-    
-    # -1 pozwala NumPy automatycznie wyliczyć poprawny czas
-    shap_2d = shap_attr.reshape(-1, num_features)
-    x_raw_2d = x_raw.reshape(-1, num_features)
-    
-    # 3. Zabezpieczenie przed niewłaściwą macierzą danych (obcinanie nadmiaru)
-    if x_raw_2d.shape[0] != shap_2d.shape[0]:
-        print(f"UWAGA: X ma {x_raw_2d.shape[0]} okien, a SHAP {shap_2d.shape[0]}. Wyrównuję.")
-        x_raw_2d = x_raw_2d[:shap_2d.shape[0]]
-        
-    # 4. Rysowanie wykresu
-    shap.summary_plot(
-        shap_values=shap_2d, 
-        features=x_raw_2d, 
-        feature_names=list(neuron_names), 
-        plot_type="dot",
-        show=True
-    )
