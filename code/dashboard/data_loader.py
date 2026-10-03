@@ -7,10 +7,19 @@ from ncmcm.bundlenet.bundlenet import BunDLeNet
 
 def load_all_data(worm_idx=0):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    palette = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6']
+    my_custom_palette = [
+    '#FF82AB',  
+    '#8B4789',  
+    '#87CEFA',  
+    '#7CCD7C',  
+    '#B3EE3A',  
+    '#FF6A6A',  
+    '#009ACD',  
+    '#FFB90F'   
+]
 
     # 1. Nazwy zachowań i neuronów
-    with open("../../precomputed_data/behavior_names.json", "r") as f:
+    with open("precomputed_data/behavior_names.json", "r") as f:
         behavior_names = {int(k): v for k, v in json.load(f).items()}
 
     with open(f"precomputed_data/data/worm_{worm_idx}_neuron_names.json", "r") as f:
@@ -25,7 +34,7 @@ def load_all_data(worm_idx=0):
 
     # 3. Przestrzeń Latentna 3D
     model = BunDLeNet(latent_dim=3, num_behaviour=len(behavior_names), input_shape=x_.shape).to(device)
-    model.load_state_dict(torch.load(f"../../precomputed_data/models/worm_{worm_idx}_model.pt"))
+    model.load_state_dict(torch.load(f"precomputed_data/models/worm_{worm_idx}_model.pt"))
     model.eval()
 
     with torch.no_grad():
@@ -33,4 +42,4 @@ def load_all_data(worm_idx=0):
         x_tensor = torch.tensor(x_flat.reshape(-1, x_.shape[-1]), dtype=torch.float32).to(device)
         latent_Y = model.tau(x_tensor).detach().cpu().numpy()
 
-    return x_flat, b_, shap_matrix, ig_matrix, latent_Y, behavior_names, neuron_array, palette
+    return x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, my_custom_palette, model
