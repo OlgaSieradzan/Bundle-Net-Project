@@ -7,7 +7,7 @@ import torch
 
 # Code for visualizations
 
-def latent_space_3D(x_, model, b_, behavior_names, palette):
+def latent_space_3D(selectedworm, x_, model, b_, behavior_names, palette):
 
     with torch.no_grad():
             num_features = x_.shape[-1]
@@ -35,7 +35,8 @@ def latent_space_3D(x_, model, b_, behavior_names, palette):
     for b_val in np.unique(b_):
         idx = int(b_val)
         fig.add_trace(go.Scatter3d(x=[None], y=[None], z=[None], mode='lines', line=dict(color=palette[idx % len(palette)], width=5), name=behavior_names.get(idx, str(idx))))
-    fig.update_layout(title=dict(text="Latent Space (Click on the line)", y=0.98), margin=dict(l=0, r=0, b=100, t=80), height=700, legend=dict(orientation="h", yanchor="top", y=-0.05, xanchor="center", x=0.5))
+    fig.update_layout(title=dict(text=f"Latent Space for Worm {selectedworm} (Click on the line)",
+                                  y=0.98), margin=dict(l=0, r=0, b=100, t=80), height=700, legend=dict(orientation="h", yanchor="top", y=-0.05, xanchor="center", x=0.5))
     return fig
 
 def empty_xai_bar_plots():

@@ -42,7 +42,7 @@ def global_importance_barplot(shap_matrix, ig_matrix, b_labels, behavior_names, 
     fig.add_trace(go.Bar(x=neuron_array[display_order], y=norm_shap[display_order], name='SHAP', marker_color='#8B0A50'))
     fig.add_trace(go.Bar(x=neuron_array[display_order], y=norm_ig[display_order], name='Integrated Gradients', marker_color='#00688B'))
     
-    fig.update_layout(title= title, barmode='group', height=400, template="plotly_white")
+    fig.update_layout(title= title, barmode='group', height=400, margin=dict(l=20, r=20, t=50, b=10), template="plotly_white")
     fig.update_xaxes(type='category', rangeslider=dict(visible=True, thickness=0.05), range=[-0.5, 19.5])
     return fig
 
@@ -97,7 +97,7 @@ def comparison_table_xai(attributions_shap, attributions_ig, b_labels, behavior_
                    font=dict(size=12, color='black'),
                    height=30))
     ])
-    fig.update_layout(title=title, height=400, margin=dict(l=20, r=20, t=20, b=20), template="plotly_white")
+    fig.update_layout(title=title, height=400, margin=dict(l=20, r=20, t=40, b=20), template="plotly_white")
     return fig
 
 def shap_beeswarm(shap_attr, x_windowed, b_labels, behavior_names, neuron_names, target_behavior=None):
