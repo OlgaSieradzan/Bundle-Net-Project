@@ -119,9 +119,12 @@ def inter_worm_correlation(target_behavior, ref_worm_idx=0, total_worms=5, behav
 
     x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=ref_worm_idx)
 
-    ref_shap, ref_ig, ref_act = get_worm_all_metrics_dicts(x_flat, shap_matrix, ig_matrix, b_, neuron_array, ref_worm_idx)
-    
-    b_name = behavior_names[target_behavior] if behavior_names else str(target_behavior)
+    ref_shap, ref_ig, ref_act = get_worm_all_metrics_dicts(x_flat, shap_matrix, ig_matrix, b_, neuron_array, ref_worm_idx, target_behavior)
+
+    if target_behavior != "ALL":   
+        b_name = behavior_names[target_behavior] if behavior_names else str(target_behavior)
+    else:
+        b_name = "ALL"
     
     if not ref_shap:
         return None
@@ -134,7 +137,7 @@ def inter_worm_correlation(target_behavior, ref_worm_idx=0, total_worms=5, behav
             
         x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=w_idx)
         
-        other_shap, other_ig, other_act = get_worm_all_metrics_dicts(x_flat, shap_matrix, ig_matrix, b_, neuron_array, w_idx)
+        other_shap, other_ig, other_act = get_worm_all_metrics_dicts(x_flat, shap_matrix, ig_matrix, b_, neuron_array, w_idx, target_behavior)
         
         if not other_shap:
             results.append({
@@ -159,7 +162,7 @@ def inter_worm_correlation(target_behavior, ref_worm_idx=0, total_worms=5, behav
             
         shared_neurons = sorted(list(shared_neurons))
         shap_corr, shap_p = get_corr_and_pval(ref_shap, other_shap, shared_neurons)
-        ig_corr, ig_p = get_corr_and_pval(ref_ig, other_ig), shared_neurons
+        ig_corr, ig_p = get_corr_and_pval(ref_ig, other_ig, shared_neurons)
         act_corr, act_p = get_corr_and_pval(ref_act, other_act, shared_neurons)
             
         results.append({

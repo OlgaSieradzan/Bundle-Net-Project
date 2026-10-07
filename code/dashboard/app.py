@@ -1,10 +1,11 @@
 # Paths
 import os
 import sys
+import numpy as np
 import json
 from pathlib import Path
 import dash_bootstrap_components as dbc
-from dash import Dash, html, dcc, Input, Output, State
+from dash import Dash, html, dcc, Input, Output, State, ctx, dash_table
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -24,7 +25,6 @@ from panel_global_importance import global_importance_barplot, comparison_table_
 from panel_heatmap import temporal_dashboard
 from panel_worm_specific import latent_space_3D, empty_xai_bar_plots, CLICK_xai_barplots
 from xai_methods import BehaviorWrapper
-from xai_tests import evaluate_rar, sperman_correlation_xai, generate_inter_worm_correlation
 
 
 # Dictionary for neurons
@@ -66,6 +66,7 @@ with open(METRICS_FILE, 'r') as f:
 x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=0)
 
 
+################## LAYOUT #############################################
 app = Dash(__name__, external_stylesheets=[dbc.themes.LUMEN])
 app.config.suppress_callback_exceptions = True
 
@@ -90,8 +91,9 @@ app.layout = html.Div([
             html.P("Choose your panel:", style={'color': '#7f8c8d'}),
             dbc.Nav([
                 dbc.NavLink("Global Panel", href="/global", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
-                dbc.NavLink("Worm Specific", href="/worm", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
-                dbc.NavLink("Temporal dashboard", href="/temp", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'})
+                dbc.NavLink("Worm Specific Panel", href="/worm", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
+                dbc.NavLink("Temporal Plot Panel", href="/temp", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
+                dbc.NavLink("Quality check summary", href="/quality", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'})
             ], vertical=True, pills=True),
         ]),
         id="sidebar-offcanvas",
@@ -103,6 +105,9 @@ app.layout = html.Div([
     html.Div(id="page-content", style={'padding': '20px', 'backgroundColor': '#f9f9f9', 'minHeight': '100vh'})
 ])
 
+###################### CALLBACKS ####################################################
+
+########## OPERATING BETWEEN TABS ###################################################
 @app.callback(
     Output("sidebar-offcanvas", "is_open"),
     Input("btn-open-sidebar", "n_clicks"),
@@ -112,6 +117,8 @@ def toggle_sidebar(n_clicks, is_open):
     if n_clicks:
         return not is_open
     return is_open
+
+########## RENDERING CONTENT FOR EACH TAB ###########################################
 
 @app.callback(
     [Output("page-content", "children"),
@@ -181,35 +188,35 @@ def render_content(pathname):
             ], style={'width': '100%'}),
 
             html.Div([
-                html.H3("Quality check results", style={'textAlign': 'center', 'color': '#2C3E50', 'marginTop': '0px', 'marginBottom': '20px'}),
+                html.H3("Quality check results", style={'textAlign': 'center', 'color': "#F4F6F7", 'marginTop': '0px', 'marginBottom': '20px'}),
                 
                 html.Div([
                     # RAR RESULTS
                     html.Div([
                         html.H4("Test RAR (SHAP)", style={'color': '#7f8c8d'}),
-                        html.Div(id='quality-rar-result-shap', style={'fontSize': '28px', 'fontWeight': 'bold', 'color': '#2980b9'})
+                        html.Div(id='quality-rar-result-shap', style={'fontSize': '28px', 'fontWeight': 'bold', 'color': "#F4F6F7"})
                     ], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
 
                     html.Div([
                         html.H4("Test RAR (IG)", style={'color': '#7f8c8d'}),
-                        html.Div(id='quality-rar-result-ig', style={'fontSize': '28px', 'fontWeight': 'bold', 'color': '#2980b9'})
+                        html.Div(id='quality-rar-result-ig', style={'fontSize': '28px', 'fontWeight': 'bold', 'color':"#F4F6F7"})
                     ], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
                     
                     # CORRELATION RESULTS
                     html.Div([
                         html.H4("Rankings correlation (spearman)", style={'color': '#7f8c8d'}),
-                        html.Div(id='quality-corr-result', style={'fontSize': '28px', 'fontWeight': 'bold', 'color': '#27ae60'})
+                        html.Div(id='quality-corr-result', style={'fontSize': '28px', 'fontWeight': 'bold', 'color': "#F4F6F7"})
                     ], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
 
                     html.Div([
                         html.H4("P.value for correlation", style={'color': '#7f8c8d'}),
-                        html.Div(id='quality-pval-result', style={'fontSize': '28px', 'fontWeight': 'bold', 'color': '#27ae60'})
+                        html.Div(id='quality-pval-result', style={'fontSize': '28px', 'fontWeight': 'bold', 'color': "#F4F6F7"})
                     ], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'})
                 ])
                 
             ], style={
                 'width': '100%', 'marginTop': '40px', 'padding': '20px', 
-                'backgroundColor': '#f8f9fa', 'borderRadius': '10px', 
+                'backgroundColor': "#166ea9", 'borderRadius': '10px', 
                 'boxShadow': '0px 2px 4px rgba(0,0,0,0.1)'
             })
         ]), "Global Panel"
@@ -222,6 +229,7 @@ def render_content(pathname):
 
                  # FILTERING PANEL
                 html.Div([
+
                     html.Div([
                         html.Label("Worm:", style = {'fontWeight': 'bold', 'color': "#F7F0F8", 'fontSize': '16px'}),
                         dcc.Dropdown(
@@ -232,16 +240,6 @@ def render_content(pathname):
                         )
                     ], style={'width': '30%', 'display': 'inline-block'}),
                     
-                    html.Div([
-                        html.Label("Behaviour:", style = {'fontWeight': 'bold', 'color': "#F7F0F8", 'fontSize': '16px'}),
-                        dcc.Dropdown(
-                            id='dropdown-behavior',
-                            options=behavior_options,
-                            value='ALL', 
-                            clearable=False
-                        )
-                    ], style={'width': '30%', 'display': 'inline-block', 'marginLeft': '5%'}),
-    
                     html.Div([
                     html.Label("Neuron type:", style = {'fontWeight': 'bold', 'color': "#F7F0F8", 'fontSize': '16px'}),
                     dcc.Dropdown(
@@ -256,22 +254,63 @@ def render_content(pathname):
                         ],
                         value='ALL', 
                         clearable=False
-                    )
-                ], style={'width': '30%', 'display': 'inline-block', 'marginLeft': '2%'})
+                        )
+                    ], style={'width': '30%', 'display': 'inline-block', 'marginLeft': '2%'}),
+
+                    html.Div([
+                        html.Label('Time Window:', style={'fontWeight': 'bold', 'color': '#F7F0F8', 'fontSize': '16px'}),
+                        dbc.InputGroup([
+                            dbc.Button("◄", id="btn-time-prev", n_clicks=0, color="secondary", outline=True),
+                            dbc.Input(id="input-time", type="number", value=0, min=0, step=1, style={'textAlign': 'center'}),
+                            dbc.Button("►", id="btn-time-next", n_clicks=0, color="secondary", outline=True)
+                        ], style={'width': '150px'})
+                    ], style={'width': '30%', 'display': 'inline-block', 'marginLeft': '2%', 'verticalAlign': 'top'})
     
                 ], style={'padding': '20px', 'backgroundColor': "#9c9c9c", 'marginBottom': '20px', 'borderRadius': '5px'}),
 
                 # PLOTS           
                 html.Div(dcc.Graph(id='plot-3d'), style={'width': '48%', 'display': 'inline-block'}),
-                html.Div(dcc.Graph(id='plot-xai', figure=fig_xai_empty), style={'width': '48%', 'display': 'inline-block'})
+                html.Div(dcc.Graph(id='plot-xai', figure=fig_xai_empty), style={'width': '48%', 'display': 'inline-block'}),
+
+                html.Div([
+                    html.H3(id='quality-behavior-title', style={'textAlign': 'center', 'color': '#2C3E50', 'marginBottom': '20px'}),
+                    
+                    dash_table.DataTable(
+                        id='quality-table',
+                        style_table={'overflowX': 'auto'},
+                        style_cell={'textAlign': 'center', 'padding': '10px', 'fontFamily': 'Arial'},
+                        style_header={'backgroundColor': '#2c3e50', 'color': 'white', 'fontWeight': 'bold'}
+                    )
+                ], style={'width': '100%', 'marginTop': '40px', 'padding': '20px', 'backgroundColor': '#f8f9fa', 'borderRadius': '10px', 'boxShadow': '0px 2px 4px rgba(0,0,0,0.1)'})
             ]), "Worm Specific Panel"
         
     elif pathname == "/temp":
         fig = temporal_dashboard(x_flat, b_, behavior_names, shap_matrix, ig_matrix, neuron_array, palette, title= "Thermal dashboard")
         return html.Div([dcc.Graph(figure=fig)]), "Temporal Plot"
+
+    elif pathname == "/quality":
+        return html.Div([
+            html.Div([
+            
+                    html.Div([
+                        html.Label("Worm:", style = {'fontWeight': 'bold', 'color': "#F7F0F8", 'fontSize': '16px'}),
+                        dcc.Dropdown(
+                            id='dropdown-worm',
+                            options=[{'label': f'Worm {i}', 'value': i} for i in range(5)], 
+                            value=0, 
+                            clearable=False
+                        )
+                    ], style={'width': '30%', 'display': 'left'}),
+                    
+                ], style={'padding': '20px', 'backgroundColor': "#9c9c9c", 'marginBottom': '20px', 'borderRadius': '5px'}),
+
+            html.Div(id='quality-summary-container', style={'marginTop': '30px'})
+
+        ]), "Quality check summary"
         
     
 
+############ GLOBAL PANEL ########################################################
 
 @app.callback(
     [Output('global-bar-plot', 'figure'),
@@ -338,16 +377,74 @@ def update_global_dashboard(selected_worm, selected_behavior, selected_neuron_ty
     return fig_bars, fig_table, beeswarm_src, rar_text_shap,rar_text_ig, corr_text, p_val
 
 
+################# WORM SPECIFIC PANEL ####################################################
+
+@app.callback(
+    Output('input-time', 'value'),
+    [Input('btn-time-prev', 'n_clicks'),
+     Input('btn-time-next', 'n_clicks'),
+     Input('plot-3d', 'clickData')],
+    State('input-time', 'value'),
+    prevent_initial_call=True
+)
+def update_time_state(prev_clicks, next_clicks, clickData, current_time):
+
+    if current_time is None:
+        current_time = 0
+
+    triggered_id = ctx.triggered_id
+
+    if triggered_id == 'btn-time-prev':
+        return max(0, current_time - 1) 
+
+    elif triggered_id == 'btn-time-next':
+        return current_time + 1
+
+    elif triggered_id == 'plot-3d' and clickData is not None:
+        point_data = clickData['points'][0]
+        text_data = point_data.get('text', '')
+        try:
+            time_part = text_data.split('<br>')[0]
+            time_idx_str = time_part.split(':')[1].strip()
+            return int(time_idx_str)
+        except:
+            return point_data.get('pointNumber', current_time)
+
+    return current_time
+
 @app.callback(
     Output('plot-3d', 'figure'),
     [Input('dropdown-worm', 'value'),
-     Input('dropdown-behavior', 'value'),
-     Input('dropdown-neuron-type', 'value')]
+     Input('input-time', 'value')] 
 )
-def update_worm_specific_dashboard(selected_worm, selected_behavior, selected_neuron_type):
+def update_worm_specific_dashboard(selected_worm, time_idx):
 
     x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=selected_worm)
+
     fig_3d = latent_space_3D(selected_worm, x_flat, model ,b_,  behavior_names, palette)
+
+    fig_3d.update_layout(uirevision=str(selected_worm))
+
+    if time_idx is not None and time_idx < len(x_flat):
+        import torch
+        import plotly.graph_objects as go
+        device = next(model.parameters()).device
+
+        x_tensor = torch.tensor(x_flat[time_idx:time_idx+1], dtype=torch.float32).to(device)
+        with torch.no_grad():
+            point_3d = model.tau(x_tensor).cpu().numpy()[0]
+
+        fig_3d.add_trace(go.Scatter3d(
+            x=[point_3d[0]], 
+            y=[point_3d[1]], 
+            z=[point_3d[2]],
+            mode='markers',
+            marker=dict(size=12, color='#2c3e50', symbol='circle', line=dict(color='red', width=2)),
+            name='Wybrana klatka',
+            showlegend=False,
+            hoverinfo='skip' 
+        ))
+
 
     return fig_3d
 
@@ -356,29 +453,154 @@ def update_worm_specific_dashboard(selected_worm, selected_behavior, selected_ne
 
 @app.callback(
     Output('plot-xai', 'figure'),
-    Input('plot-3d', 'clickData'),
+    [Input('input-time', 'value'),             
+     Input('dropdown-neuron-type', 'value')],
+    State('dropdown-worm', 'value'),
     prevent_initial_call=True
 )
-def update_xai_on_click(clickData):
-    if clickData is None:
+def update_xai_on_time_change(time_idx, selected_neuron_type, selected_worm):
+    if time_idx is None:
         return dash.no_update
 
-    point_data = clickData['points'][0]
-    text_data = point_data.get('text', '')
+    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=selected_worm)
+
+    if time_idx >= len(b_):
+        time_idx = len(b_) - 1
+
+    current_shap = shap_matrix[time_idx]
+    current_ig = ig_matrix[time_idx]
     
-    try:
-        time_part = text_data.split('<br>')[0]
-        time_idx_str = time_part.split(':')[1].strip()
-        time_idx = int(time_idx_str)
+    shap_margin = (np.max(current_shap) - np.min(current_shap)) * 0.05
+    ig_margin = (np.max(current_ig) - np.min(current_ig)) * 0.05
+    
+    shap_y_range = [np.min(current_shap) - shap_margin, np.max(current_shap) + shap_margin]
+    ig_y_range = [np.min(current_ig) - ig_margin, np.max(current_ig) + ig_margin]
+
+    if selected_neuron_type != 'ALL':
+        valid_indices = [
+            i for i, name in enumerate(neuron_array) 
+            if neuron_types_dict.get(name, 'Unidentified') == selected_neuron_type
+        ]
         
-    except Exception as e:
-        # Jeśli z jakiegoś powodu tekst miałby inny format, ratujemy się użyciem pointNumber
-        print(f"Something wrong with the tekst:({e}). using pointNumber.")
-        time_idx = point_data.get('pointNumber')
+        if len(valid_indices) == 0:
+            import plotly.graph_objects as go
+            return go.Figure().update_layout(title=f"No neurons in the type: {selected_neuron_type}")
 
+        neuron_array = neuron_array[valid_indices]
+        shap_matrix = shap_matrix[:, valid_indices]
+        ig_matrix = ig_matrix[:, valid_indices]
+
+
+    return CLICK_xai_barplots(time_idx, shap_matrix, ig_matrix, neuron_array, b_, behavior_names, shap_y_range, ig_y_range)
+
+
+@app.callback(
+    [Output('quality-behavior-title', 'children'),
+     Output('quality-table', 'data'),
+     Output('quality-table', 'columns')],
+    [Input('input-time', 'value'),
+     Input('dropdown-worm', 'value')]
+)
+def update_inter_worm_panel(time_idx, selected_worm):
     if time_idx is None:
-         return dash.no_update
+        time_idx = 0
 
-    return CLICK_xai_barplots(time_idx, shap_matrix, ig_matrix, neuron_array, b_, behavior_names)
+    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=selected_worm)
+    
+    if time_idx >= len(b_):
+        time_idx = len(b_) - 1
+        
+    current_behavior_idx = b_[time_idx]
+    current_behavior_name = behavior_names.get(current_behavior_idx, "Unknown behaviour")
+
+    worm_str = str(selected_worm)
+    beh_str = str(current_behavior_idx)
+    
+    metrics = quality_metrics.get(worm_str, {}).get(beh_str, {})
+    
+    if not metrics:
+        return f"Inter-worm Correlation: {current_behavior_name} (No data in json)", [], []
+
+
+    table_dict = metrics.get('inter_worm_table', {})
+    table_data = table_dict.get('data', [])
+    
+    if table_data:
+        table_columns = [{"name": col, "id": col} for col in table_data[0].keys()]
+    else:
+        table_columns = []
+
+    title = f"Inter-worm Correlation for current behaviour: {current_behavior_name}"
+
+    return title, table_data, table_columns
+
+##################### QUALITY CHECK SUMMARY ########################################################
+
+@app.callback(
+    Output('quality-summary-container', 'children'),
+    Input('dropdown-worm', 'value')
+)
+def update_quality_summary_panel(selected_worm):
+
+
+    worm_str = str(selected_worm)
+    worm_data = quality_metrics.get(worm_str, {})
+    
+    if not worm_data:
+        return html.Div(f"Brak danych dla Robaka {selected_worm}")
+
+    global_metrics = worm_data.get('ALL', {})
+    
+    global_section = html.Div([
+        html.H3("Global Quality Metrics (Całe nagranie)", style={'textAlign': 'center', 'color': '#2C3E50'}),
+        html.Div([
+            html.Div([html.H4("RAR (SHAP)"), html.Div(global_metrics.get('rar_shap', 'Brak'), style={'fontSize': '24px'})], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
+            html.Div([html.H4("RAR (IG)"), html.Div(global_metrics.get('rar_ig', 'Brak'), style={'fontSize': '24px'})], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
+            html.Div([html.H4("Korelacja Rankingów"), html.Div(global_metrics.get('corr', 'Brak'), style={'fontSize': '24px', 'color': '#27ae60'})], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
+            html.Div([html.H4("P-value"), html.Div(global_metrics.get('corr_p_value', 'Brak'), style={'fontSize': '24px'})], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
+        ], style={'marginBottom': '40px', 'padding': '20px', 'backgroundColor': '#ecf0f1', 'borderRadius': '10px'})
+    ])
+
+
+    tables_elements = []
+    
+    for beh_idx, beh_data in worm_data.items():
+        if beh_idx == 'ALL':
+            continue 
+            
+        table_info = beh_data.get('inter_worm_table', {})
+        table_title = table_info.get('title', f"Zachowanie {beh_idx}")
+        table_records = table_info.get('data', [])
+ 
+        tables_elements.append(html.H4(table_title, style={'marginTop': '30px', 'color': '#34495e'}))
+        
+        if table_records:
+            table_columns = [{"name": col, "id": col} for col in table_records[0].keys()]
+
+            dt = dash_table.DataTable(
+                data=table_records,
+                columns=table_columns,
+                style_table={'overflowX': 'auto'},
+                style_cell={'textAlign': 'center', 'padding': '10px', 'fontFamily': 'Arial'},
+                style_header={'backgroundColor': '#2c3e50', 'color': 'white', 'fontWeight': 'bold'}
+            )
+            tables_elements.append(dt)
+        else:
+            tables_elements.append(html.P("Brak wystarczających danych do korelacji dla tego zachowania.", style={'color': '#7f8c8d'}))
+
+    final_layout = html.Div([global_section] + tables_elements)
+    
+    return final_layout
+
+
+
+
+
+
+
+
+
+########### APPLICATION CALLING ################################
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -47,7 +47,7 @@ def empty_xai_bar_plots():
     fig.update_layout(showlegend=False, margin=dict(l=0, r=20, b=0, t=40), height=700, template="plotly_white")
     return fig
 
-def CLICK_xai_barplots(t_idx, shap_matrix, ig_matrix, neuron_array, b_, behavior_names):
+def CLICK_xai_barplots(t_idx, shap_matrix, ig_matrix, neuron_array, b_, behavior_names, shap_y_range=None, ig_y_range=None):
 
     shap_raw, ig_raw = shap_matrix[t_idx], ig_matrix[t_idx]
     shap_idx = np.argsort(np.abs(shap_raw))[::-1]
@@ -58,7 +58,22 @@ def CLICK_xai_barplots(t_idx, shap_matrix, ig_matrix, neuron_array, b_, behavior
     fig = make_subplots(rows=2, cols=1, subplot_titles=("SHAP attribuition", "IG attribuition"), vertical_spacing=0.25)
     fig.add_trace(go.Bar(x=neuron_array[shap_idx], y=shap_raw[shap_idx], marker_color='#8B0A50'), row=1, col=1)
     fig.add_trace(go.Bar(x=neuron_array[ig_idx], y=ig_raw[ig_idx], marker_color='#00688B'), row=2, col=1)
-    
-    fig.update_xaxes(type='category', rangeslider=dict(visible=True, thickness=0.05), range=[-0.5, 19.5])
+
     fig.update_layout(showlegend=False, margin=dict(l=0, r=20, b=0, t=60), height=700, title=f"Time window: {t_idx} | Behaviour: {b_name}", template="plotly_white")
+
+    num_neurons = len(neuron_array)
+    max_idx = 14.5 if num_neurons >= 15 else num_neurons - 0.5
+
+
+    if shap_y_range is not None:
+        fig.update_yaxes(range=shap_y_range, autorange=False, row=1, col=1) 
+        
+    if ig_y_range is not None:
+        fig.update_yaxes(range=ig_y_range, autorange=False, row=2, col=1) 
+
+    fig.update_xaxes(
+        range=[-0.5, max_idx], 
+        rangeslider=dict(visible=True, thickness=0.08)
+    )
+
     return fig
