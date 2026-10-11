@@ -5,7 +5,7 @@ import numpy as np
 
 # Code for visualization
 
-def temporal_dashboard(x_raw, b_raw, behavior_names, shap_matrix, ig_matrix, neuron_names, palette, title, top_n=10):
+def temporal_dashboard(x_raw, b_raw, behavior_names, shap_matrix, ig_matrix, neuron_names, palette, title, top_n=3, global_x_range=None, global_shap_max=None, global_ig_max=None):
 
         if len(x_raw.shape) == 4:
             if x_raw.shape[-1] > x_raw.shape[0]: 
@@ -28,18 +28,10 @@ def temporal_dashboard(x_raw, b_raw, behavior_names, shap_matrix, ig_matrix, neu
         
         num_neurons = x_flat.shape[1]
         
-        mean_shap = np.mean(np.abs(shap_matrix), axis=0)
-        mean_ig = np.mean(np.abs(ig_matrix), axis=0)
-        norm_shap = mean_shap / (np.max(mean_shap) + 1e-8)
-        norm_ig = mean_ig / (np.max(mean_ig) + 1e-8)
-        
-        combined_mean = norm_shap + norm_ig
-        sorted_idx = np.argsort(combined_mean)
-        
-        sorted_shap = shap_matrix[:, sorted_idx].T 
-        sorted_ig = ig_matrix[:, sorted_idx].T 
-        sorted_x_raw = x_flat[:, sorted_idx].T    
-        sorted_names = np.array(neuron_names)[sorted_idx]
+        sorted_shap = shap_matrix.T 
+        sorted_ig = ig_matrix.T 
+        sorted_x_raw = x_flat.T    
+        sorted_names = np.array(neuron_names)
 
         num_classes = len(behavior_names)
         discrete_colorscale = []
@@ -63,17 +55,23 @@ def temporal_dashboard(x_raw, b_raw, behavior_names, shap_matrix, ig_matrix, neu
         fig = make_subplots(
             rows=4, cols=1, 
             shared_xaxes=True,           
-            vertical_spacing=0.03,
-            row_heights=[0.35, 0.05, 0.3, 0.3], 
+            vertical_spacing=0.025,
+            row_heights=[0.3, 0.1, 0.3, 0.3], 
             subplot_titles=("Raw Neuronal Activation", "Executed Behavior", "SHAP Influence", "Integrated Gradients Influence")
         )
         
         # --- PANEL 1: Raw Activation ---
+
+        x_min = global_x_range[0] if global_x_range is not None else np.min(sorted_x_raw)
+        x_max = global_x_range[1] if global_x_range is not None else np.max(sorted_x_raw)
+
         fig.add_trace(go.Heatmap(
             z=sorted_x_raw,
             y=sorted_names,
             colorscale='magma',
-            colorbar=dict(title="Activation", x=1.01, y=0.84, len=0.3, yanchor="middle") 
+            zmin=x_min, 
+            zmax=x_max, 
+            colorbar=dict(title="Activation", x=1.01, y=0.88, len=0.22, yanchor="middle") 
         ), row=1, col=1)
         
         # --- PANEL 2: Behavior ---
@@ -88,8 +86,8 @@ def temporal_dashboard(x_raw, b_raw, behavior_names, shap_matrix, ig_matrix, neu
                 tickvals=tickvals,
                 ticktext=ticktext,
                 x=1.01,
-                y=0.63,
-                len=0.1, 
+                y=0.65,
+                len=0.17, 
                 yanchor="middle"
             ),
             hoverinfo="text",
@@ -97,7 +95,9 @@ def temporal_dashboard(x_raw, b_raw, behavior_names, shap_matrix, ig_matrix, neu
         ), row=2, col=1)
         
         # --- PANEL 3: SHAP Heatmap ---
-        max_shap = np.max(np.abs(sorted_shap))
+
+        max_shap = global_shap_max if global_shap_max is not None else np.max(np.abs(sorted_shap))
+
         fig.add_trace(go.Heatmap(
             z=sorted_shap,
             y=sorted_names,
@@ -105,11 +105,12 @@ def temporal_dashboard(x_raw, b_raw, behavior_names, shap_matrix, ig_matrix, neu
             zmid=0,
             zmin=-max_shap,
             zmax=max_shap,
-            colorbar=dict(title="SHAP Score", x=1.01, y=0.44, len=0.25, yanchor="middle") 
+            colorbar=dict(title="SHAP Score", x=1.01, y=0.44, len=0.22, yanchor="middle") 
         ), row=3, col=1)
         
         # --- PANEL 4: IG Heatmap ---
-        max_ig = np.max(np.abs(sorted_ig))
+        
+        max_ig = global_ig_max if global_ig_max is not None else np.max(np.abs(sorted_ig))
         fig.add_trace(go.Heatmap(
             z=sorted_ig,
             y=sorted_names,
@@ -117,7 +118,7 @@ def temporal_dashboard(x_raw, b_raw, behavior_names, shap_matrix, ig_matrix, neu
             zmid=0,
             zmin=-max_ig,
             zmax=max_ig,
-            colorbar=dict(title="IG Score", x=1.01, y=0.14, len=0.25, yanchor="middle") 
+            colorbar=dict(title="IG Score", x=1.01, y=0.14, len=0.22, yanchor="middle") 
         ), row=4, col=1)
         
         # 5. LAYOUT & INTERACTIVITY SETTINGS
@@ -125,8 +126,8 @@ def temporal_dashboard(x_raw, b_raw, behavior_names, shap_matrix, ig_matrix, neu
         
         fig.update_layout(
             title=title,
-            height=1100,         
-            width=1400,          
+            height=900,         
+            width=1600,          
             autosize=False,
             margin=dict(l=50, r=150, b=50, t=50), 
             hovermode="x unified" 

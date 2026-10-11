@@ -66,6 +66,43 @@ with open(METRICS_FILE, 'r') as f:
 x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=0)
 
 
+
+def create_knowledge_card(title, description, links):
+
+    links_elements = [
+        html.A(
+            link_text, 
+            href=link_url, 
+            target="_blank", 
+            style={
+                'display': 'inline-block',
+                'backgroundColor': '#2980b9',
+                'color': 'white',
+                'padding': '8px 15px',
+                'marginRight': '10px',
+                'marginBottom': '10px',
+                'borderRadius': '5px',
+                'textDecoration': 'none',
+                'fontSize': '14px',
+                'fontWeight': 'bold',
+                'boxShadow': '0px 2px 4px rgba(0,0,0,0.1)'
+            }
+        ) for link_text, link_url in links
+    ]
+
+    return html.Div([
+        html.H3(title, style={'fontWeight': 'bold', 'color': '#2c3e50', 'borderBottom': '2px solid #bdc3c7', 'paddingBottom': '10px'}),
+        html.P(description, style={'fontSize': '16px', 'color': '#34495e', 'lineHeight': '1.6', 'textAlign': 'justify'}),
+        html.Div(links_elements, style={'marginTop': '15px'})
+    ], style={
+        'backgroundColor': 'white', 
+        'padding': '25px', 
+        'marginBottom': '25px', 
+        'borderRadius': '8px', 
+        'boxShadow': '0px 4px 6px rgba(0,0,0,0.05)'
+    })
+
+
 ################## LAYOUT #############################################
 app = Dash(__name__, external_stylesheets=[dbc.themes.LUMEN])
 app.config.suppress_callback_exceptions = True
@@ -93,7 +130,8 @@ app.layout = html.Div([
                 dbc.NavLink("Global Panel", href="/global", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
                 dbc.NavLink("Worm Specific Panel", href="/worm", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
                 dbc.NavLink("Temporal Plot Panel", href="/temp", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
-                dbc.NavLink("Quality check summary", href="/quality", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'})
+                dbc.NavLink("Quality check summary", href="/quality", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
+                dbc.NavLink("Knowledge section", href="/knowledge", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'})
             ], vertical=True, pills=True),
         ]),
         id="sidebar-offcanvas",
@@ -134,7 +172,7 @@ def render_content(pathname):
             # FILTERING PANEL
             html.Div([
                 html.Div([
-                    html.Label("Worm:", style = {'fontWeight': 'bold', 'color': "#F7F0F8", 'fontSize': '16px'}),
+                    html.Label("Worm:", style={'fontWeight': 'bold', 'color': "#F7F0F8", 'fontSize': '16px'}),
                     dcc.Dropdown(
                         id='dropdown-worm',
                         options=[{'label': f'Worm {i}', 'value': i} for i in range(5)], 
@@ -144,7 +182,7 @@ def render_content(pathname):
                 ], style={'width': '30%', 'display': 'inline-block'}),
                 
                 html.Div([
-                    html.Label("Behaviour:", style = {'fontWeight': 'bold', 'color': "#F7F0F8", 'fontSize': '16px'}),
+                    html.Label("Behaviour:", style={'fontWeight': 'bold', 'color': "#F7F0F8", 'fontSize': '16px'}),
                     dcc.Dropdown(
                         id='dropdown-behavior',
                         options=behavior_options,
@@ -154,21 +192,21 @@ def render_content(pathname):
                 ], style={'width': '30%', 'display': 'inline-block', 'marginLeft': '5%'}),
 
                 html.Div([
-                html.Label("Neuron type:", style = {'fontWeight': 'bold', 'color': "#F7F0F8", 'fontSize': '16px'}),
-                dcc.Dropdown(
-                    id='dropdown-neuron-type',
-                    options=[
-                        {'label': 'All', 'value': 'ALL'},
-                        {'label': 'Sensory', 'value': 'Sensory'},
-                        {'label': 'Motor', 'value': 'Motor'},
-                        {'label': 'Interneuron', 'value': 'Interneuron'},
-                        {'label': 'Unidentified', 'value': 'Unidentified'}
-                        
-                    ],
-                    value='ALL', 
-                    clearable=False
-                )
-            ], style={'width': '30%', 'display': 'inline-block', 'marginLeft': '2%'})
+                    html.Label("Neuron type:", style={'fontWeight': 'bold', 'color': "#F7F0F8", 'fontSize': '16px'}),
+                    dcc.Dropdown(
+                        id='dropdown-neuron-type',
+                        options=[
+                            {'label': 'All', 'value': 'ALL'},
+                            {'label': 'Sensory', 'value': 'Sensory'},
+                            {'label': 'Motor', 'value': 'Motor'},
+                            {'label': 'Interneuron', 'value': 'Interneuron'},
+                            {'label': 'Unidentified', 'value': 'Unidentified'}
+                            
+                        ],
+                        value='ALL', 
+                        clearable=False
+                    )
+                ], style={'width': '30%', 'display': 'inline-block', 'marginLeft': '2%'})
 
             ], style={'padding': '20px', 'backgroundColor': "#9c9c9c", 'marginBottom': '20px', 'borderRadius': '5px'}),
             
@@ -187,39 +225,39 @@ def render_content(pathname):
                 
             ], style={'width': '100%'}),
 
+            # QUALITY CHECK RESULTS
             html.Div([
-                html.H3("Quality check results", style={'textAlign': 'center', 'color': "#F4F6F7", 'marginTop': '0px', 'marginBottom': '20px'}),
+
+                html.H3("Quality check results", style={'textAlign': 'center', 'color': "#166ea9", 'marginTop': '40px', 'fontWeight': 'bold'}),
                 
                 html.Div([
                     # RAR RESULTS
                     html.Div([
-                        html.H4("Test RAR (SHAP)", style={'color': '#7f8c8d'}),
-                        html.Div(id='quality-rar-result-shap', style={'fontSize': '28px', 'fontWeight': 'bold', 'color': "#F4F6F7"})
+                        html.H4("Model's accuracy after RAR (SHAP)"),
+                        html.Div(id='quality-rar-result-shap', style={'fontSize': '28px', 'fontWeight': 'bold', 'color': "white"})
                     ], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
 
                     html.Div([
-                        html.H4("Test RAR (IG)", style={'color': '#7f8c8d'}),
-                        html.Div(id='quality-rar-result-ig', style={'fontSize': '28px', 'fontWeight': 'bold', 'color':"#F4F6F7"})
+                        html.H4("Model's accuracy after RAR (IG):"),
+                        html.Div(id='quality-rar-result-ig', style={'fontSize': '28px', 'fontWeight': 'bold', 'color':"white"})
                     ], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
                     
                     # CORRELATION RESULTS
                     html.Div([
-                        html.H4("Rankings correlation (spearman)", style={'color': '#7f8c8d'}),
-                        html.Div(id='quality-corr-result', style={'fontSize': '28px', 'fontWeight': 'bold', 'color': "#F4F6F7"})
+                        html.H4("IG and SHAP Ranking correlation:"),
+                        html.Div(id='quality-corr-result', style={'fontSize': '28px', 'fontWeight': 'bold', 'color': "white"})
                     ], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
 
                     html.Div([
-                        html.H4("P.value for correlation", style={'color': '#7f8c8d'}),
-                        html.Div(id='quality-pval-result', style={'fontSize': '28px', 'fontWeight': 'bold', 'color': "#F4F6F7"})
+                        html.H4("P-value for correlation:"),
+                        html.Div(id='quality-pval-result', style={'fontSize': '28px', 'fontWeight': 'bold', 'color': "white"})
                     ], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'})
                 ])
-                
-            ], style={
-                'width': '100%', 'marginTop': '40px', 'padding': '20px', 
-                'backgroundColor': "#166ea9", 'borderRadius': '10px', 
-                'boxShadow': '0px 2px 4px rgba(0,0,0,0.1)'
-            })
-        ]), "Global Panel"
+
+            ])
+            
+
+        ], style={'marginBottom': '20px', 'padding': '20px', 'backgroundColor': "#e0e0e0", 'borderRadius': '10px'}), "Global Panel"
 
     elif pathname == "/worm":
             fig_xai_empty = empty_xai_bar_plots()
@@ -273,7 +311,7 @@ def render_content(pathname):
                 html.Div(dcc.Graph(id='plot-xai', figure=fig_xai_empty), style={'width': '48%', 'display': 'inline-block'}),
 
                 html.Div([
-                    html.H3(id='quality-behavior-title', style={'textAlign': 'center', 'color': '#2C3E50', 'marginBottom': '20px'}),
+                    html.H3(id='quality-behavior-title', style={'textAlign': 'center', 'color':  "#166ea9", 'marginBottom': '20px'}),
                     
                     dash_table.DataTable(
                         id='quality-table',
@@ -281,12 +319,61 @@ def render_content(pathname):
                         style_cell={'textAlign': 'center', 'padding': '10px', 'fontFamily': 'Arial'},
                         style_header={'backgroundColor': '#2c3e50', 'color': 'white', 'fontWeight': 'bold'}
                     )
-                ], style={'width': '100%', 'marginTop': '40px', 'padding': '20px', 'backgroundColor': '#f8f9fa', 'borderRadius': '10px', 'boxShadow': '0px 2px 4px rgba(0,0,0,0.1)'})
+                ], style={'marginBottom': '20px', 'padding': '20px', 'backgroundColor': "#e0e0e0", 'borderRadius': '10px'})
             ]), "Worm Specific Panel"
         
     elif pathname == "/temp":
-        fig = temporal_dashboard(x_flat, b_, behavior_names, shap_matrix, ig_matrix, neuron_array, palette, title= "Thermal dashboard")
-        return html.Div([dcc.Graph(figure=fig)]), "Temporal Plot"
+
+        return html.Div([
+        html.Div([
+            html.Div([
+                html.Label("Worm:", style={'fontWeight': 'bold', 'color': "#F7F0F8", 'fontSize': '16px'}),
+                dcc.Dropdown(
+                    id='temporal-dropdown-worm', 
+                    options=[{'label': f'Worm {i}', 'value': i} for i in range(5)], 
+                    value=0, 
+                    clearable=False,
+                    style={'color': 'black'}
+                )
+            ], style={'width': '30%', 'display': 'inline-block'}),
+            
+            html.Div([
+                html.Label("Neuron type:", style={'fontWeight': 'bold', 'color': "#F7F0F8", 'fontSize': '16px'}),
+                dcc.Dropdown(
+                    id='temporal-dropdown-neuron',
+                    options=[
+                        {'label': 'All', 'value': 'ALL'},
+                        {'label': 'Sensory', 'value': 'Sensory'},
+                        {'label': 'Motor', 'value': 'Motor'},
+                        {'label': 'Interneuron', 'value': 'Interneuron'},
+                        {'label': 'Unidentified', 'value': 'Unidentified'}
+                    ],
+                    value='ALL', 
+                    clearable=False,
+                    style={'color': 'black'}
+                )
+
+            
+            ], style={'width': '30%', 'display': 'inline-block', 'marginLeft': '2%'}),
+
+            html.Div([
+                html.Label("Top 8 Ranking by:", style={'fontWeight': 'bold', 'color': "#F7F0F8", 'fontSize': '16px'}),
+                dcc.Dropdown(
+                    id='temporal-dropdown-ranking',
+                    options=[], 
+                    value='ALL_COMBINED', 
+                    clearable=False, 
+                    style={'color': 'black'}
+                )
+            ], style={'width': '30%', 'display': 'inline-block', 'marginLeft': '2%'}),
+            
+        ], style={'padding': '20px', 'backgroundColor': "#9c9c9c", 'marginBottom': '20px', 'borderRadius': '5px'}),
+        
+        
+        html.Div([
+            dcc.Graph(id='temporal-plot', style={'height': '1100px'}) 
+        ])
+    ], style={'padding': '20px'}), "Heatmap panel"
 
     elif pathname == "/quality":
         return html.Div([
@@ -307,6 +394,89 @@ def render_content(pathname):
             html.Div(id='quality-summary-container', style={'marginTop': '30px'})
 
         ]), "Quality check summary"
+
+    elif pathname == "/knowledge":
+        return html.Div([
+        
+        # Nagłówek sekcji
+            html.Div([
+                html.H1("Knowledge Base", style={'fontWeight': 'bold', 'color': '#2c3e50', 'textAlign': 'center'}),
+                html.P("In this section, there are short descriptions needed to understand the analysis presented in the dashboard. For a broader understanding of the subject, each part includes additional links with articles explaining the concepts in detail.", 
+                    style={'fontSize': '18px', 'color': '#7f8c8d', 'textAlign': 'center', 'maxWidth': '800px', 'margin': '0 auto 40px auto'})
+            ]),
+
+            # Karty z wiedzą
+            create_knowledge_card(
+                title="Explainable AI (XAI)",
+                description="Explainable Artificial Intelligence, also referred to as XAI, is a group of methods and frameworks designed to help understand the decision-making process behind complex machine learning algorithms. It bridges the gap between 'black-box' models and human interpretability.",
+                links=[
+                    ("IBM: What is XAI?", "https://www.ibm.com/topics/explainable-ai"),
+                    ("Interpretable ML Book", "https://christophm.github.io/interpretable-ml-book/"),
+                    ("DARPA XAI Program", "https://www.darpa.mil/program/explainable-artificial-intelligence")
+                ]
+            ),
+
+            create_knowledge_card(
+                title="Shapley Additive exPlanations (SHAP)",
+                description="SHAP is a model-agnostic approach that provides both local and global explanations. It tells us how much each input (feature) is helping or hurting the final prediction. The main idea is derived from game theory: it fairly distributes the 'payout' (the prediction) among all features based on their marginal contribution.",
+                links=[
+                    ("Original NIPS Paper", "https://arxiv.org/abs/1705.07874"),
+                    ("SHAP Python Docs", "https://shap.readthedocs.io/en/latest/"),
+                    ("Towards Data Science: SHAP", "https://towardsdatascience.com/a-novel-approach-to-feature-importance-shapley-additive-explanations-d18af30fc21b")
+                ]
+            ),
+
+            create_knowledge_card(
+                title="Integrated Gradients (IG)",
+                description="Integrated Gradients is a global approach based on calculating attribution with gradients. It aggregates the gradients along the inputs that fall on the straight line between a baseline (e.g., zero signal) and the actual input, ensuring sensitivity and implementation invariance.",
+                links=[
+                    ("Original ICML Paper", "https://arxiv.org/abs/1703.01365"),
+                    ("Captum (PyTorch) IG", "https://captum.ai/docs/algorithms#integrated-gradients"),
+                    ("TensorFlow IG Tutorial", "https://www.tensorflow.org/tutorials/interpretability/integrated_gradients")
+                ]
+            ),
+
+            create_knowledge_card(
+                title="Retain and Retrain Test (RAR)",
+                description="An approach for testing the faithfulness of XAI methods. The idea is that if an XAI method correctly identifies the most important neurons, then after retaining only the top n% of these neurons and retraining the model, the accuracy shouldn't drop significantly compared to random selection. In this dashboard, 10% of top neurons were retained.",
+                links=[
+                    ("ROAR Methodology Paper", "https://arxiv.org/abs/1806.10758"),
+                    ("Evaluating XAI Methods", "https://arxiv.org/abs/1907.09701"),
+                    ("Faithfulness in XAI", "https://christophm.github.io/interpretable-ml-book/feature-importance.html")
+                ]
+            ),
+
+            create_knowledge_card(
+                title="Spearman Correlation",
+                description="Spearman’s Rank Correlation is a nonparametric statistical measure used to find the strength and direction of association between two ranked variables. It checks how well the relationship between two variables can be described using a monotonic function, making it ideal for comparing ranking outputs from SHAP and IG.",
+                links=[
+                    ("Understanding Spearman's Rank", "https://statistics.laerd.com/statistical-guides/spearmans-rank-order-correlation-statistical-guide.php"),
+                    ("SciPy Documentation", "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.spearmanr.html"),
+                    ("StatQuest: Correlation", "https://www.youtube.com/watch?v=qtaqvPAeEJY")
+                ]
+            ),
+
+            create_knowledge_card(
+                title="Latent Space",
+                description="Latent space is a mathematical space where complex, high-dimensional data is represented in a compressed, lower-dimensional format. In this dashboard, the 3D latent space visualizes how the neural network groups similar worm behaviors together, mapping biological activity into spatial distances.",
+                links=[
+                    ("Understanding Latent Space", "https://towardsdatascience.com/understanding-latent-space-in-machine-learning-de5a7c687d8d"),
+                    ("Dimensionality Reduction", "https://scikit-learn.org/stable/modules/decomposition.html"),
+                    ("Autoencoders & Latent Spaces", "https://www.jeremyjordan.me/autoencoders/")
+                ]
+            ),
+
+            create_knowledge_card(
+                title="Raw Neurons Activation",
+                description="Raw neuronal activation refers to the direct, unprocessed signals recorded from individual neurons over time. In C. elegans research, this is typically measured via calcium imaging (fluorescence intensity), showing exactly when and how strongly a specific neuron fires during a behavioral sequence.",
+                links=[
+                    ("Calcium Imaging Overview", "https://en.wikipedia.org/wiki/Calcium_imaging"),
+                    ("C. elegans Connectome", "https://www.wormatlas.org/"),
+                    ("Neural Decoding", "https://en.wikipedia.org/wiki/Neural_decoding")
+                ]
+            )
+
+    ], style={'padding': '40px', 'backgroundColor': '#f8f9fa', 'minHeight': '100vh'}), "Knowledge Base"
         
     
 
@@ -534,6 +704,109 @@ def update_inter_worm_panel(time_idx, selected_worm):
 
     return title, table_data, table_columns
 
+##################### HEATMAP #####################################################################
+
+@app.callback(
+    Output('temporal-dropdown-ranking', 'options'),
+    Input('temporal-dropdown-worm', 'value')
+)
+def update_ranking_options(selected_worm):
+    _, _, _, _, behavior_names, _, _, _ = load_all_data(worm_idx=selected_worm)
+
+    options = [
+        {'label': 'Overall Combined (SHAP + IG)', 'value': 'ALL_COMBINED'},
+        {'label': 'Top Overall SHAP', 'value': 'ALL_SHAP'},
+        {'label': 'Top Overall IG', 'value': 'ALL_IG'}
+    ]
+
+    for idx, name in behavior_names.items():
+        options.append({'label': f'Top SHAP: {name}', 'value': f'SHAP_{idx}'})
+        options.append({'label': f'Top IG: {name}', 'value': f'IG_{idx}'})
+        
+    return options
+
+
+
+@app.callback(
+    Output('temporal-plot', 'figure'),
+    [Input('temporal-dropdown-worm', 'value'),
+     Input('temporal-dropdown-neuron', 'value'),
+     Input('temporal-dropdown-ranking', 'value')]
+)
+def update_temporal_panel(selected_worm, selected_neuron_type, selected_ranking):
+    
+    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=selected_worm)
+
+    global_x_min = np.min(x_flat)
+    global_x_max = np.max(x_flat)
+    global_shap_max = np.max(np.abs(shap_matrix))
+    global_ig_max = np.max(np.abs(ig_matrix))
+
+    valid_indices = np.arange(len(neuron_array))
+    if selected_neuron_type != 'ALL':
+        valid_indices = [
+            i for i, name in enumerate(neuron_array) 
+            if neuron_types_dict.get(name, 'Unidentified') == selected_neuron_type
+        ]
+        if len(valid_indices) == 0:
+            import plotly.graph_objects as go
+            return go.Figure().update_layout(title=f"Brak neuronów typu: {selected_neuron_type}")
+    
+    neuron_array = neuron_array[valid_indices]
+    x_flat = x_flat[:, valid_indices]
+    shap_matrix = shap_matrix[:, valid_indices]
+    ig_matrix = ig_matrix[:, valid_indices]
+
+    if selected_ranking:
+        if selected_ranking == 'ALL_COMBINED':
+            mean_s = np.mean(np.abs(shap_matrix), axis=0)
+            mean_i = np.mean(np.abs(ig_matrix), axis=0)
+            scores = (mean_s / (np.max(mean_s) + 1e-8)) + (mean_i / (np.max(mean_i) + 1e-8))
+        elif selected_ranking == 'ALL_SHAP':
+            scores = np.mean(np.abs(shap_matrix), axis=0)
+        elif selected_ranking == 'ALL_IG':
+            scores = np.mean(np.abs(ig_matrix), axis=0)
+        else:
+            method, beh_idx_str = selected_ranking.split('_')
+            beh_idx = int(beh_idx_str)
+
+            mask = (b_.flatten() == beh_idx)
+            
+            if not np.any(mask):
+                scores = np.zeros(len(neuron_array))
+            else:
+                matrix_to_use = shap_matrix if method == 'SHAP' else ig_matrix
+                scores = np.mean(np.abs(matrix_to_use[mask]), axis=0)
+
+        TOP_N = min(8, len(neuron_array))
+        top_indices = np.argsort(scores)[-TOP_N:] 
+        
+        neuron_array = neuron_array[top_indices]
+        x_flat = x_flat[:, top_indices]
+        shap_matrix = shap_matrix[:, top_indices]
+        ig_matrix = ig_matrix[:, top_indices]
+
+    title = f"Temporal Analysis - Worm {selected_worm} ({selected_neuron_type} Neurons)"
+    
+    fig = temporal_dashboard(
+        x_raw=x_flat, 
+        b_raw=b_, 
+        behavior_names=behavior_names, 
+        shap_matrix=shap_matrix, 
+        ig_matrix=ig_matrix, 
+        neuron_names=neuron_array, 
+        palette=palette, 
+        title=title, 
+        top_n=8,
+        global_x_range=[global_x_min, global_x_max], 
+        global_shap_max=global_shap_max,
+        global_ig_max=global_ig_max
+    )
+
+    fig.update_layout(uirevision=f"{selected_worm}_{selected_neuron_type}_{selected_ranking}")
+    
+    return fig
+
 ##################### QUALITY CHECK SUMMARY ########################################################
 
 @app.callback(
@@ -542,53 +815,54 @@ def update_inter_worm_panel(time_idx, selected_worm):
 )
 def update_quality_summary_panel(selected_worm):
 
-
     worm_str = str(selected_worm)
     worm_data = quality_metrics.get(worm_str, {})
     
     if not worm_data:
-        return html.Div(f"Brak danych dla Robaka {selected_worm}")
+        return html.Div(f"No data for worm: {selected_worm}")
 
-    global_metrics = worm_data.get('ALL', {})
-    
-    global_section = html.Div([
-        html.H3("Global Quality Metrics (Całe nagranie)", style={'textAlign': 'center', 'color': '#2C3E50'}),
-        html.Div([
-            html.Div([html.H4("RAR (SHAP)"), html.Div(global_metrics.get('rar_shap', 'Brak'), style={'fontSize': '24px'})], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
-            html.Div([html.H4("RAR (IG)"), html.Div(global_metrics.get('rar_ig', 'Brak'), style={'fontSize': '24px'})], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
-            html.Div([html.H4("Korelacja Rankingów"), html.Div(global_metrics.get('corr', 'Brak'), style={'fontSize': '24px', 'color': '#27ae60'})], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
-            html.Div([html.H4("P-value"), html.Div(global_metrics.get('corr_p_value', 'Brak'), style={'fontSize': '24px'})], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
-        ], style={'marginBottom': '40px', 'padding': '20px', 'backgroundColor': '#ecf0f1', 'borderRadius': '10px'})
-    ])
-
-
-    tables_elements = []
+    elements = []
     
     for beh_idx, beh_data in worm_data.items():
+        # 1. Określenie tytułu dla sekcji
         if beh_idx == 'ALL':
-            continue 
+            section_title = "Global Quality Metrics (Whole recording)"
+        else:
+            table_info = beh_data.get('inter_worm_table', {})
+            section_title = table_info.get('title', f"Behaviour: {beh_idx}")
             
+        # 2. Generowanie kafelków z metrykami (RAR i korelacja) dla danej sekcji
+        metrics_section = html.Div([
+            html.H3(section_title, style={'textAlign': 'center', 'color': "#166ea9", 'marginTop': '40px', 'fontWeight': 'bold'}),
+            html.Div([
+                html.Div([html.H4("Model's accuracy after RAR (SHAP):", style={'fontSize': '16px'}), html.Div(beh_data.get('rar_shap', 'Brak'), style={'fontSize': '24px', 'fontWeight': 'bold'})], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
+                html.Div([html.H4("Model's accuracy after RAR (IG):", style={'fontSize': '16px'}), html.Div(beh_data.get('rar_ig', 'Brak'), style={'fontSize': '24px', 'fontWeight': 'bold'})], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
+                html.Div([html.H4("IG and SHAP Ranking correlation:", style={'fontSize': '16px'}), html.Div(beh_data.get('corr', 'Brak'), style={'fontSize': '24px', 'fontWeight': 'bold'})], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
+                html.Div([html.H4("P-value for correlation:", style={'fontSize': '16px'}), html.Div(beh_data.get('corr_p_value', 'Brak'), style={'fontSize': '24px', 'fontWeight': 'bold'})], style={'width': '24%', 'display': 'inline-block', 'textAlign': 'center'}),
+            ], style={'marginBottom': '20px', 'padding': '20px', 'backgroundColor': "#e0e0e0", 'borderRadius': '10px'}) # Możesz dostosować kolor tła (np. #e0e0e0)
+        ])
+        
+        elements.append(metrics_section)
+        
+        # 3. Generowanie tabeli (Inter-worm) dla danej sekcji
         table_info = beh_data.get('inter_worm_table', {})
-        table_title = table_info.get('title', f"Zachowanie {beh_idx}")
         table_records = table_info.get('data', [])
- 
-        tables_elements.append(html.H4(table_title, style={'marginTop': '30px', 'color': '#34495e'}))
         
         if table_records:
             table_columns = [{"name": col, "id": col} for col in table_records[0].keys()]
-
             dt = dash_table.DataTable(
                 data=table_records,
                 columns=table_columns,
-                style_table={'overflowX': 'auto'},
+                style_table={'overflowX': 'auto', 'marginBottom': '40px'}, # Odstęp na dole tabeli
                 style_cell={'textAlign': 'center', 'padding': '10px', 'fontFamily': 'Arial'},
                 style_header={'backgroundColor': '#2c3e50', 'color': 'white', 'fontWeight': 'bold'}
             )
-            tables_elements.append(dt)
+            elements.append(dt)
         else:
-            tables_elements.append(html.P("Brak wystarczających danych do korelacji dla tego zachowania.", style={'color': '#7f8c8d'}))
+            elements.append(html.P("Not enough data for inter-worm correlation.", style={'color': '#7f8c8d', 'textAlign': 'center', 'marginBottom': '40px'}))
 
-    final_layout = html.Div([global_section] + tables_elements)
+
+    final_layout = html.Div(elements)
     
     return final_layout
 
