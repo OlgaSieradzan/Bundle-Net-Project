@@ -4,8 +4,7 @@ import sys
 import numpy as np
 import json
 from pathlib import Path
-import dash_bootstrap_components as dbc
-from dash import Dash, html, dcc, Input, Output, State, ctx, dash_table
+
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -16,15 +15,14 @@ if parent_dir not in sys.path:
 # Libraries
 
 import dash
-from dash import dcc, html, Input, Output
-import dash_bootstrap_components as dbc
-
 from data_loader import load_all_data
-
+import dash_bootstrap_components as dbc
+from dash import Dash, html, dcc, Input, Output, State, ctx, dash_table
 from panel_global_importance import global_importance_barplot, comparison_table_xai, shap_beeswarm
 from panel_heatmap import temporal_dashboard
 from panel_worm_specific import latent_space_3D, empty_xai_bar_plots, CLICK_xai_barplots
 from xai_methods import BehaviorWrapper
+from panel_corr import inter_worm_corr, behaviour_corr, neurons_corr
 
 
 # Dictionary for neurons
@@ -130,6 +128,7 @@ app.layout = html.Div([
                 dbc.NavLink("Global Panel", href="/global", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
                 dbc.NavLink("Worm Specific Panel", href="/worm", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
                 dbc.NavLink("Temporal Plot Panel", href="/temp", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
+                dbc.NavLink("Correlation Panel", href="/corr", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
                 dbc.NavLink("Quality check summary", href="/quality", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
                 dbc.NavLink("Knowledge section", href="/knowledge", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'})
             ], vertical=True, pills=True),
@@ -395,60 +394,204 @@ def render_content(pathname):
 
         ]), "Quality check summary"
 
+    elif pathname == "/corr":
+        return html.Div([
+                
+        dcc.Tabs(id="tabs-correlation", value='tab-inter-worm', children=[
+            
+            
+            # TAB 1: Inter-worm correlation
+            
+            dcc.Tab(label='Inter-Worm Correlation', value='tab-inter-worm', style={'fontWeight': 'bold'}, selected_style={'backgroundColor': '#166ea9', 'color': 'white', 'fontWeight': 'bold'}, children=[
+                html.Div([
+                    html.Div([
+                        html.Label("Behaviour:", style={'fontWeight': 'bold', 'color': "#F7F0F8"}),
+                        dcc.Dropdown(
+                            id='corr-worm-behavior',
+                            options=behavior_options, 
+                            value='ALL', clearable=False
+                        )
+                    ], style={'width': '30%', 'display': 'inline-block'}),
+                    
+                    html.Div([
+                        html.Label("Metric:", style={'fontWeight': 'bold', 'color': "#F7F0F8"}),
+                        dcc.Dropdown(
+                            id='corr-worm-metric',
+                            options=[
+                                {'label': 'Raw Activity', 'value': 'activity'},
+                                {'label': 'SHAP', 'value': 'shap'},
+                                {'label': 'Integrated Gradients', 'value': 'ig'}
+                            ],
+                            value='shap', clearable=False
+                        )
+                    ], style={'width': '30%', 'display': 'inline-block', 'marginLeft': '2%'})
+                ], style={'padding': '20px', 'backgroundColor': "#9c9c9c", 'margin': '20px 0', 'borderRadius': '5px'}),
+                
+                
+                dcc.Graph(id='plot-corr-inter-worm', style={'display': 'flex', 'justifyContent': 'center'})
+            ]),
+
+            
+            # TAB 2: Behavior Rankings Correlation
+            
+            dcc.Tab(label='Behavior Rankings (XAI)', value='tab-behavior', style={'fontWeight': 'bold'}, selected_style={'backgroundColor': '#166ea9', 'color': 'white', 'fontWeight': 'bold'}, children=[
+                html.Div([
+                    html.Div([
+                        html.Label("Worm:", style={'fontWeight': 'bold', 'color': "#F7F0F8"}),
+                        dcc.Dropdown(
+                            id='corr-beh-worm',
+                            options=[{'label': f'Worm {i}', 'value': i} for i in range(5)], 
+                            value=0, clearable=False
+                        )
+                    ], style={'width': '30%', 'display': 'inline-block'}),
+                    
+                    html.Div([
+                        html.Label("XAI Method:", style={'fontWeight': 'bold', 'color': "#F7F0F8"}),
+                        dcc.Dropdown(
+                            id='corr-beh-metric',
+                            options=[
+                                {'label': 'Raw Activity', 'value': 'activity'},
+                                {'label': 'SHAP', 'value': 'shap'},
+                                {'label': 'Integrated Gradients', 'value': 'ig'}
+                            ],
+                            value='shap', clearable=False
+                        )
+                    ], style={'width': '30%', 'display': 'inline-block', 'marginLeft': '2%'})
+                ], style={'padding': '20px', 'backgroundColor': "#9c9c9c", 'margin': '20px 0', 'borderRadius': '5px'}),
+                
+                
+                dcc.Graph(id='plot-corr-behavior', style={'height': '700px'})
+            ]),
+
+            
+            # TAB 3: Neuron-to-Neuron Correlation
+            
+            dcc.Tab(label='Neuron Network Correlation', value='tab-neuron', style={'fontWeight': 'bold'}, selected_style={'backgroundColor': '#166ea9', 'color': 'white', 'fontWeight': 'bold'}, children=[
+                html.Div([
+                    html.Div([
+                        html.Label("Worm:", style={'fontWeight': 'bold', 'color': "#F7F0F8"}),
+                        dcc.Dropdown(
+                            id='corr-neuron-worm',
+                            options=[{'label': f'Worm {i}', 'value': i} for i in range(5)], 
+                            value=0, clearable=False
+                        )
+                    ], style={'width': '23%', 'display': 'inline-block'}),
+                    
+                    html.Div([
+                        html.Label("Behaviour:", style={'fontWeight': 'bold', 'color': "#F7F0F8"}),
+                        dcc.Dropdown(
+                            id='corr-neuron-behavior',
+                            options=behavior_options,
+                            value='ALL', clearable=False
+                        )
+                    ], style={'width': '23%', 'display': 'inline-block', 'marginLeft': '2%'}),
+                    
+                    html.Div([
+                        html.Label("Metric:", style={'fontWeight': 'bold', 'color': "#F7F0F8"}),
+                        dcc.Dropdown(
+                            id='corr-neuron-metric',
+                            options=[
+                                {'label': 'Raw Activity', 'value': 'activity'},
+                                {'label': 'SHAP', 'value': 'shap'},
+                                {'label': 'Integrated Gradients', 'value': 'ig'}
+                            ],
+                            value='activity', clearable=False
+                        )
+                    ], style={'width': '23%', 'display': 'inline-block', 'marginLeft': '2%'}),
+
+                    html.Div([
+                        html.Label("Neuron type:", style={'fontWeight': 'bold', 'color': "#F7F0F8"}),
+                        dcc.Dropdown(
+                            id='corr-neuron-type',
+                            options=[
+                                {'label': 'All', 'value': 'ALL'},
+                                {'label': 'Sensory', 'value': 'Sensory'},
+                                {'label': 'Motor', 'value': 'Motor'},
+                                {'label': 'Interneuron', 'value': 'Interneuron'}
+                            ],
+                            value='ALL', clearable=False
+                        )
+                    ], style={'width': '23%', 'display': 'inline-block', 'marginLeft': '2%'})
+
+                ], style={'padding': '20px', 'backgroundColor': "#9c9c9c", 'margin': '20px 0', 'borderRadius': '5px'}),
+                
+                
+                dcc.Graph(id='plot-corr-neuron', style={'height': '900px'}) 
+            ])
+        ])
+    ], style={'padding': '20px', 'backgroundColor': '#f8f9fa', 'minHeight': '100vh'}), "Correlation Panel"
+
+
+
     elif pathname == "/knowledge":
         return html.Div([
         
         # Nagłówek sekcji
             html.Div([
                 html.H1("Knowledge Base", style={'fontWeight': 'bold', 'color': '#2c3e50', 'textAlign': 'center'}),
-                html.P("In this section, there are short descriptions needed to understand the analysis presented in the dashboard. For a broader understanding of the subject, each part includes additional links with articles explaining the concepts in detail.", 
+                html.P("In this section, there are short descriptions needed to understand the analysis" \
+                " presented in the dashboard. For a broader understanding of the subject, each part includes" \
+                " additional links with articles or websites explaining the concepts in detail.", 
                     style={'fontSize': '18px', 'color': '#7f8c8d', 'textAlign': 'center', 'maxWidth': '800px', 'margin': '0 auto 40px auto'})
             ]),
 
             # Karty z wiedzą
             create_knowledge_card(
                 title="Explainable AI (XAI)",
-                description="Explainable Artificial Intelligence, also referred to as XAI, is a group of methods and frameworks designed to help understand the decision-making process behind complex machine learning algorithms. It bridges the gap between 'black-box' models and human interpretability.",
+                description="Explainable Artificial Intelligence, also referred to as XAI,"
+                " is a group of methods and frameworks designed to help understand the decision-making " \
+                "process behind complex machine learning algorithms. It bridges the gap between 'black-box' models and human interpretability.",
                 links=[
                     ("IBM: What is XAI?", "https://www.ibm.com/topics/explainable-ai"),
                     ("Interpretable ML Book", "https://christophm.github.io/interpretable-ml-book/"),
-                    ("DARPA XAI Program", "https://www.darpa.mil/program/explainable-artificial-intelligence")
+                    ("XAI in Joint modelling", "https://www.nature.com/articles/s41583-025-00996-1"),
+                    ("XAI in Medicine", "https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=11071277")
                 ]
             ),
 
             create_knowledge_card(
                 title="Shapley Additive exPlanations (SHAP)",
-                description="SHAP is a model-agnostic approach that provides both local and global explanations. It tells us how much each input (feature) is helping or hurting the final prediction. The main idea is derived from game theory: it fairly distributes the 'payout' (the prediction) among all features based on their marginal contribution.",
+                description="SHAP is a model-agnostic approach that provides both local and" \
+                " global explanations. It tells us how much each input (feature) is helping or" \
+                " hurting the final prediction. The main idea is derived from game theory: it fairly" \
+                " distributes the 'payout' (the prediction) among all features based on their marginal contribution.",
                 links=[
                     ("Original NIPS Paper", "https://arxiv.org/abs/1705.07874"),
                     ("SHAP Python Docs", "https://shap.readthedocs.io/en/latest/"),
-                    ("Towards Data Science: SHAP", "https://towardsdatascience.com/a-novel-approach-to-feature-importance-shapley-additive-explanations-d18af30fc21b")
+                    ("SHAP usage example with Time series data", "https://link.springer.com/article/10.1186/s10194-026-02320-3"),
+                    ("SHAP vs other post-hoc xai methods", "https://arxiv.org/abs/2605.28977")
                 ]
             ),
 
             create_knowledge_card(
                 title="Integrated Gradients (IG)",
-                description="Integrated Gradients is a global approach based on calculating attribution with gradients. It aggregates the gradients along the inputs that fall on the straight line between a baseline (e.g., zero signal) and the actual input, ensuring sensitivity and implementation invariance.",
+                description="Integrated Gradients is a global approach based on calculating attribution with gradients"
+                ". It aggregates the gradients along the inputs that fall on the straight line between a baseline (e.g., zero signal)"
+                " and the actual input, ensuring sensitivity and implementation invariance.",
                 links=[
                     ("Original ICML Paper", "https://arxiv.org/abs/1703.01365"),
                     ("Captum (PyTorch) IG", "https://captum.ai/docs/algorithms#integrated-gradients"),
-                    ("TensorFlow IG Tutorial", "https://www.tensorflow.org/tutorials/interpretability/integrated_gradients")
+                    ("TensorFlow IG Tutorial", "https://www.tensorflow.org/tutorials/interpretability/integrated_gradients"),
+                    ("IG and SGIG usage example on Time series data", "https://www.nature.com/articles/s41598-022-15539-2")
                 ]
             ),
 
             create_knowledge_card(
                 title="Retain and Retrain Test (RAR)",
-                description="An approach for testing the faithfulness of XAI methods. The idea is that if an XAI method correctly identifies the most important neurons, then after retaining only the top n% of these neurons and retraining the model, the accuracy shouldn't drop significantly compared to random selection. In this dashboard, 10% of top neurons were retained.",
+                description="An approach for testing the faithfulness of XAI methods. The idea is that if" \
+                " an XAI method correctly identifies the most important neurons, then after retaining only" \
+                " the top n% of these neurons and retraining the model, the accuracy shouldn't drop significantly" \
+                " compared to random selection. In this dashboard, 10% of top neurons were retained and the after retraing accuracy was reported.",
                 links=[
-                    ("ROAR Methodology Paper", "https://arxiv.org/abs/1806.10758"),
-                    ("Evaluating XAI Methods", "https://arxiv.org/abs/1907.09701"),
-                    ("Faithfulness in XAI", "https://christophm.github.io/interpretable-ml-book/feature-importance.html")
+                    ("RaR example usage", "https://link.springer.com/article/10.1186/s10194-026-02320-3") 
                 ]
             ),
 
             create_knowledge_card(
                 title="Spearman Correlation",
-                description="Spearman’s Rank Correlation is a nonparametric statistical measure used to find the strength and direction of association between two ranked variables. It checks how well the relationship between two variables can be described using a monotonic function, making it ideal for comparing ranking outputs from SHAP and IG.",
+                description="Spearman’s Rank Correlation is a nonparametric statistical measure used to find" \
+                " the strength and direction of association between two ranked variables. It checks how well" \
+                " the relationship between two variables can be described using a monotonic function, making it ideal for comparing ranking outputs from SHAP and IG.",
                 links=[
                     ("Understanding Spearman's Rank", "https://statistics.laerd.com/statistical-guides/spearmans-rank-order-correlation-statistical-guide.php"),
                     ("SciPy Documentation", "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.spearmanr.html"),
@@ -458,7 +601,9 @@ def render_content(pathname):
 
             create_knowledge_card(
                 title="Latent Space",
-                description="Latent space is a mathematical space where complex, high-dimensional data is represented in a compressed, lower-dimensional format. In this dashboard, the 3D latent space visualizes how the neural network groups similar worm behaviors together, mapping biological activity into spatial distances.",
+                description="Latent space is a mathematical space where complex, high-dimensional data is represented"
+                " in a compressed, lower-dimensional format. In this dashboard, the 3D latent space visualizes how the" \
+                " neural network groups similar worm behaviors together, mapping biological activity into spatial distances.",
                 links=[
                     ("Understanding Latent Space", "https://towardsdatascience.com/understanding-latent-space-in-machine-learning-de5a7c687d8d"),
                     ("Dimensionality Reduction", "https://scikit-learn.org/stable/modules/decomposition.html"),
@@ -468,7 +613,9 @@ def render_content(pathname):
 
             create_knowledge_card(
                 title="Raw Neurons Activation",
-                description="Raw neuronal activation refers to the direct, unprocessed signals recorded from individual neurons over time. In C. elegans research, this is typically measured via calcium imaging (fluorescence intensity), showing exactly when and how strongly a specific neuron fires during a behavioral sequence.",
+                description="Raw neuronal activation refers to the direct, unprocessed signals recorded from individual" \
+                " neurons over time. In C. elegans research, this is typically measured via calcium imaging (fluorescence intensity)," \
+                " showing exactly when and how strongly a specific neuron fires during a behavioral sequence.",
                 links=[
                     ("Calcium Imaging Overview", "https://en.wikipedia.org/wiki/Calcium_imaging"),
                     ("C. elegans Connectome", "https://www.wormatlas.org/"),
@@ -480,7 +627,7 @@ def render_content(pathname):
         
     
 
-############ GLOBAL PANEL ########################################################
+############ GLOBAL PANEL CALLBACKS ########################################################
 
 @app.callback(
     [Output('global-bar-plot', 'figure'),
@@ -547,7 +694,7 @@ def update_global_dashboard(selected_worm, selected_behavior, selected_neuron_ty
     return fig_bars, fig_table, beeswarm_src, rar_text_shap,rar_text_ig, corr_text, p_val
 
 
-################# WORM SPECIFIC PANEL ####################################################
+################# WORM SPECIFIC PANEL CALLBACKS ####################################################
 
 @app.callback(
     Output('input-time', 'value'),
@@ -704,7 +851,7 @@ def update_inter_worm_panel(time_idx, selected_worm):
 
     return title, table_data, table_columns
 
-##################### HEATMAP #####################################################################
+##################### HEATMAP CALLBACKS #####################################################################
 
 @app.callback(
     Output('temporal-dropdown-ranking', 'options'),
@@ -807,7 +954,51 @@ def update_temporal_panel(selected_worm, selected_neuron_type, selected_ranking)
     
     return fig
 
-##################### QUALITY CHECK SUMMARY ########################################################
+##################### CORRELATION CALLBACKS ###########################################################
+
+@app.callback(
+        Output('plot-corr-inter-worm', 'figure'),
+        [Input('corr-worm-behavior', 'value'),
+        Input('corr-worm-metric', 'value')
+        ]
+)
+def update_inter_worm_corr(selected_behaviour, selected_metric):
+
+    return inter_worm_corr(selected_behaviour, selected_metric)
+
+
+@app.callback(
+        Output('plot-corr-behavior', 'figure'),
+        [Input('corr-beh-worm', 'value'),
+        Input('corr-beh-metric', 'value')
+        ]
+)
+def update_inter_worm_corr(target_worm, target_metric):
+
+    return behaviour_corr(target_worm, target_metric)
+
+
+
+@app.callback(
+    Output('plot-corr-neuron', 'figure'),
+    [Input('corr-neuron-behavior', 'value'),
+     Input('corr-neuron-worm', 'value'),
+     Input('corr-neuron-metric', 'value'),
+     Input('corr-neuron-type', 'value')]
+)
+def update_neuron_corr_panel(selected_behavior, selected_worm, selected_metric, selected_neuron_type):
+    
+    fig = neurons_corr(
+        target_behaviour=selected_behavior,
+        target_worm=selected_worm,
+        target_metric=selected_metric,
+        filtered_neuron=selected_neuron_type,
+        neuron_types_dict = neuron_types_dict
+    )
+    
+    return fig
+
+##################### QUALITY CHECK SUMMARY CALLBACKS########################################################
 
 @app.callback(
     Output('quality-summary-container', 'children'),
