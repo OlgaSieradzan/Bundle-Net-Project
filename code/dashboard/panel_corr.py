@@ -61,7 +61,11 @@ def inter_worm_corr(target_behavior, target_metric, num_worms=5):
         z=corr_matrix.values,
         x=corr_matrix.columns,
         y=corr_matrix.columns,
-        colorscale='RdBu_r', 
+        colorscale=[
+            [0.0, '#1f77b4'],  # Spokojny niebieski dla -1
+            [0.5, '#ffffff'],  # Czysta biel dla 0 (brak korelacji)
+            [1.0, '#d01c8b']   # Intensywny, piękny róż dla +1
+        ], 
         zmin=-1,
         zmax=1,
         text=np.round(corr_matrix.values, 2),
@@ -125,7 +129,11 @@ def behaviour_corr(target_worm, target_metric):
         z=corr_matrix.values,
         x=corr_matrix.columns,
         y=corr_matrix.columns,
-        colorscale='RdBu_r', 
+        colorscale=[
+            [0.0, '#1f77b4'],  # Spokojny niebieski dla -1
+            [0.5, '#ffffff'],  # Czysta biel dla 0 (brak korelacji)
+            [1.0, '#d01c8b']   # Intensywny, piękny róż dla +1
+        ], 
         zmin=-1,
         zmax=1,
         text=np.round(corr_matrix.values, 2),
@@ -154,7 +162,7 @@ def behaviour_corr(target_worm, target_metric):
     return fig
 
 
-def neurons_corr(target_behaviour, target_worm, target_metric, filtered_neuron, neuron_types_dict):
+def neurons_corr(target_behaviour, target_worm, target_metric, filtered_neuron_type, filtered_neuron_names, neuron_types_dict):
     
     x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, _, _ = load_all_data(worm_idx=target_worm)
     
@@ -185,18 +193,18 @@ def neurons_corr(target_behaviour, target_worm, target_metric, filtered_neuron, 
 
     y_neurons = neuron_array 
 
-    if filtered_neuron != "ALL":
-        if isinstance(filtered_neuron, list):
-            # Użytkownik wybrał konkretne neurony z listy (Dropdown multi=True)
-            y_neurons = [n for n in neuron_array if n in filtered_neuron]
-        else:
-            # Użytkownik wybrał typ neuronu (np. "Motor", "Sensory" z Twojego layoutu)
-            y_neurons = [n for n in neuron_array if neuron_types_dict.get(n, 'Unidentified') == filtered_neuron]
-            
-        if len(y_neurons) == 0:
-            return go.Figure().update_layout(title=f"Brak neuronów dla filtra: {filtered_neuron}")
+    
+    if filtered_neuron_type != "ALL":
+        y_neurons = [n for n in y_neurons if neuron_types_dict.get(n, 'Unidentified') == filtered_neuron_type]
+        
+    
+    if isinstance(filtered_neuron_names, list) and len(filtered_neuron_names) > 0:
+        
+        y_neurons = [n for n in y_neurons if n in filtered_neuron_names]
 
-    # Przycięcie macierzy do wyfiltrowanych neuronów na osi Y, ale zostawienie wszystkich na osi X
+    if len(y_neurons) == 0:
+        return go.Figure().update_layout(title="Brak wybranych neuronów do wyświetlenia.")
+
     filtered_corr_matrix = corr_matrix.loc[y_neurons, :]
 
     # 6. Rysowanie macierzy
@@ -204,11 +212,16 @@ def neurons_corr(target_behaviour, target_worm, target_metric, filtered_neuron, 
         z=filtered_corr_matrix.values,
         x=filtered_corr_matrix.columns,
         y=filtered_corr_matrix.index,
-        colorscale='RdBu_r', 
+        colorscale=[
+            [0.0, '#1f77b4'],  # Spokojny niebieski dla -1
+            [0.5, '#ffffff'],  # Czysta biel dla 0 (brak korelacji)
+            [1.0, '#d01c8b']   # Intensywny, piękny róż dla +1
+        ],
         zmin=-1,
         zmax=1,
+        text=np.round(filtered_corr_matrix.values, 2),
+        texttemplate="%{text}",
         hoverinfo="x+y+z"
-        # Usunięto texttemplate, by nie zaciemniać wykresu przy tak dużej macierzy!
     ))
 
     metric_titles = {'shap': 'SHAP', 'ig': 'Integrated Gradients', 'activity': 'Raw Activity'}
@@ -219,18 +232,18 @@ def neurons_corr(target_behaviour, target_worm, target_metric, filtered_neuron, 
         xaxis=dict(
             title="All Neurons", 
             side="bottom",
-            range=[-0.5, 39.5], # Zamraża widok na pierwszych 40 neuronach
-            rangeslider=dict(visible=True, thickness=0.08) # Dodaje interaktywny suwak na dole
+            range=[-0.5, 39.5], 
+            rangeslider=dict(visible=True, thickness=0.02) 
         ),
         yaxis=dict(
             title="Selected Neurons", 
             autorange="reversed"
         ),
         width=1400,
-        # Zwiększyłam mnożnik z 15 na 25, żeby kafelki w pionie miały więcej "oddechu"
+        
         height=max(500, len(y_neurons) * 25), 
         template="plotly_white",
-        margin=dict(t=100, b=80, l=50, r=50) # Zwiększony dolny margines (b) by pomieścić suwak
+        margin=dict(t=100, b=80, l=50, r=50) 
     )
     
     return fig

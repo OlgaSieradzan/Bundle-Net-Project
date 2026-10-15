@@ -130,7 +130,8 @@ app.layout = html.Div([
                 dbc.NavLink("Temporal Plot Panel", href="/temp", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
                 dbc.NavLink("Correlation Panel", href="/corr", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
                 dbc.NavLink("Quality check summary", href="/quality", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
-                dbc.NavLink("Knowledge section", href="/knowledge", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'})
+                dbc.NavLink("Knowledge section", href="/knowledge", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'}),
+                dbc.NavLink("Download data", href= "/download", active="exact", style={'fontSize': '18px', 'marginBottom': '10px'})
             ], vertical=True, pills=True),
         ]),
         id="sidebar-offcanvas",
@@ -475,7 +476,7 @@ def render_content(pathname):
                             options=[{'label': f'Worm {i}', 'value': i} for i in range(5)], 
                             value=0, clearable=False
                         )
-                    ], style={'width': '23%', 'display': 'inline-block'}),
+                    ], style={'width': '18%', 'display': 'inline-block'}),
                     
                     html.Div([
                         html.Label("Behaviour:", style={'fontWeight': 'bold', 'color': "#F7F0F8"}),
@@ -484,7 +485,7 @@ def render_content(pathname):
                             options=behavior_options,
                             value='ALL', clearable=False
                         )
-                    ], style={'width': '23%', 'display': 'inline-block', 'marginLeft': '2%'}),
+                    ], style={'width': '18%', 'display': 'inline-block', 'marginLeft': '2%'}),
                     
                     html.Div([
                         html.Label("Metric:", style={'fontWeight': 'bold', 'color': "#F7F0F8"}),
@@ -497,7 +498,7 @@ def render_content(pathname):
                             ],
                             value='activity', clearable=False
                         )
-                    ], style={'width': '23%', 'display': 'inline-block', 'marginLeft': '2%'}),
+                    ], style={'width': '18%', 'display': 'inline-block', 'marginLeft': '2%'}),
 
                     html.Div([
                         html.Label("Neuron type:", style={'fontWeight': 'bold', 'color': "#F7F0F8"}),
@@ -507,16 +508,28 @@ def render_content(pathname):
                                 {'label': 'All', 'value': 'ALL'},
                                 {'label': 'Sensory', 'value': 'Sensory'},
                                 {'label': 'Motor', 'value': 'Motor'},
-                                {'label': 'Interneuron', 'value': 'Interneuron'}
+                                {'label': 'Interneuron', 'value': 'Interneuron'},
+                                {'label': 'Unidentified', 'value': 'Unidentified'}
                             ],
                             value='ALL', clearable=False
                         )
-                    ], style={'width': '23%', 'display': 'inline-block', 'marginLeft': '2%'})
+                    ], style={'width': '18%', 'display': 'inline-block', 'marginLeft': '2%'}),
+
+                    html.Div([
+                        html.Label("Specific Neurons:", style={'fontWeight': 'bold', 'color': "#F7F0F8"}),
+                        dcc.Dropdown(
+                            id='corr-neuron-names',
+                            options=[], # Puste - doczytywane dynamicznie
+                            value=[],   # Pusta lista domyślnie
+                            multi=True, # Pozwala wybrać wiele nazw z listy
+                            placeholder="Select specific neurons..."
+                        )
+                    ], style={'width': '18%', 'display': 'inline-block', 'marginLeft': '2%'})
 
                 ], style={'padding': '20px', 'backgroundColor': "#9c9c9c", 'margin': '20px 0', 'borderRadius': '5px'}),
                 
                 
-                dcc.Graph(id='plot-corr-neuron', style={'height': '900px'}) 
+                dcc.Graph(id='plot-corr-neuron', style={'height': '4000px'}) 
             ])
         ])
     ], style={'padding': '20px', 'backgroundColor': '#f8f9fa', 'minHeight': '100vh'}), "Correlation Panel"
@@ -624,6 +637,41 @@ def render_content(pathname):
             )
 
     ], style={'padding': '40px', 'backgroundColor': '#f8f9fa', 'minHeight': '100vh'}), "Knowledge Base"
+
+    elif pathname == "/download":
+        return html.Div([
+        html.H2("Export Analysis Data", style={'fontWeight': 'bold', 'color': '#2c3e50', 'textAlign': 'center', 'marginBottom': '40px'}),
+        
+        html.Div([
+            html.P("Download the complete analysis dataset including all XAI rankings (SHAP, IG), Retain-and-Retrain results, and calculated correlation matrices. The data will be formatted into a multi-sheet Microsoft Excel file.", 
+                   style={'fontSize': '18px', 'textAlign': 'center', 'marginBottom': '40px', 'color': '#34495e'}),
+            
+            
+            html.Button(
+                "Download Full Analysis (Excel)", 
+                id="btn-download-excel", 
+                style={
+                    'backgroundColor': '#27ae60', 'color': 'white', 
+                    'fontSize': '20px', 'fontWeight': 'bold',
+                    'padding': '15px 30px', 'borderRadius': '8px',
+                    'border': 'none', 'cursor': 'pointer',
+                    'display': 'block', 'margin': '0 auto',
+                    'boxShadow': '0px 4px 6px rgba(0,0,0,0.1)'
+                }
+            ),
+            
+            # Ukryty komponent odpowiedzialny za triggerowanie pobierania u klienta
+            dcc.Download(id="download-dataframe-xlsx")
+            
+        ], style={'backgroundColor': 'white', 'padding': '50px', 'borderRadius': '10px', 'boxShadow': '0px 4px 15px rgba(0,0,0,0.05)', 'maxWidth': '800px', 'margin': '0 auto'}),
+
+        html.H2("Detailed decription of data", style={'fontSize': '18px', 'textAlign': 'center', 'marginBottom': '40px', 'color': '#34495e'}),
+        html.Ul([
+            html.Li("Sheet I - ranking data"),
+            html.Li("Drugi element")
+        ])
+        
+    ], style={'padding': '40px', 'backgroundColor': '#f8f9fa', 'minHeight': '100vh'}), "Download Data"
         
     
 
@@ -957,6 +1005,22 @@ def update_temporal_panel(selected_worm, selected_neuron_type, selected_ranking)
 ##################### CORRELATION CALLBACKS ###########################################################
 
 @app.callback(
+    Output('corr-neuron-names', 'options'),
+    [Input('corr-neuron-worm', 'value'),
+     Input('corr-neuron-type', 'value')] 
+)
+def update_neuron_names_options(selected_worm, selected_type):
+    _, _, _, _, _, neuron_array, _, _ = load_all_data(worm_idx=selected_worm)
+    
+
+    if selected_type != 'ALL':
+        valid_neurons = [n for n in neuron_array if neuron_types_dict.get(n, 'Unidentified') == selected_type]
+    else:
+        valid_neurons = neuron_array
+        
+    return [{'label': n, 'value': n} for n in valid_neurons]
+
+@app.callback(
         Output('plot-corr-inter-worm', 'figure'),
         [Input('corr-worm-behavior', 'value'),
         Input('corr-worm-metric', 'value')
@@ -984,18 +1048,18 @@ def update_inter_worm_corr(target_worm, target_metric):
     [Input('corr-neuron-behavior', 'value'),
      Input('corr-neuron-worm', 'value'),
      Input('corr-neuron-metric', 'value'),
-     Input('corr-neuron-type', 'value')]
+     Input('corr-neuron-type', 'value'), # Dodane
+     Input('corr-neuron-names', 'value')] 
 )
-def update_neuron_corr_panel(selected_behavior, selected_worm, selected_metric, selected_neuron_type):
-    
+def update_neuron_corr_panel(selected_behavior, selected_worm, selected_metric, selected_type, selected_names):
     fig = neurons_corr(
         target_behaviour=selected_behavior,
         target_worm=selected_worm,
         target_metric=selected_metric,
-        filtered_neuron=selected_neuron_type,
-        neuron_types_dict = neuron_types_dict
+        filtered_neuron_type=selected_type, 
+        filtered_neuron_names=selected_names, 
+        neuron_types_dict=neuron_types_dict
     )
-    
     return fig
 
 ##################### QUALITY CHECK SUMMARY CALLBACKS########################################################
