@@ -1,0 +1,43 @@
+Bundle-net project hypothesis ideas draft: 
+
+##################################################################
+
+Research question I: 
+
+What neurons are the most important in each worm/behaviour? Are those results correlated?
+
+**Hypothesis**: The most important neurons are highly correlated between worms in the same behaviour, however the correlation between different behaviours is low because different behaviours need different neuronal subgroups
+
+**Aproach**: Visualizations from the global panel and correlation panel 
+
+####################################################################
+
+Research Question II:
+
+What role plays time in neuron activation? When most important neurons are working? 
+
+**Hypothesis**: Key neurons doesn't show stable linear activation, instead we can see high peaks of activation in the most important phases of changing the behaviour.
+
+**Aproach**: Vizualization from Heatmap panel and worm specific panel, showing moments when the key neurons have the peak activity
+
+####################################################################
+
+Research Question III:
+
+How unidentified neurons are correlatred with identified neurons, can this be some information?
+
+**Hypothesis**: Non-identify neurons are not always just random noise, some of them showcase strong correlation to subgroups like interneurons/behavioural neurons ect.
+
+**Aproach**: Visualization from Corr panel for neurons
+
+####################################################################
+
+Research Question IV:
+
+Are SHAP and Integrated Gradient enough methods to explore bundle net explainability? 
+
+**Hypothesis**: For this simple research questions they are sufficient, however even with throught testing, those methods are still subjected to very high correlation inside the activity of neurons, so to get more in-depth results we need to apply more advance methods. 
+
+**Aproach**: Results form quality testing 
+
+####################################################################

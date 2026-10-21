@@ -23,6 +23,8 @@ from panel_heatmap import temporal_dashboard
 from panel_worm_specific import latent_space_3D, empty_xai_bar_plots, CLICK_xai_barplots
 from xai_methods import BehaviorWrapper
 from panel_corr import inter_worm_corr, behaviour_corr, neurons_corr
+import io
+import pandas as pd
 
 
 # Dictionary for neurons
@@ -665,11 +667,34 @@ def render_content(pathname):
             
         ], style={'backgroundColor': 'white', 'padding': '50px', 'borderRadius': '10px', 'boxShadow': '0px 4px 15px rgba(0,0,0,0.05)', 'maxWidth': '800px', 'margin': '0 auto'}),
 
-        html.H2("Detailed decription of data", style={'fontSize': '18px', 'textAlign': 'center', 'marginBottom': '40px', 'color': '#34495e'}),
-        html.Ul([
-            html.Li("Sheet I - ranking data"),
-            html.Li("Drugi element")
-        ])
+        html.Div([
+    html.H3("Detailed description of exported data", style={'fontSize': '22px', 'fontWeight': 'bold', 'color': '#2c3e50', 'textAlign': 'center', 'marginBottom': '30px'}),
+    
+    html.Div([
+        # Karta: Sheet I
+        html.Div([
+            html.H4("📄 Sheet I - Rankings of XAI results", style={'color': '#166ea9', 'marginBottom': '10px', 'fontWeight': 'bold', 'fontSize': '18px'}),
+            html.P("Each column consists of a sorted list (ranking) of neuron names and the value for the XAI method for that particular neuron (not scaled).", style={'margin': '0 0 10px 0', 'color': '#555', 'fontSize': '15px'}),
+            html.P([
+                html.B("Schema for column name: "), 
+                html.Code("{worm number}_{behaviour}_{XAI method}", style={'backgroundColor': '#f4f4f4', 'padding': '3px 6px', 'borderRadius': '4px', 'color': '#d35400', 'fontWeight': 'bold'})
+            ], style={'margin': '0 0 8px 0', 'fontSize': '15px'}),
+            html.P(html.I("Example: worm0_forward_shap means it's the ranking of SHAP values for worm0 for the 'forward' behaviour."), style={'margin': '0', 'fontSize': '14px', 'color': '#7f8c8d'})
+        ], style={'backgroundColor': '#ffffff', 'padding': '25px', 'borderRadius': '8px', 'boxShadow': '0 4px 6px rgba(0,0,0,0.05)', 'marginBottom': '20px', 'borderLeft': '6px solid #166ea9'}),
+
+        # Karta: Sheet II
+        html.Div([
+            html.H4("📊 Sheet II - Quality check results", style={'color': '#27ae60', 'marginBottom': '10px', 'fontWeight': 'bold', 'fontSize': '18px'}),
+            html.P("This sheet consists of RAR (Retain-and-Retrain) results comparing SHAP and Integrated Gradients.", style={'margin': '0 0 10px 0', 'color': '#555', 'fontSize': '15px'}),
+            html.P([
+                html.B("Format: "), "The rows represent Rar_results_shap and Rar_results_ig, while the columns follow the schema ", 
+                html.Code("{worm_number}_{behaviour}", style={'backgroundColor': '#f4f4f4', 'padding': '3px 6px', 'borderRadius': '4px', 'color': '#d35400', 'fontWeight': 'bold'})
+            ], style={'margin': '0 0 5px 0', 'fontSize': '15px'})
+        ], style={'backgroundColor': '#ffffff', 'padding': '25px', 'borderRadius': '8px', 'boxShadow': '0 4px 6px rgba(0,0,0,0.05)', 'borderLeft': '6px solid #27ae60'})
+        
+    ], style={'textAlign': 'left', 'maxWidth': '900px', 'margin': '0 auto'})
+    
+    ], style={'backgroundColor': '#f9fbfd', 'padding': '40px', 'borderRadius': '12px', 'marginBottom': '40px', 'border': '1px solid #e9ecef'})
         
     ], style={'padding': '40px', 'backgroundColor': '#f8f9fa', 'minHeight': '100vh'}), "Download Data"
         
@@ -1079,7 +1104,7 @@ def update_quality_summary_panel(selected_worm):
     elements = []
     
     for beh_idx, beh_data in worm_data.items():
-        # 1. Określenie tytułu dla sekcji
+   
         if beh_idx == 'ALL':
             section_title = "Global Quality Metrics (Whole recording)"
         else:
@@ -1120,6 +1145,104 @@ def update_quality_summary_panel(selected_worm):
     final_layout = html.Div(elements)
     
     return final_layout
+
+########################### EXPOSRTING DATA ##########################################
+
+@app.callback(
+    Output("download-dataframe-xlsx", "data"),
+    Input("btn-download-excel", "n_clicks"),
+    prevent_initial_call=True # Gwarantuje, że plik nie pobierze się sam przy starcie aplikacji
+)
+def download_excel_report(n_clicks):
+
+    worms = [0, 1, 2, 3, 4]
+    behaviors = ["forward", "backward"] 
+    xai_methods = ["shap", "ig"]
+    
+    # Słowniki na dane, z których powstaną tabele Pandas
+    rankings_dict = {}
+    rar_dict = {"Metric": ["Rar_results_shap", "Rar_results_ig"]}
+    
+    for w in worms:
+    # 1. Pobieramy dane
+        x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=w)
+        
+        # 2. DYNAMICZNA LISTA ZACHOWAŃ - wyciągamy klucze (czyli cyfry 0, 1, 2...) ze słownika robaka
+        behaviors = list(behavior_names.keys())
+        
+        quality_worm_data = quality_metrics.get(str(w), {})
+        
+        for b in behaviors:
+            # Pamiętaj, że 'b' to teraz cyfra, a b_name to tekst (np. "forward")
+            b_name = behavior_names.get(b, str(b))
+            
+            behavior_quality = quality_worm_data.get(str(b), {})
+            
+            rar_shap = behavior_quality.get("rar_shap", np.nan) 
+            rar_ig = behavior_quality.get("rar_ig", np.nan)   
+            
+            col_name_rar = f"worm{w}_{b_name}"
+            rar_dict[col_name_rar] = [rar_shap, rar_ig]
+
+            for xai in xai_methods:
+                col_name_rank = f"worm{w}_{b_name}_{xai}"
+                
+                # Teraz porównujemy cyfrę z cyfrą - zadziała idealnie!
+                mask = (b_.flatten() == b)
+            
+                if not np.any(mask):
+                    rankings_dict[f"{col_name_rank}_Neuron"] = [np.nan] * len(neuron_array)
+                    rankings_dict[f"{col_name_rank}_Value"] = [np.nan] * len(neuron_array)
+                    continue
+                
+                # Zabezpieczenie: co jeśli robak nie ma tego zachowania?
+                if not np.any(mask):
+                    # Zostawiamy puste kolumny lub wypełniamy NaN
+                    rankings_dict[f"{col_name_rank}_Neuron"] = [np.nan] * len(neuron_array)
+                    rankings_dict[f"{col_name_rank}_Value"] = [np.nan] * len(neuron_array)
+                    continue
+
+                if xai == "shap":
+                    attr = shap_matrix[mask]
+                else:
+                    attr = ig_matrix[mask]
+                    
+                mean_scores = np.mean(np.abs(attr), axis=0)
+
+                sorted_indices = np.argsort(mean_scores)[::-1]
+                sorted_neurons = np.array(neuron_array)[sorted_indices]
+                sorted_scores = mean_scores[sorted_indices]
+
+                rankings_dict[f"{col_name_rank}_Neuron"] = sorted_neurons
+                rankings_dict[f"{col_name_rank}_Value"] = sorted_scores
+
+    df_rankings = pd.DataFrame({k: pd.Series(v) for k, v in rankings_dict.items()})
+    df_rar = pd.DataFrame(rar_dict)
+    output = io.BytesIO()
+
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        df_rankings.to_excel(writer, sheet_name='Sheet I - Rankings', index=False)
+        df_rar.to_excel(writer, sheet_name='Sheet II - Quality Check', index=False)
+
+        workbook  = writer.book
+        header_format = workbook.add_format({
+            'bold': True, 'fg_color': '#2c3e50', 'font_color': 'white', 'border': 1, 'align': 'center'
+        })
+
+        ws1 = writer.sheets['Sheet I - Rankings']
+        ws1.freeze_panes(1, 0) # Zablokowanie pierwszego wiersza
+        for col_num, value in enumerate(df_rankings.columns.values):
+            ws1.write(0, col_num, value, header_format)
+            ws1.set_column(col_num, col_num, 20) # Szerokość kolumn
+
+        ws2 = writer.sheets['Sheet II - Quality Check']
+        for col_num, value in enumerate(df_rar.columns.values):
+            ws2.write(0, col_num, value, header_format)
+            ws2.set_column(col_num, col_num, 18)
+
+    output.seek(0)
+
+    return dcc.send_bytes(output.getvalue(), "BundleNet_Exported_Data.xlsx")
 
 
 
