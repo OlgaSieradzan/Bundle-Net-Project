@@ -2,14 +2,13 @@
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
-from data_loader import load_all_data
+from data_loader import load_all_data, METRICS_FILE, DATA_PATH, XAI_PATH
 
 
 
 def inter_worm_corr(target_behavior, target_metric, num_worms=5):
-    
-  # Pobieramy nazwy z pierwszego robaka jako bazę do tytułu
-    _, _, _, _, behavior_names, _, _, _ = load_all_data(worm_idx=0)
+
+    _, _, _, _, behavior_names, _, _, _ = load_all_data(worm_idx=0, precomputed_data_path= DATA_PATH, xai_matrices_path= XAI_PATH)
     
     if target_behavior != "ALL":
         target_behavior = int(target_behavior)
@@ -20,13 +19,12 @@ def inter_worm_corr(target_behavior, target_metric, num_worms=5):
     worm_series_list = []
 
     for w in range(num_worms):
-        # Pobieramy też neuron_array, żeby wiedzieć, jak nazywają się neurony tego robaka
-        x_flat, b_, shap_matrix, ig_matrix, _, neuron_array, _, _ = load_all_data(worm_idx=w)
+    
+        x_flat, b_, shap_matrix, ig_matrix, _, neuron_array, _, _ = load_all_data(worm_idx=w, precomputed_data_path= DATA_PATH, xai_matrices_path= XAI_PATH)
         
         if target_behavior != "ALL":
             mask = (b_.flatten() == target_behavior)
             if not np.any(mask):
-                # Jeśli robak nie wykonał zachowania, tworzymy puste Series
                 empty_series = pd.Series(dtype=float, name=f"Worm {w}")
                 worm_series_list.append(empty_series)
                 continue
@@ -41,20 +39,12 @@ def inter_worm_corr(target_behavior, target_metric, num_worms=5):
             matrix_to_use = x_flat[mask]
 
         mean_scores = np.mean(np.abs(matrix_to_use), axis=0)
-        
-        # Zamiast gołej listy, tworzymy obiekt Series, w którym każda wartość jest przypisana do nazwy neuronu
         worm_series = pd.Series(mean_scores, index=neuron_array, name=f"Worm {w}")
         worm_series_list.append(worm_series)
 
-    # Łączymy wszystkie robaki w jedną tabelę. 
-    # Pandas automatycznie dopasuje wiersze (neurony) o tych samych nazwach!
-    df = pd.concat(worm_series_list, axis=1)
-    
-    # Usuwamy wiersze (neurony), których brakuje u któregokolwiek z robaków, 
-    # aby móc poprawnie policzyć korelację
-    df = df.dropna()
 
-    # Liczymy korelację na dopasowanych danych
+    df = pd.concat(worm_series_list, axis=1)
+    df = df.dropna()
     corr_matrix = df.corr(method='spearman')
 
     fig = go.Figure(data=go.Heatmap(
@@ -62,9 +52,9 @@ def inter_worm_corr(target_behavior, target_metric, num_worms=5):
         x=corr_matrix.columns,
         y=corr_matrix.columns,
         colorscale=[
-            [0.0, '#1f77b4'],  # Spokojny niebieski dla -1
-            [0.5, '#ffffff'],  # Czysta biel dla 0 (brak korelacji)
-            [1.0, '#d01c8b']   # Intensywny, piękny róż dla +1
+            [0.0, '#1f77b4'],  
+            [0.5, '#ffffff'],  
+            [1.0, '#d01c8b']   
         ], 
         zmin=-1,
         zmax=1,
@@ -91,15 +81,13 @@ def inter_worm_corr(target_behavior, target_metric, num_worms=5):
 
 
 def behaviour_corr(target_worm, target_metric):
-    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, _, _ = load_all_data(worm_idx=target_worm)
+    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, _, _ = load_all_data(worm_idx=target_worm, precomputed_data_path= DATA_PATH, xai_matrices_path= XAI_PATH)
 
     beh_series_list = []
 
-    # Iterujemy przez ID (beh_idx) oraz nazwy (beh_name) ze słownika
     for beh_idx, beh_name in behavior_names.items():
         mask = (b_.flatten() == beh_idx)
-        
-        # Zabezpieczenie: jeśli dany robak nie wykonał tego zachowania, pomijamy je
+
         if not np.any(mask):
             continue
 
@@ -108,21 +96,18 @@ def behaviour_corr(target_worm, target_metric):
         elif target_metric == "ig":
             matrix_to_use = ig_matrix[mask]
         else:
-            # Ta opcja automatycznie obsłuży "Raw Activity" (wartość "activity")
+
             matrix_to_use = x_flat[mask]
 
         mean_scores = np.mean(np.abs(matrix_to_use), axis=0)
 
-        # Przypisujemy nazwę zachowania do kolumny (będzie widoczna na osiach wykresu)
         beh_series = pd.Series(mean_scores, index=neuron_array, name=beh_name)
         beh_series_list.append(beh_series)
 
     df = pd.concat(beh_series_list, axis=1)
-        
-    # Usuwamy wiersze (neurony), których brakuje dla któregokolwiek z wygenerowanych zachowań
+
     df = df.dropna()
-    
-    # Liczymy korelację Spearmana na dopasowanych danych
+
     corr_matrix = df.corr(method='spearman')
     
     fig = go.Figure(data=go.Heatmap(
@@ -130,9 +115,9 @@ def behaviour_corr(target_worm, target_metric):
         x=corr_matrix.columns,
         y=corr_matrix.columns,
         colorscale=[
-            [0.0, '#1f77b4'],  # Spokojny niebieski dla -1
-            [0.5, '#ffffff'],  # Czysta biel dla 0 (brak korelacji)
-            [1.0, '#d01c8b']   # Intensywny, piękny róż dla +1
+            [0.0, '#1f77b4'], 
+            [0.5, '#ffffff'],  
+            [1.0, '#d01c8b']   
         ], 
         zmin=-1,
         zmax=1,
@@ -146,10 +131,9 @@ def behaviour_corr(target_worm, target_metric):
     display_metric = metric_titles.get(target_metric, target_metric)
     
     fig.update_layout(
-        # Zaktualizowany główny tytuł (Behavior Correlation zamiast Inter-worm)
+
         title=f"Inter-behavior Spearman Correlation<br><sup>Metric: {display_metric} | Worm: {target_worm} | Common Neurons: {len(df)}</sup>",
-        
-        # Zmienione tytuły osi na "Behaviors"
+
         xaxis=dict(title="Behaviors", side="bottom", tickfont=dict(size=18)),
         yaxis=dict(title="Behaviors", autorange="reversed", tickfont=dict(size=18)),
         
@@ -164,7 +148,7 @@ def behaviour_corr(target_worm, target_metric):
 
 def neurons_corr(target_behaviour, target_worm, target_metric, filtered_neuron_type, filtered_neuron_names, neuron_types_dict):
     
-    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, _, _ = load_all_data(worm_idx=target_worm)
+    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, _, _ = load_all_data(worm_idx=target_worm, precomputed_data_path= DATA_PATH, xai_matrices_path= XAI_PATH)
     
     if target_behaviour != "ALL":
         target_behaviour = int(target_behaviour)
@@ -213,9 +197,9 @@ def neurons_corr(target_behaviour, target_worm, target_metric, filtered_neuron_t
         x=filtered_corr_matrix.columns,
         y=filtered_corr_matrix.index,
         colorscale=[
-            [0.0, '#1f77b4'],  # Spokojny niebieski dla -1
-            [0.5, '#ffffff'],  # Czysta biel dla 0 (brak korelacji)
-            [1.0, '#d01c8b']   # Intensywny, piękny róż dla +1
+            [0.0, '#1f77b4'],  
+            [0.5, '#ffffff'], 
+            [1.0, '#d01c8b']   
         ],
         zmin=-1,
         zmax=1,

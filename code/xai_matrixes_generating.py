@@ -7,7 +7,6 @@ from ncmcm.data_loaders.matlab_dataset import Database
 from ncmcm.bundlenet.utils import prep_data
 from ncmcm.bundlenet.bundlenet import BunDLeNet, train_model
 
-# Importy Twoich metod XAI (upewnij się, że funkcja jest w xai_methods.py)
 from xai_methods import generate_and_save_full_matrices
 
 def process_all_worms(num_worms):

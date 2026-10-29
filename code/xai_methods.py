@@ -24,21 +24,20 @@ class BehaviorWrapper(torch.nn.Module):
 
 # Integrated gradient (IG)
 
-def get_integrated_gradients(bundle_model, x_tensor, target_class, baseline_value = None):
+def get_integrated_gradients(bundle_model, x_tensor, target_class):
     """
     Calculating integrated gradients for given dataset and behaviour
 
     Arguments:
     bundle_model = BunDLeNet(latent_dim, num_behaviour, input_shape)
     x_tensor = Neuronal data shaped as (t - win, 2, win, n) in a tensor format
-    target_class = class of worms behaviour (inteagar from 1 to 8) {?}
-    baseline_value = value that integrated gradients takes as a comparassion to asses where are increased neuron activity.
-                     Normaly can be a zero, a mean neauron activity or a gaussian noise
+    target_class = class of worms behaviour (inteagar from 1 to 8)
 
     """
     wrapper = BehaviorWrapper(bundle_model).eval()
     ig = IntegratedGradients(wrapper)
-    attributions = ig.attribute(inputs=x_tensor, target=target_class, baselines = baseline_value)
+    mean_baseline = x_tensor.mean(dim=0, keepdim=True)
+    attributions = ig.attribute(inputs=x_tensor, target=target_class, baselines=mean_baseline)
     
     return attributions.detach().cpu().numpy()
 
@@ -53,30 +52,23 @@ def get_shap_values(bundle_model, x_tensor, target_class, background_tensor=None
         
     explainer = shap.GradientExplainer(wrapper, background_tensor)
     shap_values = explainer.shap_values(x_tensor)
-    
-    # 1. Konwersja do bezpiecznej macierzy NumPy
     shap_array = np.array(shap_values)
     batch_size = x_tensor.shape[0]
-    
-    # 2. Wycięcie klasy z ostatniego wymiaru
-    # Operator "..." oznacza: "weź wszystkie klatki i neurony, ale tylko klasę 'target_class' na końcu"
+
     if isinstance(shap_values, list):
         target_shap = shap_values[target_class]
     else:
         target_shap = shap_array[..., target_class]
-        
-    # 3. Twarde wymuszenie ostatecznego kształtu (Klatki, Neurony)
-    # -1 sprawia, że NumPy samo domyśli się, że reszta to 131 neuronów
+
     target_shap_2d = target_shap.reshape(batch_size, -1)
     
     return target_shap_2d
 
 
 def generate_and_save_full_matrices(bundle_model, x_raw, b_raw, filename_prefix="worm_1"):
-    # 1. DYNAMICZNA LICZBA NEURONÓW (Automatyczny odczyt z danych)
+
     num_features = x_raw.shape[-1]
-    
-    # Usuwamy puste okna czasowe (redukcja np. (3133, 1, 135) -> (3133, 135))
+
     if len(x_raw.shape) == 4:
         x_raw = x_raw[:, 0, 0, :]
     elif len(x_raw.shape) == 3:
@@ -85,7 +77,7 @@ def generate_and_save_full_matrices(bundle_model, x_raw, b_raw, filename_prefix=
     try:
         x_raw = x_raw.reshape(-1, num_features)
     except ValueError:
-        raise ValueError(f"Nie można spłaszczyć. Kształt: {x_raw.shape}")
+        raise ValueError(f"Cannot flatten. SHAPE: {x_raw.shape}")
 
     b_aligned = b_raw[:len(x_raw)]
     x_tensor = torch.tensor(x_raw, dtype=torch.float32, requires_grad=True)
@@ -93,21 +85,18 @@ def generate_and_save_full_matrices(bundle_model, x_raw, b_raw, filename_prefix=
     
     wrapper = BehaviorWrapper(bundle_model).eval()
     
-    # 2. Generowanie Integrated Gradients
-    print(f"Obliczam IG (ilość neuronów: {num_features})...")
+    print(f"Calculating IG (num neurons: {num_features})...")
     ig = IntegratedGradients(wrapper)
     ig_attr = ig.attribute(x_tensor, target=targets, n_steps=20, internal_batch_size=256)
     ig_matrix = ig_attr.detach().cpu().numpy()
-    
-    # 3. Generowanie SHAP
-    print("Obliczam SHAP...")
+ 
+    print("Calculating SHAP...")
     explainer = shap.GradientExplainer(wrapper, x_tensor)
     shap_values = explainer.shap_values(x_tensor)
     
     shap_matrix = np.zeros_like(ig_matrix)
     shap_array = np.array(shap_values)
-    
-    # 4. Twarde i bezpieczne przypisywanie klas dla dowolnej liczby neuronów
+
     for i in range(x_tensor.shape[0]):
         current_class = int(b_aligned[i])
         
@@ -123,9 +112,9 @@ def generate_and_save_full_matrices(bundle_model, x_raw, b_raw, filename_prefix=
                 
         shap_matrix[i] = frame_shap.reshape(-1)
         
-    # 5. Zapis do plików numpy
+
     np.save(f"{filename_prefix}_ig.npy", ig_matrix)
     np.save(f"{filename_prefix}_shap.npy", shap_matrix)
-    print(f"Gotowe! Zapisano IG ({ig_matrix.shape}) oraz SHAP ({shap_matrix.shape})")
+    print(f"Ready!  IG saved into ({ig_matrix.shape}) and SHAP into ({shap_matrix.shape})")
     
     return ig_matrix, shap_matrix

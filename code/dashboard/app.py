@@ -1,21 +1,17 @@
-# Paths
+############# LIBRARIES #########################################
 import os
 import sys
 import numpy as np
 import json
 from pathlib import Path
-
+import dash
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-# Dodajemy go do środowiska Pythona
 if parent_dir not in sys.path:
     sys.path.append(parent_dir)
 
-# Libraries
-
-import dash
-from data_loader import load_all_data
+from data_loader import load_all_data, METRICS_FILE, DATA_PATH, XAI_PATH
 import dash_bootstrap_components as dbc
 from dash import Dash, html, dcc, Input, Output, State, ctx, dash_table
 from panel_global_importance import global_importance_barplot, comparison_table_xai, shap_beeswarm
@@ -27,7 +23,7 @@ import io
 import pandas as pd
 
 
-# Dictionary for neurons
+################ Dictionary for neurons ##############################
 c_elegans_categories = {
     "Sensory": [
         "ALML", "ALMR", "AVM", "PLML", "PLMR", "PVM", "ASHL", "ASHR", "AWAL", "AWAR", 
@@ -54,19 +50,17 @@ for n_type, neurons in c_elegans_categories.items():
     for neuron in neurons:
         neuron_types_dict[neuron] = n_type
 
-#Quality metrics 
-METRICS_FILE = "C:/Users/olgas/GitHub/Bundle-Net-Project/code/precomputed_data/quality_metrics.json"
+
+################ PATHS AND FILES ########################################################################
+
 
 with open(METRICS_FILE, 'r') as f:
     quality_metrics = json.load(f)
-
-
-
 # One worms data 
-x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=0)
+x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=0, precomputed_data_path= DATA_PATH, xai_matrices_path= XAI_PATH )
 
 
-
+###################### HELPER FUNCTION #########################################
 def create_knowledge_card(title, description, links):
 
     links_elements = [
@@ -168,7 +162,8 @@ def toggle_sidebar(n_clicks, is_open):
 def render_content(pathname):
     behavior_options = [{'label': 'Global (Whole time record)', 'value': 'ALL'}] + \
                    [{'label': name, 'value': idx} for idx, name in behavior_names.items()]
-
+    
+    ############ GLOBAL ###################################
     if pathname == "/" or pathname == "/global":
         return html.Div([
             # FILTERING PANEL
@@ -261,6 +256,8 @@ def render_content(pathname):
 
         ], style={'marginBottom': '20px', 'padding': '20px', 'backgroundColor': "#e0e0e0", 'borderRadius': '10px'}), "Global Panel"
 
+############## WORM SPECIFIC #############################################
+
     elif pathname == "/worm":
             fig_xai_empty = empty_xai_bar_plots()
     
@@ -323,7 +320,9 @@ def render_content(pathname):
                     )
                 ], style={'marginBottom': '20px', 'padding': '20px', 'backgroundColor': "#e0e0e0", 'borderRadius': '10px'})
             ]), "Worm Specific Panel"
-        
+
+    ################# HEATMAP #####################################
+
     elif pathname == "/temp":
 
         return html.Div([
@@ -377,6 +376,7 @@ def render_content(pathname):
         ])
     ], style={'padding': '20px'}), "Heatmap panel"
 
+################################# QUALITY CHECK ##################################
     elif pathname == "/quality":
         return html.Div([
             html.Div([
@@ -397,6 +397,7 @@ def render_content(pathname):
 
         ]), "Quality check summary"
 
+##################### CORRELATION ###################################
     elif pathname == "/corr":
         return html.Div([
                 
@@ -537,11 +538,11 @@ def render_content(pathname):
     ], style={'padding': '20px', 'backgroundColor': '#f8f9fa', 'minHeight': '100vh'}), "Correlation Panel"
 
 
-
+################### KNOWLAGE ####################################
     elif pathname == "/knowledge":
         return html.Div([
         
-        # Nagłówek sekcji
+        
             html.Div([
                 html.H1("Knowledge Base", style={'fontWeight': 'bold', 'color': '#2c3e50', 'textAlign': 'center'}),
                 html.P("In this section, there are short descriptions needed to understand the analysis" \
@@ -550,7 +551,7 @@ def render_content(pathname):
                     style={'fontSize': '18px', 'color': '#7f8c8d', 'textAlign': 'center', 'maxWidth': '800px', 'margin': '0 auto 40px auto'})
             ]),
 
-            # Karty z wiedzą
+            
             create_knowledge_card(
                 title="Explainable AI (XAI)",
                 description="Explainable Artificial Intelligence, also referred to as XAI,"
@@ -640,6 +641,8 @@ def render_content(pathname):
 
     ], style={'padding': '40px', 'backgroundColor': '#f8f9fa', 'minHeight': '100vh'}), "Knowledge Base"
 
+    ###################### DOWNLOADING ################################################
+
     elif pathname == "/download":
         return html.Div([
         html.H2("Export Analysis Data", style={'fontWeight': 'bold', 'color': '#2c3e50', 'textAlign': 'center', 'marginBottom': '40px'}),
@@ -661,8 +664,7 @@ def render_content(pathname):
                     'boxShadow': '0px 4px 6px rgba(0,0,0,0.1)'
                 }
             ),
-            
-            # Ukryty komponent odpowiedzialny za triggerowanie pobierania u klienta
+
             dcc.Download(id="download-dataframe-xlsx")
             
         ], style={'backgroundColor': 'white', 'padding': '50px', 'borderRadius': '10px', 'boxShadow': '0px 4px 15px rgba(0,0,0,0.05)', 'maxWidth': '800px', 'margin': '0 auto'}),
@@ -673,7 +675,7 @@ def render_content(pathname):
     html.Div([
         # Karta: Sheet I
         html.Div([
-            html.H4("📄 Sheet I - Rankings of XAI results", style={'color': '#166ea9', 'marginBottom': '10px', 'fontWeight': 'bold', 'fontSize': '18px'}),
+            html.H4("Sheet I - Rankings of XAI results", style={'color': '#166ea9', 'marginBottom': '10px', 'fontWeight': 'bold', 'fontSize': '18px'}),
             html.P("Each column consists of a sorted list (ranking) of neuron names and the value for the XAI method for that particular neuron (not scaled).", style={'margin': '0 0 10px 0', 'color': '#555', 'fontSize': '15px'}),
             html.P([
                 html.B("Schema for column name: "), 
@@ -684,7 +686,7 @@ def render_content(pathname):
 
         # Karta: Sheet II
         html.Div([
-            html.H4("📊 Sheet II - Quality check results", style={'color': '#27ae60', 'marginBottom': '10px', 'fontWeight': 'bold', 'fontSize': '18px'}),
+            html.H4("Sheet II - Quality check results", style={'color': '#27ae60', 'marginBottom': '10px', 'fontWeight': 'bold', 'fontSize': '18px'}),
             html.P("This sheet consists of RAR (Retain-and-Retrain) results comparing SHAP and Integrated Gradients.", style={'margin': '0 0 10px 0', 'color': '#555', 'fontSize': '15px'}),
             html.P([
                 html.B("Format: "), "The rows represent Rar_results_shap and Rar_results_ig, while the columns follow the schema ", 
@@ -716,7 +718,7 @@ def render_content(pathname):
 )
 def update_global_dashboard(selected_worm, selected_behavior, selected_neuron_type):
 
-    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=selected_worm)
+    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=selected_worm, precomputed_data_path= DATA_PATH, xai_matrices_path= XAI_PATH)
     target_b = None if selected_behavior == 'ALL' else selected_behavior
 
     w_key = str(selected_worm)
@@ -809,7 +811,7 @@ def update_time_state(prev_clicks, next_clicks, clickData, current_time):
 )
 def update_worm_specific_dashboard(selected_worm, time_idx):
 
-    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=selected_worm)
+    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=selected_worm, precomputed_data_path= DATA_PATH, xai_matrices_path= XAI_PATH)
 
     fig_3d = latent_space_3D(selected_worm, x_flat, model ,b_,  behavior_names, palette)
 
@@ -852,7 +854,7 @@ def update_xai_on_time_change(time_idx, selected_neuron_type, selected_worm):
     if time_idx is None:
         return dash.no_update
 
-    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=selected_worm)
+    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=selected_worm, precomputed_data_path= DATA_PATH, xai_matrices_path= XAI_PATH)
 
     if time_idx >= len(b_):
         time_idx = len(b_) - 1
@@ -895,7 +897,7 @@ def update_inter_worm_panel(time_idx, selected_worm):
     if time_idx is None:
         time_idx = 0
 
-    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=selected_worm)
+    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=selected_worm, precomputed_data_path= DATA_PATH, xai_matrices_path= XAI_PATH)
     
     if time_idx >= len(b_):
         time_idx = len(b_) - 1
@@ -931,7 +933,7 @@ def update_inter_worm_panel(time_idx, selected_worm):
     Input('temporal-dropdown-worm', 'value')
 )
 def update_ranking_options(selected_worm):
-    _, _, _, _, behavior_names, _, _, _ = load_all_data(worm_idx=selected_worm)
+    _, _, _, _, behavior_names, _, _, _ = load_all_data(worm_idx=selected_worm, precomputed_data_path= DATA_PATH, xai_matrices_path= XAI_PATH)
 
     options = [
         {'label': 'Overall Combined (SHAP + IG)', 'value': 'ALL_COMBINED'},
@@ -955,7 +957,7 @@ def update_ranking_options(selected_worm):
 )
 def update_temporal_panel(selected_worm, selected_neuron_type, selected_ranking):
     
-    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=selected_worm)
+    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=selected_worm, precomputed_data_path= DATA_PATH, xai_matrices_path= XAI_PATH)
 
     global_x_min = np.min(x_flat)
     global_x_max = np.max(x_flat)
@@ -1035,7 +1037,7 @@ def update_temporal_panel(selected_worm, selected_neuron_type, selected_ranking)
      Input('corr-neuron-type', 'value')] 
 )
 def update_neuron_names_options(selected_worm, selected_type):
-    _, _, _, _, _, neuron_array, _, _ = load_all_data(worm_idx=selected_worm)
+    _, _, _, _, _, neuron_array, _, _ = load_all_data(worm_idx=selected_worm, precomputed_data_path= DATA_PATH, xai_matrices_path= XAI_PATH)
     
 
     if selected_type != 'ALL':
@@ -1151,29 +1153,25 @@ def update_quality_summary_panel(selected_worm):
 @app.callback(
     Output("download-dataframe-xlsx", "data"),
     Input("btn-download-excel", "n_clicks"),
-    prevent_initial_call=True # Gwarantuje, że plik nie pobierze się sam przy starcie aplikacji
+    prevent_initial_call=True 
 )
 def download_excel_report(n_clicks):
 
     worms = [0, 1, 2, 3, 4]
     behaviors = ["forward", "backward"] 
     xai_methods = ["shap", "ig"]
-    
-    # Słowniki na dane, z których powstaną tabele Pandas
     rankings_dict = {}
     rar_dict = {"Metric": ["Rar_results_shap", "Rar_results_ig"]}
     
     for w in worms:
-    # 1. Pobieramy dane
-        x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=w)
-        
-        # 2. DYNAMICZNA LISTA ZACHOWAŃ - wyciągamy klucze (czyli cyfry 0, 1, 2...) ze słownika robaka
+        x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=w, precomputed_data_path=DATA_PATH, xai_matrices_path=XAI_PATH)
+
         behaviors = list(behavior_names.keys())
         
         quality_worm_data = quality_metrics.get(str(w), {})
         
         for b in behaviors:
-            # Pamiętaj, że 'b' to teraz cyfra, a b_name to tekst (np. "forward")
+  
             b_name = behavior_names.get(b, str(b))
             
             behavior_quality = quality_worm_data.get(str(b), {})
@@ -1186,18 +1184,13 @@ def download_excel_report(n_clicks):
 
             for xai in xai_methods:
                 col_name_rank = f"worm{w}_{b_name}_{xai}"
-                
-                # Teraz porównujemy cyfrę z cyfrą - zadziała idealnie!
                 mask = (b_.flatten() == b)
             
                 if not np.any(mask):
                     rankings_dict[f"{col_name_rank}_Neuron"] = [np.nan] * len(neuron_array)
                     rankings_dict[f"{col_name_rank}_Value"] = [np.nan] * len(neuron_array)
                     continue
-                
-                # Zabezpieczenie: co jeśli robak nie ma tego zachowania?
                 if not np.any(mask):
-                    # Zostawiamy puste kolumny lub wypełniamy NaN
                     rankings_dict[f"{col_name_rank}_Neuron"] = [np.nan] * len(neuron_array)
                     rankings_dict[f"{col_name_rank}_Value"] = [np.nan] * len(neuron_array)
                     continue
@@ -1230,10 +1223,10 @@ def download_excel_report(n_clicks):
         })
 
         ws1 = writer.sheets['Sheet I - Rankings']
-        ws1.freeze_panes(1, 0) # Zablokowanie pierwszego wiersza
+        ws1.freeze_panes(1, 0) 
         for col_num, value in enumerate(df_rankings.columns.values):
             ws1.write(0, col_num, value, header_format)
-            ws1.set_column(col_num, col_num, 20) # Szerokość kolumn
+            ws1.set_column(col_num, col_num, 20) 
 
         ws2 = writer.sheets['Sheet II - Quality Check']
         for col_num, value in enumerate(df_rar.columns.values):
