@@ -28,7 +28,7 @@ c_elegans_categories = {
     "Sensory": [
         "ALML", "ALMR", "AVM", "PLML", "PLMR", "PVM", "ASHL", "ASHR", "AWAL", "AWAR", 
         "AWBL", "AWBR", "AWCL", "AWCR", "ASEL", "ASER", "AFDL", "AFDR", "ASJL", "ASJR",
-        "ASKL", "ASKR", "ADLL", "ADLR", "ADEL", "ADER", "PDEL", "PDER", "CEPVL", "CEPVR"
+        "ASKL", "ASKR", "ADLL", "ADLR", "ADEL", "ADER", "PDEL", "PDER", "CEPVL", "CEPVR", "BAG", "OLQVL", "OLQVR", "OLQDL", "OLQDR"
     ],
     "Motor": [
         "SMDDL", "SMDDR", "SMDVL", "SMDVR", "RMDDL", "RMDDR", "RMDVL", "RMDVR", "RMED", 
@@ -36,12 +36,12 @@ c_elegans_categories = {
         "DB1", "DB2", "DB3", "DB4", "DB5", "DB6", "DB7",
         "VA1", "VA2", "VA3", "VA4", "VA5", "VA6", "VA7", "VA8", "VA9", "VA10", "VA11", "VA12",
         "VB1", "VB2", "VB3", "VB4", "VB5", "VB6", "VB7", "VB8", "VB9", "VB10", "VB11",
-        "DD1", "DD2", "DD3", "DD4", "DD5", "DD6", "VD1", "VD2", "VD3", "VD4", "VD5", "VD6"
+        "DD1", "DD2", "DD3", "DD4", "DD5", "DD6", "VD1", "VD2", "VD3", "VD4", "VD5", "VD6", "RMEL", "RMER", "SMBDR", "SABVL", "SIB", "URA", "URY", "AS"
     ],
     "Interneuron": [
         "AVAL", "AVAR", "AVBL", "AVBR", "AVDL", "AVDR", "AVEL", "AVER", "PVCL", "PVCR", 
         "DVA", "DVC", "AIBL", "AIBR", "AIYL", "AIYR", "AIZL", "AIZR", "RIAL", "RIAR", 
-        "RIBL", "RIBR", "RICL", "RICR", "RIML", "RIMR", "RMGL", "RMGR", "PVNL", "PVNR"
+        "RIBL", "RIBR", "RICL", "RICR", "RIML", "RIMR", "RMGL", "RMGR", "PVNL", "PVNR", "RIVL", "RIVR", "RIFR", "AVF", "ALA", "RID", "RIS"
     ]
 }
 

@@ -127,7 +127,7 @@ def precompute_xai(num_worms, input_folder, output_folder):
             continue
 
 
-def precompute_quality_metrics(num_worms, precomputed_data_path, xai_matrices_path):
+def precompute_quality_metrics(num_worms, gamma_rate, precomputed_data_path, xai_matrices_path):
     all_metrics = {}
 
     for worm_idx in range(num_worms):
@@ -135,8 +135,8 @@ def precompute_quality_metrics(num_worms, precomputed_data_path, xai_matrices_pa
         x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx, precomputed_data_path, xai_matrices_path)
         
         all_metrics[str(worm_idx)] = {}
-        rar_global_shap = evaluate_rar(x_flat, b_, shap_matrix) 
-        rar_global_ig = evaluate_rar(x_flat, b_, ig_matrix)
+        rar_global_shap = evaluate_rar(x_flat, b_, shap_matrix, retain_percentage=0.1, epochs = 1000, gamma_rate= gamma_rate) 
+        rar_global_ig = evaluate_rar(x_flat, b_, ig_matrix, retain_percentage=0.1, epochs = 1000, gamma_rate= gamma_rate)
         corr_global, p_value_global = sperman_correlation_xai(shap_matrix, ig_matrix) 
 
         df_multi_all = inter_worm_correlation(
@@ -179,8 +179,8 @@ def precompute_quality_metrics(num_worms, precomputed_data_path, xai_matrices_pa
             shap_behavior = shap_matrix[mask]
             ig_behavior = ig_matrix[mask]
 
-            rar_beh_shap = evaluate_rar(x_flat, b_, shap_behavior) 
-            rar_beh_ig = evaluate_rar(x_flat, b_, ig_behavior) 
+            rar_beh_shap = evaluate_rar(x_flat, b_, shap_behavior, retain_percentage=0.1, epochs = 1000, gamma_rate= gamma_rate) 
+            rar_beh_ig = evaluate_rar(x_flat, b_, ig_behavior, retain_percentage=0.1, epochs = 1000, gamma_rate= gamma_rate) 
             corr_beh, p_value_beh = sperman_correlation_xai(shap_behavior, ig_behavior)
             
             df_multi = inter_worm_correlation(
@@ -220,13 +220,13 @@ if __name__ == "__main__":
     # precompute_data_and_models(5, "C:/Users/olgas/GitHub/Bundle-Net-Project/dataset/c_elegans/NoStim_Data.mat", "precomputed_data_90", 0.9)
     # precompute_data_and_models(5, "C:/Users/olgas/GitHub/Bundle-Net-Project/dataset/c_elegans/NoStim_Data.mat", "precomputed_data_95", 0.95)
 
-    precompute_xai(5, "precomputed_data_70", "xai_matrices_70")
-    precompute_xai(5, "precomputed_data_80", "xai_matrices_80")
-    precompute_xai(5, "precomputed_data_90", "xai_matrices_90")
-    precompute_xai(5, "precomputed_data_95", "xai_matrices_95")
+    # precompute_xai(5, "precomputed_data_70", "xai_matrices_70")
+    # precompute_xai(5, "precomputed_data_80", "xai_matrices_80")
+    # precompute_xai(5, "precomputed_data_90", "xai_matrices_90")
+    # precompute_xai(5, "precomputed_data_95", "xai_matrices_95")
 
-    precompute_quality_metrics(5, "precomputed_data_70", "xai_matrices_70")
-    precompute_quality_metrics(5, "precomputed_data_70", "xai_matrices_80")
-    precompute_quality_metrics(5, "precomputed_data_70", "xai_matrices_90")
-    precompute_quality_metrics(5, "precomputed_data_70", "xai_matrices_95")
+    precompute_quality_metrics(5,0.7,  "precomputed_data_70", "xai_matrices_70")
+    precompute_quality_metrics(5, 0.8, "precomputed_data_80", "xai_matrices_80")
+    precompute_quality_metrics(5, 0.9, "precomputed_data_90", "xai_matrices_90")
+    precompute_quality_metrics(5, 0.95, "precomputed_data_95", "xai_matrices_95")
 

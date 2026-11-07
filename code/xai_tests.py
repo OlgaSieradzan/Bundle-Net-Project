@@ -8,12 +8,12 @@ from xai_methods import BehaviorWrapper
 from scipy.stats import spearmanr
 from ncmcm.bundlenet.utils import prep_data
 from ncmcm.bundlenet.bundlenet import BunDLeNet, train_model, project_into_latent_space
-from data_loader import load_all_data
+from data_loader import load_all_data, DATA_PATH, XAI_PATH
 
 # Retain And Retrain (RAR) - Rahman et al. (2022)
 
 
-def evaluate_rar(x_windowed, b_labels, attributions, retain_percentage=0.10, epochs=200, device='cpu'):
+def evaluate_rar(x_windowed, b_labels, attributions, retain_percentage=0.10, epochs=200, device='cpu', gamma_rate = 0.7):
 
     mean_attr = np.mean(np.abs(attributions), axis=0) 
     num_neurons = len(mean_attr)
@@ -30,14 +30,12 @@ def evaluate_rar(x_windowed, b_labels, attributions, retain_percentage=0.10, epo
         num_behaviour=num_behaviors, 
         input_shape=X_retained.shape
     ).to(device)
-    
-    #print(f"\n Traning (number of nurons: {num_retain})...")
 
     train_model(
         X_retained, Y_train, 
         new_model, 
         b_type='discrete', 
-        gamma=0.9, 
+        gamma=gamma_rate, 
         learning_rate=0.001, 
         n_epochs=epochs
     )
@@ -117,7 +115,7 @@ def get_corr_and_pval(ref_dict, other_dict, shared_neurons):
 
 def inter_worm_correlation(target_behavior, ref_worm_idx=0, total_worms=5, behavior_names=None):
 
-    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=ref_worm_idx)
+    x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=ref_worm_idx, precomputed_data_path=DATA_PATH, xai_matrices_path=XAI_PATH)
 
     ref_shap, ref_ig, ref_act = get_worm_all_metrics_dicts(x_flat, shap_matrix, ig_matrix, b_, neuron_array, ref_worm_idx, target_behavior)
 
@@ -135,7 +133,7 @@ def inter_worm_correlation(target_behavior, ref_worm_idx=0, total_worms=5, behav
         if w_idx == ref_worm_idx:
             continue
             
-        x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=w_idx)
+        x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, palette, model = load_all_data(worm_idx=w_idx, precomputed_data_path=DATA_PATH, xai_matrices_path=XAI_PATH)
         
         other_shap, other_ig, other_act = get_worm_all_metrics_dicts(x_flat, shap_matrix, ig_matrix, b_, neuron_array, w_idx, target_behavior)
         
