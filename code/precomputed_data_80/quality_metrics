@@ -2,354 +2,48 @@
     "0": {
         "ALL": {
             "rar_shap": 0.959,
-            "rar_ig": 0.955,
-            "corr": 0.876,
+            "rar_ig": 0.962,
+            "corr": 0.864,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | ALL | Base: Worm 0",
                 "data": [
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.663,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.616,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.556,
+                        "IG Corr": 0.543,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.604,
+                        "Activity Corr": 0.615,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.665,
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.676,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.493,
+                        "IG Corr": 0.533,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.539,
+                        "Activity Corr": 0.519,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.653,
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.624,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.524,
+                        "IG Corr": 0.56,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.646,
+                        "Activity Corr": 0.654,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.506,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.468,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.476,
-                        "Activity P-val": "< 0.05"
-                    }
-                ]
-            }
-        },
-        "0": {
-            "rar_shap": 0.961,
-            "rar_ig": 0.96,
-            "corr": 0.637,
-            "corr_p_value": 0.0,
-            "inter_worm_table": {
-                "title": "Multi-Metric | Dorsal turn | Base: Worm 0",
-                "data": [
-                    {
-                        "Comparrasion": "Worm 1",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.528,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.186,
-                        "IG P-val": "0.093",
-                        "Activity Corr": 0.45,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 2",
                         "Common neurons": 77,
-                        "SHAP Corr": 0.574,
+                        "SHAP Corr": 0.475,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.061,
-                        "IG P-val": "0.596",
-                        "Activity Corr": 0.441,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 3",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.543,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.325,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.602,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 4",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.429,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.23,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.415,
-                        "Activity P-val": "< 0.05"
-                    }
-                ]
-            }
-        },
-        "1": {
-            "rar_shap": 0.959,
-            "rar_ig": 0.963,
-            "corr": 0.718,
-            "corr_p_value": 0.0,
-            "inter_worm_table": {
-                "title": "Multi-Metric | Forward | Base: Worm 0",
-                "data": [
-                    {
-                        "Comparrasion": "Worm 1",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.596,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.223,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.465,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 2",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.551,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.115,
-                        "IG P-val": "0.318",
-                        "Activity Corr": 0.464,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 3",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.593,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.146,
-                        "IG P-val": "0.204",
-                        "Activity Corr": 0.61,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 4",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.492,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.149,
-                        "IG P-val": "0.178",
-                        "Activity Corr": 0.512,
-                        "Activity P-val": "< 0.05"
-                    }
-                ]
-            }
-        },
-        "2": {
-            "rar_shap": 0.958,
-            "rar_ig": 0.958,
-            "corr": 0.559,
-            "corr_p_value": 0.0,
-            "inter_worm_table": {
-                "title": "Multi-Metric | No state | Base: Worm 0",
-                "data": [
-                    {
-                        "Comparrasion": "Worm 1",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.53,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.458,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.367,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 2",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.333,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.292,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.414,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 3",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.524,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.301,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.339,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 4",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.279,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.151,
-                        "IG P-val": "0.172",
-                        "Activity Corr": 0.338,
-                        "Activity P-val": "< 0.05"
-                    }
-                ]
-            }
-        },
-        "3": {
-            "rar_shap": 0.956,
-            "rar_ig": 0.96,
-            "corr": 0.84,
-            "corr_p_value": 0.0,
-            "inter_worm_table": {
-                "title": "Multi-Metric | Reverse-1 | Base: Worm 0",
-                "data": [
-                    {
-                        "Comparrasion": "Worm 1",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.52,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.353,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.541,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 2",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.672,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.292,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.409,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 3",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.61,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.421,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.576,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 4",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.457,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.32,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.29,
-                        "Activity P-val": "< 0.05"
-                    }
-                ]
-            }
-        },
-        "4": {
-            "rar_shap": 0.958,
-            "rar_ig": 0.96,
-            "corr": 0.78,
-            "corr_p_value": 0.0,
-            "inter_worm_table": {
-                "title": "Multi-Metric | Reverse-2 | Base: Worm 0",
-                "data": [
-                    {
-                        "Comparrasion": "Worm 1",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.581,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.214,
-                        "IG P-val": "0.052",
-                        "Activity Corr": 0.47,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 2",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.601,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.114,
-                        "IG P-val": "0.322",
-                        "Activity Corr": 0.443,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 3",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.601,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.348,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.47,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 4",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.468,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.262,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.442,
-                        "Activity P-val": "< 0.05"
-                    }
-                ]
-            }
-        },
-        "5": {
-            "rar_shap": 0.958,
-            "rar_ig": 0.947,
-            "corr": 0.688,
-            "corr_p_value": 0.0,
-            "inter_worm_table": {
-                "title": "Multi-Metric | Sustained reversal | Base: Worm 0",
-                "data": [
-                    {
-                        "Comparrasion": "Worm 1",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.598,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.481,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.511,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 2",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.55,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.362,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.465,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 3",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.571,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.396,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.622,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 4",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.46,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.355,
+                        "IG Corr": 0.391,
                         "IG P-val": "< 0.05",
                         "Activity Corr": 0.451,
                         "Activity P-val": "< 0.05"
@@ -357,52 +51,358 @@
                 ]
             }
         },
+        "0": {
+            "rar_shap": 0.957,
+            "rar_ig": 0.95,
+            "corr": 0.694,
+            "corr_p_value": 0.0,
+            "inter_worm_table": {
+                "title": "Multi-Metric | Dorsal turn | Base: Worm 0",
+                "data": [
+                    {
+                        "Comparrasion": "Worm 1",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.561,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.394,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.422,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 2",
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.55,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.304,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.394,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 3",
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.517,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.496,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.609,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 4",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.323,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.294,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.373,
+                        "Activity P-val": "< 0.05"
+                    }
+                ]
+            }
+        },
+        "1": {
+            "rar_shap": 0.956,
+            "rar_ig": 0.962,
+            "corr": 0.767,
+            "corr_p_value": 0.0,
+            "inter_worm_table": {
+                "title": "Multi-Metric | Forward | Base: Worm 0",
+                "data": [
+                    {
+                        "Comparrasion": "Worm 1",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.625,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.263,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.471,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 2",
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.62,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.252,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.411,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 3",
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.573,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.511,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.573,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 4",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.48,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.243,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.455,
+                        "Activity P-val": "< 0.05"
+                    }
+                ]
+            }
+        },
+        "2": {
+            "rar_shap": 0.953,
+            "rar_ig": 0.963,
+            "corr": 0.551,
+            "corr_p_value": 0.0,
+            "inter_worm_table": {
+                "title": "Multi-Metric | No state | Base: Worm 0",
+                "data": [
+                    {
+                        "Comparrasion": "Worm 1",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.451,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.311,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.465,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 2",
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.375,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.333,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.384,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 3",
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.45,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.283,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.372,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 4",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.385,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.312,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.338,
+                        "Activity P-val": "< 0.05"
+                    }
+                ]
+            }
+        },
+        "3": {
+            "rar_shap": 0.965,
+            "rar_ig": 0.957,
+            "corr": 0.82,
+            "corr_p_value": 0.0,
+            "inter_worm_table": {
+                "title": "Multi-Metric | Reverse-1 | Base: Worm 0",
+                "data": [
+                    {
+                        "Comparrasion": "Worm 1",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.436,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.154,
+                        "IG P-val": "0.181",
+                        "Activity Corr": 0.512,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 2",
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.501,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.312,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.439,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 3",
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.572,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.344,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.56,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 4",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.327,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.13,
+                        "IG P-val": "0.262",
+                        "Activity Corr": 0.269,
+                        "Activity P-val": "< 0.05"
+                    }
+                ]
+            }
+        },
+        "4": {
+            "rar_shap": 0.965,
+            "rar_ig": 0.963,
+            "corr": 0.555,
+            "corr_p_value": 0.0,
+            "inter_worm_table": {
+                "title": "Multi-Metric | Reverse-2 | Base: Worm 0",
+                "data": [
+                    {
+                        "Comparrasion": "Worm 1",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.58,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.274,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.457,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 2",
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.513,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.277,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.433,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 3",
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.515,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.401,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.452,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 4",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.349,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.321,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.415,
+                        "Activity P-val": "< 0.05"
+                    }
+                ]
+            }
+        },
+        "5": {
+            "rar_shap": 0.948,
+            "rar_ig": 0.963,
+            "corr": 0.67,
+            "corr_p_value": 0.0,
+            "inter_worm_table": {
+                "title": "Multi-Metric | Sustained reversal | Base: Worm 0",
+                "data": [
+                    {
+                        "Comparrasion": "Worm 1",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.505,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.413,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.506,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 2",
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.664,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.271,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.478,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 3",
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.57,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.34,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.599,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 4",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.468,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.224,
+                        "IG P-val": "0.050",
+                        "Activity Corr": 0.417,
+                        "Activity P-val": "< 0.05"
+                    }
+                ]
+            }
+        },
         "6": {
-            "rar_shap": 0.959,
-            "rar_ig": 0.953,
-            "corr": 0.759,
+            "rar_shap": 0.961,
+            "rar_ig": 0.962,
+            "corr": 0.844,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Slowing | Base: Worm 0",
                 "data": [
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.597,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.604,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.407,
+                        "IG Corr": 0.463,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.466,
+                        "Activity Corr": 0.492,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.641,
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.597,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.222,
-                        "IG P-val": "0.052",
-                        "Activity Corr": 0.433,
+                        "IG Corr": 0.242,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.416,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.652,
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.64,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.495,
+                        "IG Corr": 0.328,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.545,
+                        "Activity Corr": 0.511,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.464,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.495,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.216,
+                        "IG Corr": 0.338,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.416,
+                        "Activity Corr": 0.362,
                         "Activity P-val": "< 0.05"
                     }
                 ]
@@ -410,50 +410,50 @@
         },
         "7": {
             "rar_shap": 0.959,
-            "rar_ig": 0.96,
-            "corr": 0.824,
+            "rar_ig": 0.959,
+            "corr": 0.796,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Ventral turn | Base: Worm 0",
                 "data": [
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.498,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.428,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.571,
+                        "IG Corr": 0.271,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.626,
+                        "Activity Corr": 0.576,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.635,
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.532,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.517,
+                        "IG Corr": 0.449,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.559,
+                        "Activity Corr": 0.509,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.588,
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.437,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.461,
+                        "IG Corr": 0.424,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.649,
+                        "Activity Corr": 0.636,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.417,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.312,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.393,
+                        "IG Corr": 0.246,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.433,
+                        "Activity Corr": 0.349,
                         "Activity P-val": "< 0.05"
                     }
                 ]
@@ -464,151 +464,151 @@
         "ALL": {
             "rar_shap": 0.963,
             "rar_ig": 0.964,
-            "corr": 0.847,
+            "corr": 0.827,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | ALL | Base: Worm 1",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.663,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.616,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.556,
+                        "IG Corr": 0.543,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.604,
+                        "Activity Corr": 0.615,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.514,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.368,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.442,
+                        "IG Corr": 0.312,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.585,
+                        "Activity Corr": 0.509,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.662,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.62,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.594,
+                        "IG Corr": 0.511,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.61,
+                        "Activity Corr": 0.541,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.454,
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.413,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.338,
+                        "IG Corr": 0.373,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.547,
+                        "Activity Corr": 0.473,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "0": {
-            "rar_shap": 0.963,
-            "rar_ig": 0.964,
-            "corr": 0.775,
+            "rar_shap": 0.962,
+            "rar_ig": 0.954,
+            "corr": 0.627,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Dorsal turn | Base: Worm 1",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.528,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.561,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.186,
-                        "IG P-val": "0.093",
-                        "Activity Corr": 0.45,
+                        "IG Corr": 0.394,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.422,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.385,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.357,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.157,
-                        "IG P-val": "0.111",
-                        "Activity Corr": 0.582,
+                        "IG Corr": 0.352,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.504,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.606,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.498,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.349,
+                        "IG Corr": 0.375,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.482,
+                        "Activity Corr": 0.379,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.276,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.147,
-                        "IG P-val": "0.144",
-                        "Activity Corr": 0.418,
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.16,
+                        "SHAP P-val": "0.129",
+                        "IG Corr": 0.287,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.331,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "1": {
-            "rar_shap": 0.96,
-            "rar_ig": 0.959,
-            "corr": 0.734,
+            "rar_shap": 0.959,
+            "rar_ig": 0.962,
+            "corr": 0.675,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Forward | Base: Worm 1",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.596,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.625,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.223,
+                        "IG Corr": 0.263,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.465,
+                        "Activity Corr": 0.471,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.529,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.46,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.179,
-                        "IG P-val": "0.069",
-                        "Activity Corr": 0.481,
+                        "IG Corr": 0.235,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.443,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.607,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.645,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.435,
+                        "IG Corr": 0.484,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.425,
+                        "Activity Corr": 0.381,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.383,
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.459,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.234,
+                        "IG Corr": 0.207,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.401,
+                        "Activity Corr": 0.367,
                         "Activity P-val": "< 0.05"
                     }
                 ]
@@ -616,305 +616,305 @@
         },
         "2": {
             "rar_shap": 0.961,
-            "rar_ig": 0.954,
-            "corr": 0.745,
+            "rar_ig": 0.962,
+            "corr": 0.729,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | No state | Base: Worm 1",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.53,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.451,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.458,
+                        "IG Corr": 0.311,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.367,
+                        "Activity Corr": 0.465,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.308,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.442,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.389,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.156,
+                        "SHAP P-val": "0.129",
+                        "IG Corr": 0.106,
+                        "IG P-val": "0.304",
+                        "Activity Corr": 0.37,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.439,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.469,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.451,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.162,
+                        "SHAP P-val": "0.144",
+                        "IG Corr": 0.138,
+                        "IG P-val": "0.214",
+                        "Activity Corr": 0.391,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.202,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.233,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.309,
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.079,
+                        "SHAP P-val": "0.452",
+                        "IG Corr": 0.138,
+                        "IG P-val": "0.189",
+                        "Activity Corr": 0.302,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "3": {
-            "rar_shap": 0.96,
-            "rar_ig": 0.962,
-            "corr": 0.659,
+            "rar_shap": 0.957,
+            "rar_ig": 0.96,
+            "corr": 0.678,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Reverse-1 | Base: Worm 1",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.52,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.436,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.353,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.541,
+                        "IG Corr": 0.154,
+                        "IG P-val": "0.181",
+                        "Activity Corr": 0.512,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.523,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.33,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.319,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.449,
+                        "IG Corr": 0.157,
+                        "IG P-val": "0.126",
+                        "Activity Corr": 0.426,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.523,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.516,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.413,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.361,
+                        "IG Corr": 0.206,
+                        "IG P-val": "0.062",
+                        "Activity Corr": 0.274,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.379,
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.29,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.132,
-                        "IG P-val": "0.191",
-                        "Activity Corr": 0.271,
+                        "IG Corr": 0.121,
+                        "IG P-val": "0.249",
+                        "Activity Corr": 0.25,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "4": {
-            "rar_shap": 0.962,
-            "rar_ig": 0.961,
-            "corr": 0.553,
+            "rar_shap": 0.954,
+            "rar_ig": 0.954,
+            "corr": 0.66,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Reverse-2 | Base: Worm 1",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.581,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.58,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.214,
-                        "IG P-val": "0.052",
-                        "Activity Corr": 0.47,
+                        "IG Corr": 0.274,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.457,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.445,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.336,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.258,
+                        "IG Corr": 0.38,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.51,
+                        "Activity Corr": 0.502,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.569,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.627,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.404,
+                        "IG Corr": 0.328,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.51,
+                        "Activity Corr": 0.458,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.359,
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.398,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.242,
+                        "IG Corr": 0.354,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.419,
+                        "Activity Corr": 0.385,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "5": {
-            "rar_shap": 0.951,
-            "rar_ig": 0.962,
-            "corr": 0.657,
+            "rar_shap": 0.957,
+            "rar_ig": 0.956,
+            "corr": 0.601,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Sustained reversal | Base: Worm 1",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.598,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.505,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.481,
+                        "IG Corr": 0.413,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.511,
+                        "Activity Corr": 0.506,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.452,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.317,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.244,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.422,
+                        "IG Corr": 0.132,
+                        "IG P-val": "0.201",
+                        "Activity Corr": 0.375,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.665,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.553,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.542,
+                        "IG Corr": 0.413,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.428,
+                        "Activity Corr": 0.41,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.44,
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.306,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.253,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.407,
+                        "IG Corr": 0.15,
+                        "IG P-val": "0.153",
+                        "Activity Corr": 0.353,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "6": {
-            "rar_shap": 0.961,
-            "rar_ig": 0.969,
-            "corr": 0.659,
+            "rar_shap": 0.963,
+            "rar_ig": 0.959,
+            "corr": 0.526,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Slowing | Base: Worm 1",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.597,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.604,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.407,
+                        "IG Corr": 0.463,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.466,
+                        "Activity Corr": 0.492,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.527,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.405,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.414,
+                        "IG Corr": 0.333,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.424,
+                        "Activity Corr": 0.384,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.62,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.532,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.441,
+                        "IG Corr": 0.363,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.481,
+                        "Activity Corr": 0.436,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.363,
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.398,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.35,
+                        "IG Corr": 0.444,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.434,
+                        "Activity Corr": 0.406,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "7": {
-            "rar_shap": 0.961,
-            "rar_ig": 0.964,
-            "corr": 0.667,
+            "rar_shap": 0.964,
+            "rar_ig": 0.961,
+            "corr": 0.855,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Ventral turn | Base: Worm 1",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.498,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.428,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.571,
+                        "IG Corr": 0.271,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.626,
+                        "Activity Corr": 0.576,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.397,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.222,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.317,
+                        "IG Corr": 0.232,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.524,
+                        "Activity Corr": 0.456,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.497,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.559,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.43,
+                        "IG Corr": 0.404,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.514,
+                        "Activity Corr": 0.443,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.469,
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.324,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.308,
+                        "IG Corr": 0.24,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.438,
+                        "Activity Corr": 0.366,
                         "Activity P-val": "< 0.05"
                     }
                 ]
@@ -925,100 +925,100 @@
         "ALL": {
             "rar_shap": 0.96,
             "rar_ig": 0.96,
-            "corr": 0.791,
+            "corr": 0.893,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | ALL | Base: Worm 2",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.665,
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.676,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.493,
+                        "IG Corr": 0.533,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.539,
+                        "Activity Corr": 0.519,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.514,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.368,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.442,
+                        "IG Corr": 0.312,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.585,
+                        "Activity Corr": 0.509,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.544,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.523,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.504,
+                        "IG Corr": 0.512,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.565,
+                        "Activity Corr": 0.495,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.497,
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.465,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.456,
+                        "IG Corr": 0.448,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.474,
+                        "Activity Corr": 0.399,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "0": {
-            "rar_shap": 0.955,
-            "rar_ig": 0.959,
-            "corr": 0.813,
+            "rar_shap": 0.959,
+            "rar_ig": 0.96,
+            "corr": 0.85,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Dorsal turn | Base: Worm 2",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.574,
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.55,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.061,
-                        "IG P-val": "0.596",
-                        "Activity Corr": 0.441,
+                        "IG Corr": 0.304,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.394,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.385,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.357,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.157,
-                        "IG P-val": "0.111",
-                        "Activity Corr": 0.582,
+                        "IG Corr": 0.352,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.504,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.388,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.288,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.253,
+                        "IG Corr": 0.241,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.488,
+                        "Activity Corr": 0.381,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.402,
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.343,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.186,
-                        "IG P-val": "0.053",
-                        "Activity Corr": 0.358,
+                        "IG Corr": 0.387,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.276,
                         "Activity P-val": "< 0.05"
                     }
                 ]
@@ -1026,152 +1026,152 @@
         },
         "1": {
             "rar_shap": 0.959,
-            "rar_ig": 0.959,
-            "corr": 0.62,
+            "rar_ig": 0.96,
+            "corr": 0.646,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Forward | Base: Worm 2",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.551,
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.62,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.115,
-                        "IG P-val": "0.318",
-                        "Activity Corr": 0.464,
+                        "IG Corr": 0.252,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.411,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.529,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.46,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.179,
-                        "IG P-val": "0.069",
-                        "Activity Corr": 0.481,
+                        "IG Corr": 0.235,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.443,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.532,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.541,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.267,
+                        "IG Corr": 0.352,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.482,
+                        "Activity Corr": 0.414,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.42,
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.477,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.149,
-                        "IG P-val": "0.123",
-                        "Activity Corr": 0.45,
+                        "IG Corr": 0.227,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.372,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "2": {
-            "rar_shap": 0.955,
-            "rar_ig": 0.96,
-            "corr": 0.8,
+            "rar_shap": 0.957,
+            "rar_ig": 0.961,
+            "corr": 0.775,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | No state | Base: Worm 2",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.333,
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.375,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.292,
+                        "IG Corr": 0.333,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.414,
+                        "Activity Corr": 0.384,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.308,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.442,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.389,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.156,
+                        "SHAP P-val": "0.129",
+                        "IG Corr": 0.106,
+                        "IG P-val": "0.304",
+                        "Activity Corr": 0.37,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.408,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.361,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.237,
+                        "IG Corr": 0.232,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.272,
+                        "Activity Corr": 0.246,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 108,
+                        "Common neurons": 100,
                         "SHAP Corr": 0.272,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.146,
-                        "IG P-val": "0.131",
-                        "Activity Corr": 0.306,
+                        "IG Corr": 0.307,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.291,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "3": {
-            "rar_shap": 0.96,
+            "rar_shap": 0.959,
             "rar_ig": 0.96,
-            "corr": 0.805,
+            "corr": 0.843,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Reverse-1 | Base: Worm 2",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.672,
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.501,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.292,
+                        "IG Corr": 0.312,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.409,
+                        "Activity Corr": 0.439,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.523,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.33,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.319,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.449,
+                        "IG Corr": 0.157,
+                        "IG P-val": "0.126",
+                        "Activity Corr": 0.426,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.556,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.479,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.324,
+                        "IG Corr": 0.287,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.393,
+                        "Activity Corr": 0.361,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.509,
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.426,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.387,
+                        "IG Corr": 0.33,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.271,
+                        "Activity Corr": 0.247,
                         "Activity P-val": "< 0.05"
                     }
                 ]
@@ -1179,203 +1179,203 @@
         },
         "4": {
             "rar_shap": 0.96,
-            "rar_ig": 0.958,
-            "corr": 0.769,
+            "rar_ig": 0.96,
+            "corr": 0.815,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Reverse-2 | Base: Worm 2",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.601,
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.513,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.114,
-                        "IG P-val": "0.322",
-                        "Activity Corr": 0.443,
+                        "IG Corr": 0.277,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.433,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.445,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.336,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.258,
+                        "IG Corr": 0.38,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.51,
+                        "Activity Corr": 0.502,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.531,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.511,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.376,
+                        "IG Corr": 0.369,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.365,
+                        "Activity Corr": 0.29,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.468,
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.487,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.311,
+                        "IG Corr": 0.321,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.307,
+                        "Activity Corr": 0.286,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "5": {
-            "rar_shap": 0.961,
-            "rar_ig": 0.959,
-            "corr": 0.48,
+            "rar_shap": 0.959,
+            "rar_ig": 0.96,
+            "corr": 0.643,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Sustained reversal | Base: Worm 2",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.55,
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.664,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.362,
+                        "IG Corr": 0.271,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.465,
+                        "Activity Corr": 0.478,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.452,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.317,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.244,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.422,
+                        "IG Corr": 0.132,
+                        "IG P-val": "0.201",
+                        "Activity Corr": 0.375,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.457,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.477,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.296,
+                        "IG Corr": 0.383,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.4,
+                        "Activity Corr": 0.373,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.475,
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.339,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.371,
+                        "IG Corr": 0.291,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.409,
+                        "Activity Corr": 0.364,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "6": {
-            "rar_shap": 0.96,
-            "rar_ig": 0.959,
-            "corr": 0.608,
+            "rar_shap": 0.961,
+            "rar_ig": 0.961,
+            "corr": 0.702,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Slowing | Base: Worm 2",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.641,
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.597,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.222,
-                        "IG P-val": "0.052",
-                        "Activity Corr": 0.433,
+                        "IG Corr": 0.242,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.416,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.527,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.405,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.414,
+                        "IG Corr": 0.333,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.424,
+                        "Activity Corr": 0.384,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.555,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.551,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.427,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.482,
+                        "IG Corr": 0.189,
+                        "IG P-val": "0.094",
+                        "Activity Corr": 0.415,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.434,
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.491,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.365,
+                        "IG Corr": 0.368,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.402,
+                        "Activity Corr": 0.336,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "7": {
-            "rar_shap": 0.96,
-            "rar_ig": 0.96,
-            "corr": 0.842,
+            "rar_shap": 0.964,
+            "rar_ig": 0.958,
+            "corr": 0.883,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Ventral turn | Base: Worm 2",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.635,
+                        "Common neurons": 71,
+                        "SHAP Corr": 0.532,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.517,
+                        "IG Corr": 0.449,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.559,
+                        "Activity Corr": 0.509,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 104,
-                        "SHAP Corr": 0.397,
+                        "Common neurons": 96,
+                        "SHAP Corr": 0.222,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.317,
+                        "IG Corr": 0.232,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.524,
+                        "Activity Corr": 0.456,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.479,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.478,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.403,
+                        "IG Corr": 0.426,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.494,
+                        "Activity Corr": 0.426,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.531,
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.459,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.46,
+                        "IG Corr": 0.385,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.415,
+                        "Activity Corr": 0.349,
                         "Activity P-val": "< 0.05"
                     }
                 ]
@@ -1384,51 +1384,51 @@
     },
     "3": {
         "ALL": {
-            "rar_shap": 0.973,
-            "rar_ig": 0.969,
-            "corr": 0.885,
+            "rar_shap": 0.968,
+            "rar_ig": 0.972,
+            "corr": 0.89,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | ALL | Base: Worm 3",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.653,
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.624,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.524,
+                        "IG Corr": 0.56,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.646,
+                        "Activity Corr": 0.654,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.662,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.62,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.594,
+                        "IG Corr": 0.511,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.61,
+                        "Activity Corr": 0.541,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.544,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.523,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.504,
+                        "IG Corr": 0.512,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.565,
+                        "Activity Corr": 0.495,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.554,
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.49,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.514,
+                        "IG Corr": 0.479,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.56,
+                        "Activity Corr": 0.48,
                         "Activity P-val": "< 0.05"
                     }
                 ]
@@ -1436,50 +1436,50 @@
         },
         "0": {
             "rar_shap": 0.971,
-            "rar_ig": 0.971,
-            "corr": 0.864,
+            "rar_ig": 0.967,
+            "corr": 0.869,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Dorsal turn | Base: Worm 3",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.543,
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.517,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.325,
+                        "IG Corr": 0.496,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.602,
+                        "Activity Corr": 0.609,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.606,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.498,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.349,
+                        "IG Corr": 0.375,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.482,
+                        "Activity Corr": 0.379,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.388,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.288,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.253,
+                        "IG Corr": 0.241,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.488,
+                        "Activity Corr": 0.381,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.421,
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.335,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.213,
+                        "IG Corr": 0.328,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.402,
+                        "Activity Corr": 0.301,
                         "Activity P-val": "< 0.05"
                     }
                 ]
@@ -1487,50 +1487,50 @@
         },
         "1": {
             "rar_shap": 0.972,
-            "rar_ig": 0.964,
-            "corr": 0.711,
+            "rar_ig": 0.972,
+            "corr": 0.755,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Forward | Base: Worm 3",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.593,
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.573,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.146,
-                        "IG P-val": "0.204",
-                        "Activity Corr": 0.61,
+                        "IG Corr": 0.511,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.573,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.607,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.645,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.435,
+                        "IG Corr": 0.484,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.425,
+                        "Activity Corr": 0.381,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.532,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.541,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.267,
+                        "IG Corr": 0.352,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.482,
+                        "Activity Corr": 0.414,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.544,
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.508,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.327,
+                        "IG Corr": 0.251,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.474,
+                        "Activity Corr": 0.384,
                         "Activity P-val": "< 0.05"
                     }
                 ]
@@ -1539,304 +1539,304 @@
         "2": {
             "rar_shap": 0.968,
             "rar_ig": 0.971,
-            "corr": 0.737,
+            "corr": 0.735,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | No state | Base: Worm 3",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.524,
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.45,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.301,
+                        "IG Corr": 0.283,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.339,
+                        "Activity Corr": 0.372,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.439,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.469,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.451,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.162,
+                        "SHAP P-val": "0.144",
+                        "IG Corr": 0.138,
+                        "IG P-val": "0.214",
+                        "Activity Corr": 0.391,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.408,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.361,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.237,
+                        "IG Corr": 0.232,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.272,
+                        "Activity Corr": 0.246,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.304,
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.336,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.231,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.141,
-                        "Activity P-val": "0.195"
+                        "IG Corr": 0.087,
+                        "IG P-val": "0.446",
+                        "Activity Corr": 0.154,
+                        "Activity P-val": "0.174"
                     }
                 ]
             }
         },
         "3": {
-            "rar_shap": 0.97,
-            "rar_ig": 0.969,
-            "corr": 0.725,
+            "rar_shap": 0.971,
+            "rar_ig": 0.971,
+            "corr": 0.803,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Reverse-1 | Base: Worm 3",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.61,
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.572,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.421,
+                        "IG Corr": 0.344,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.576,
+                        "Activity Corr": 0.56,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.523,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.516,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.413,
+                        "IG Corr": 0.206,
+                        "IG P-val": "0.062",
+                        "Activity Corr": 0.274,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 2",
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.479,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.287,
                         "IG P-val": "< 0.05",
                         "Activity Corr": 0.361,
                         "Activity P-val": "< 0.05"
                     },
                     {
-                        "Comparrasion": "Worm 2",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.556,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.324,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.393,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.565,
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.515,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.304,
+                        "IG Corr": 0.3,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.229,
-                        "Activity P-val": "< 0.05"
+                        "Activity Corr": 0.192,
+                        "Activity P-val": "0.089"
                     }
                 ]
             }
         },
         "4": {
-            "rar_shap": 0.971,
-            "rar_ig": 0.969,
-            "corr": 0.778,
+            "rar_shap": 0.968,
+            "rar_ig": 0.97,
+            "corr": 0.738,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Reverse-2 | Base: Worm 3",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.601,
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.515,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.348,
+                        "IG Corr": 0.401,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.47,
+                        "Activity Corr": 0.452,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.569,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.627,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.404,
+                        "IG Corr": 0.328,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.51,
+                        "Activity Corr": 0.458,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.531,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.511,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.376,
+                        "IG Corr": 0.369,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.365,
+                        "Activity Corr": 0.29,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.456,
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.47,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.245,
+                        "IG Corr": 0.234,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.296,
+                        "Activity Corr": 0.256,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "5": {
-            "rar_shap": 0.969,
+            "rar_shap": 0.977,
             "rar_ig": 0.969,
-            "corr": 0.747,
+            "corr": 0.748,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Sustained reversal | Base: Worm 3",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.571,
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.57,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.396,
+                        "IG Corr": 0.34,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.622,
+                        "Activity Corr": 0.599,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.665,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.553,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.542,
+                        "IG Corr": 0.413,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.428,
+                        "Activity Corr": 0.41,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.457,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.477,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.296,
+                        "IG Corr": 0.383,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.4,
+                        "Activity Corr": 0.373,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.55,
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.472,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.45,
+                        "IG Corr": 0.285,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.424,
+                        "Activity Corr": 0.378,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "6": {
-            "rar_shap": 0.968,
-            "rar_ig": 0.971,
-            "corr": 0.649,
+            "rar_shap": 0.967,
+            "rar_ig": 0.969,
+            "corr": 0.698,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Slowing | Base: Worm 3",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.652,
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.64,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.495,
+                        "IG Corr": 0.328,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.545,
+                        "Activity Corr": 0.511,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.62,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.532,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.441,
+                        "IG Corr": 0.363,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.481,
+                        "Activity Corr": 0.436,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.555,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.551,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.427,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.482,
+                        "IG Corr": 0.189,
+                        "IG P-val": "0.094",
+                        "Activity Corr": 0.415,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.534,
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.469,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.352,
+                        "IG Corr": 0.246,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.45,
+                        "Activity Corr": 0.352,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "7": {
-            "rar_shap": 0.972,
-            "rar_ig": 0.972,
-            "corr": 0.879,
+            "rar_shap": 0.963,
+            "rar_ig": 0.97,
+            "corr": 0.834,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Ventral turn | Base: Worm 3",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 77,
-                        "SHAP Corr": 0.588,
+                        "Common neurons": 72,
+                        "SHAP Corr": 0.437,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.461,
+                        "IG Corr": 0.424,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.649,
+                        "Activity Corr": 0.636,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 90,
-                        "SHAP Corr": 0.497,
+                        "Common neurons": 83,
+                        "SHAP Corr": 0.559,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.43,
+                        "IG Corr": 0.404,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.514,
+                        "Activity Corr": 0.443,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 87,
-                        "SHAP Corr": 0.479,
+                        "Common neurons": 80,
+                        "SHAP Corr": 0.478,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.403,
+                        "IG Corr": 0.426,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.494,
+                        "Activity Corr": 0.426,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 4",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.464,
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.341,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.188,
-                        "IG P-val": "0.083",
-                        "Activity Corr": 0.381,
+                        "IG Corr": 0.236,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.323,
                         "Activity P-val": "< 0.05"
                     }
                 ]
@@ -1845,459 +1845,459 @@
     },
     "4": {
         "ALL": {
-            "rar_shap": 0.958,
-            "rar_ig": 0.905,
-            "corr": 0.868,
+            "rar_shap": 0.956,
+            "rar_ig": 0.946,
+            "corr": 0.888,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | ALL | Base: Worm 4",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.506,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.475,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.468,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.476,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 1",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.454,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.338,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.547,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 2",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.497,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.456,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.474,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 3",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.554,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.514,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.56,
-                        "Activity P-val": "< 0.05"
-                    }
-                ]
-            }
-        },
-        "0": {
-            "rar_shap": 0.956,
-            "rar_ig": 0.959,
-            "corr": 0.795,
-            "corr_p_value": 0.0,
-            "inter_worm_table": {
-                "title": "Multi-Metric | Dorsal turn | Base: Worm 4",
-                "data": [
-                    {
-                        "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.429,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.23,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.415,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 1",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.276,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.147,
-                        "IG P-val": "0.144",
-                        "Activity Corr": 0.418,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 2",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.402,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.186,
-                        "IG P-val": "0.053",
-                        "Activity Corr": 0.358,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 3",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.421,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.213,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.402,
-                        "Activity P-val": "< 0.05"
-                    }
-                ]
-            }
-        },
-        "1": {
-            "rar_shap": 0.947,
-            "rar_ig": 0.946,
-            "corr": 0.704,
-            "corr_p_value": 0.0,
-            "inter_worm_table": {
-                "title": "Multi-Metric | Forward | Base: Worm 4",
-                "data": [
-                    {
-                        "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.492,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.149,
-                        "IG P-val": "0.178",
-                        "Activity Corr": 0.512,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 1",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.383,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.234,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.401,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 2",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.42,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.149,
-                        "IG P-val": "0.123",
-                        "Activity Corr": 0.45,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 3",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.544,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.327,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.474,
-                        "Activity P-val": "< 0.05"
-                    }
-                ]
-            }
-        },
-        "2": {
-            "rar_shap": 0.949,
-            "rar_ig": 0.961,
-            "corr": 0.569,
-            "corr_p_value": 0.0,
-            "inter_worm_table": {
-                "title": "Multi-Metric | No state | Base: Worm 4",
-                "data": [
-                    {
-                        "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.279,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.151,
-                        "IG P-val": "0.172",
-                        "Activity Corr": 0.338,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 1",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.202,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.233,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.309,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 2",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.272,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.146,
-                        "IG P-val": "0.131",
-                        "Activity Corr": 0.306,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 3",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.304,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.231,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.141,
-                        "Activity P-val": "0.195"
-                    }
-                ]
-            }
-        },
-        "3": {
-            "rar_shap": 0.96,
-            "rar_ig": 0.931,
-            "corr": 0.638,
-            "corr_p_value": 0.0,
-            "inter_worm_table": {
-                "title": "Multi-Metric | Reverse-1 | Base: Worm 4",
-                "data": [
-                    {
-                        "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.457,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.32,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.29,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 1",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.379,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.132,
-                        "IG P-val": "0.191",
-                        "Activity Corr": 0.271,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 2",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.509,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.387,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.271,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 3",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.565,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.304,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.229,
-                        "Activity P-val": "< 0.05"
-                    }
-                ]
-            }
-        },
-        "4": {
-            "rar_shap": 0.959,
-            "rar_ig": 0.951,
-            "corr": 0.65,
-            "corr_p_value": 0.0,
-            "inter_worm_table": {
-                "title": "Multi-Metric | Reverse-2 | Base: Worm 4",
-                "data": [
-                    {
-                        "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.468,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.262,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.442,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 1",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.359,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.242,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.419,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 2",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.468,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.311,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.307,
-                        "Activity P-val": "< 0.05"
-                    },
-                    {
-                        "Comparrasion": "Worm 3",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.456,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.245,
-                        "IG P-val": "< 0.05",
-                        "Activity Corr": 0.296,
-                        "Activity P-val": "< 0.05"
-                    }
-                ]
-            }
-        },
-        "5": {
-            "rar_shap": 0.961,
-            "rar_ig": 0.957,
-            "corr": 0.682,
-            "corr_p_value": 0.0,
-            "inter_worm_table": {
-                "title": "Multi-Metric | Sustained reversal | Base: Worm 4",
-                "data": [
-                    {
-                        "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.46,
-                        "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.355,
+                        "IG Corr": 0.391,
                         "IG P-val": "< 0.05",
                         "Activity Corr": 0.451,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.44,
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.413,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.253,
+                        "IG Corr": 0.373,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.407,
+                        "Activity Corr": 0.473,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.475,
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.465,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.371,
+                        "IG Corr": 0.448,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.409,
+                        "Activity Corr": 0.399,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.55,
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.49,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.45,
+                        "IG Corr": 0.479,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.424,
+                        "Activity Corr": 0.48,
+                        "Activity P-val": "< 0.05"
+                    }
+                ]
+            }
+        },
+        "0": {
+            "rar_shap": 0.958,
+            "rar_ig": 0.956,
+            "corr": 0.865,
+            "corr_p_value": 0.0,
+            "inter_worm_table": {
+                "title": "Multi-Metric | Dorsal turn | Base: Worm 4",
+                "data": [
+                    {
+                        "Comparrasion": "Worm 0",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.323,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.294,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.373,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 1",
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.16,
+                        "SHAP P-val": "0.129",
+                        "IG Corr": 0.287,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.331,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 2",
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.343,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.387,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.276,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 3",
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.335,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.328,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.301,
+                        "Activity P-val": "< 0.05"
+                    }
+                ]
+            }
+        },
+        "1": {
+            "rar_shap": 0.962,
+            "rar_ig": 0.962,
+            "corr": 0.674,
+            "corr_p_value": 0.0,
+            "inter_worm_table": {
+                "title": "Multi-Metric | Forward | Base: Worm 4",
+                "data": [
+                    {
+                        "Comparrasion": "Worm 0",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.48,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.243,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.455,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 1",
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.459,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.207,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.367,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 2",
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.477,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.227,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.372,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 3",
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.508,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.251,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.384,
+                        "Activity P-val": "< 0.05"
+                    }
+                ]
+            }
+        },
+        "2": {
+            "rar_shap": 0.956,
+            "rar_ig": 0.956,
+            "corr": 0.534,
+            "corr_p_value": 0.0,
+            "inter_worm_table": {
+                "title": "Multi-Metric | No state | Base: Worm 4",
+                "data": [
+                    {
+                        "Comparrasion": "Worm 0",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.385,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.312,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.338,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 1",
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.079,
+                        "SHAP P-val": "0.452",
+                        "IG Corr": 0.138,
+                        "IG P-val": "0.189",
+                        "Activity Corr": 0.302,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 2",
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.272,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.307,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.291,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 3",
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.336,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.087,
+                        "IG P-val": "0.446",
+                        "Activity Corr": 0.154,
+                        "Activity P-val": "0.174"
+                    }
+                ]
+            }
+        },
+        "3": {
+            "rar_shap": 0.96,
+            "rar_ig": 0.958,
+            "corr": 0.773,
+            "corr_p_value": 0.0,
+            "inter_worm_table": {
+                "title": "Multi-Metric | Reverse-1 | Base: Worm 4",
+                "data": [
+                    {
+                        "Comparrasion": "Worm 0",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.327,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.13,
+                        "IG P-val": "0.262",
+                        "Activity Corr": 0.269,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 1",
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.29,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.121,
+                        "IG P-val": "0.249",
+                        "Activity Corr": 0.25,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 2",
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.426,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.33,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.247,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 3",
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.515,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.3,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.192,
+                        "Activity P-val": "0.089"
+                    }
+                ]
+            }
+        },
+        "4": {
+            "rar_shap": 0.963,
+            "rar_ig": 0.962,
+            "corr": 0.713,
+            "corr_p_value": 0.0,
+            "inter_worm_table": {
+                "title": "Multi-Metric | Reverse-2 | Base: Worm 4",
+                "data": [
+                    {
+                        "Comparrasion": "Worm 0",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.349,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.321,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.415,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 1",
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.398,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.354,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.385,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 2",
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.487,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.321,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.286,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 3",
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.47,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.234,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.256,
+                        "Activity P-val": "< 0.05"
+                    }
+                ]
+            }
+        },
+        "5": {
+            "rar_shap": 0.955,
+            "rar_ig": 0.959,
+            "corr": 0.771,
+            "corr_p_value": 0.0,
+            "inter_worm_table": {
+                "title": "Multi-Metric | Sustained reversal | Base: Worm 4",
+                "data": [
+                    {
+                        "Comparrasion": "Worm 0",
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.468,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.224,
+                        "IG P-val": "0.050",
+                        "Activity Corr": 0.417,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 1",
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.306,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.15,
+                        "IG P-val": "0.153",
+                        "Activity Corr": 0.353,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 2",
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.339,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.291,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.364,
+                        "Activity P-val": "< 0.05"
+                    },
+                    {
+                        "Comparrasion": "Worm 3",
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.472,
+                        "SHAP P-val": "< 0.05",
+                        "IG Corr": 0.285,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.378,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "6": {
-            "rar_shap": 0.959,
-            "rar_ig": 0.96,
-            "corr": 0.648,
+            "rar_shap": 0.958,
+            "rar_ig": 0.955,
+            "corr": 0.681,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Slowing | Base: Worm 4",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.464,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.495,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.216,
+                        "IG Corr": 0.338,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.416,
+                        "Activity Corr": 0.362,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.363,
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.398,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.35,
+                        "IG Corr": 0.444,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.434,
+                        "Activity Corr": 0.406,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.434,
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.491,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.365,
+                        "IG Corr": 0.368,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.402,
+                        "Activity Corr": 0.336,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.534,
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.469,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.352,
+                        "IG Corr": 0.246,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.45,
+                        "Activity Corr": 0.352,
                         "Activity P-val": "< 0.05"
                     }
                 ]
             }
         },
         "7": {
-            "rar_shap": 0.959,
-            "rar_ig": 0.96,
-            "corr": 0.814,
+            "rar_shap": 0.958,
+            "rar_ig": 0.949,
+            "corr": 0.861,
             "corr_p_value": 0.0,
             "inter_worm_table": {
                 "title": "Multi-Metric | Ventral turn | Base: Worm 4",
                 "data": [
                     {
                         "Comparrasion": "Worm 0",
-                        "Common neurons": 83,
-                        "SHAP Corr": 0.417,
+                        "Common neurons": 77,
+                        "SHAP Corr": 0.312,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.393,
+                        "IG Corr": 0.246,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.433,
+                        "Activity Corr": 0.349,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 1",
-                        "Common neurons": 100,
-                        "SHAP Corr": 0.469,
+                        "Common neurons": 92,
+                        "SHAP Corr": 0.324,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.308,
+                        "IG Corr": 0.24,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.438,
+                        "Activity Corr": 0.366,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 2",
-                        "Common neurons": 108,
-                        "SHAP Corr": 0.531,
+                        "Common neurons": 100,
+                        "SHAP Corr": 0.459,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.46,
+                        "IG Corr": 0.385,
                         "IG P-val": "< 0.05",
-                        "Activity Corr": 0.415,
+                        "Activity Corr": 0.349,
                         "Activity P-val": "< 0.05"
                     },
                     {
                         "Comparrasion": "Worm 3",
-                        "Common neurons": 86,
-                        "SHAP Corr": 0.464,
+                        "Common neurons": 79,
+                        "SHAP Corr": 0.341,
                         "SHAP P-val": "< 0.05",
-                        "IG Corr": 0.188,
-                        "IG P-val": "0.083",
-                        "Activity Corr": 0.381,
+                        "IG Corr": 0.236,
+                        "IG P-val": "< 0.05",
+                        "Activity Corr": 0.323,
                         "Activity P-val": "< 0.05"
                     }
                 ]

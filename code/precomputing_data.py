@@ -87,7 +87,9 @@ def precompute_data_and_models(num_worms, database_path, output_folder, gamma_ra
                 learning_rate= 0.001, 
                 n_epochs= 1000 
             )
-            
+
+            model.eval()
+
             torch.save(model.state_dict(), os.path.join(model_dir, f"worm_{worm_idx}_model.pt"))
             print(f" model for worm {worm_idx} is saved.")
             
@@ -215,15 +217,15 @@ def precompute_quality_metrics(num_worms, gamma_rate, precomputed_data_path, xai
 
 if __name__ == "__main__":
 
-    # precompute_data_and_models(5, "C:/Users/olgas/GitHub/Bundle-Net-Project/dataset/c_elegans/NoStim_Data.mat", "precomputed_data_70", 0.7)
-    # precompute_data_and_models(5, "C:/Users/olgas/GitHub/Bundle-Net-Project/dataset/c_elegans/NoStim_Data.mat", "precomputed_data_80", 0.8)
-    # precompute_data_and_models(5, "C:/Users/olgas/GitHub/Bundle-Net-Project/dataset/c_elegans/NoStim_Data.mat", "precomputed_data_90", 0.9)
-    # precompute_data_and_models(5, "C:/Users/olgas/GitHub/Bundle-Net-Project/dataset/c_elegans/NoStim_Data.mat", "precomputed_data_95", 0.95)
+    precompute_data_and_models(5, "C:/Users/olgas/GitHub/Bundle-Net-Project/dataset/c_elegans/NoStim_Data.mat", "precomputed_data_70", 0.7)
+    precompute_data_and_models(5, "C:/Users/olgas/GitHub/Bundle-Net-Project/dataset/c_elegans/NoStim_Data.mat", "precomputed_data_80", 0.8)
+    precompute_data_and_models(5, "C:/Users/olgas/GitHub/Bundle-Net-Project/dataset/c_elegans/NoStim_Data.mat", "precomputed_data_90", 0.9)
+    precompute_data_and_models(5, "C:/Users/olgas/GitHub/Bundle-Net-Project/dataset/c_elegans/NoStim_Data.mat", "precomputed_data_95", 0.95)
 
-    # precompute_xai(5, "precomputed_data_70", "xai_matrices_70")
-    # precompute_xai(5, "precomputed_data_80", "xai_matrices_80")
-    # precompute_xai(5, "precomputed_data_90", "xai_matrices_90")
-    # precompute_xai(5, "precomputed_data_95", "xai_matrices_95")
+    precompute_xai(5, "precomputed_data_70", "xai_matrices_70")
+    precompute_xai(5, "precomputed_data_80", "xai_matrices_80")
+    precompute_xai(5, "precomputed_data_90", "xai_matrices_90")
+    precompute_xai(5, "precomputed_data_95", "xai_matrices_95")
 
     precompute_quality_metrics(5,0.7,  "precomputed_data_70", "xai_matrices_70")
     precompute_quality_metrics(5, 0.8, "precomputed_data_80", "xai_matrices_80")

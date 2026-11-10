@@ -44,6 +44,6 @@ def load_all_data(worm_idx, precomputed_data_path, xai_matrices_path):
 
     return x_flat, b_, shap_matrix, ig_matrix, behavior_names, neuron_array, my_custom_palette, model
 
-METRICS_FILE = "C:\Users\olgas\GitHub\Bundle-Net-Project\code\precomputed_data_70\quality_metrics.json"
-DATA_PATH = "C:/Users/olgas/GitHub/Bundle-Net-Project/code/precomputed_data_70"
-XAI_PATH = "C:/Users/olgas/GitHub/Bundle-Net-Project/code/xai_matrices_70"
+METRICS_FILE = "C:/Users/olgas/GitHub/Bundle-Net-Project/code/precomputed_data_90/quality_metrics"
+DATA_PATH = "C:/Users/olgas/GitHub/Bundle-Net-Project/code/precomputed_data_90"
+XAI_PATH = "C:/Users/olgas/GitHub/Bundle-Net-Project/code/xai_matrices_90"
