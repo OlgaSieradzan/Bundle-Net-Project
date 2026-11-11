@@ -18,7 +18,7 @@ from panel_global_importance import global_importance_barplot, comparison_table_
 from panel_heatmap import temporal_dashboard
 from panel_worm_specific import latent_space_3D, empty_xai_bar_plots, CLICK_xai_barplots
 from xai_methods import BehaviorWrapper
-from panel_corr import inter_worm_corr, behaviour_corr, neurons_corr
+from panel_corr import inter_worm_corr, behaviour_corr, neurons_corr, generate_global_boxplot_summary, compute_behavior_vs_behavior_matrix
 import io
 import pandas as pd
 
@@ -402,6 +402,15 @@ def render_content(pathname):
         return html.Div([
                 
         dcc.Tabs(id="tabs-correlation", value='tab-inter-worm', children=[
+
+            # TAB 1: GLOBAL OVERview
+            dcc.Tab(label='Global Overview', value='tab-global-overview', style={'fontWeight': 'bold'}, selected_style={'backgroundColor': '#166ea9', 'color': 'white', 'fontWeight': 'bold'}, children=[
+                html.Div([
+                    html.H3("Summary of Feature Importance Consistency Across All Behaviors", style={'textAlign': 'center', 'marginTop': '20px'}),
+                    html.P("This plot displays the distribution of pairwise Spearman correlations (10 pairs across 5 worms) for each behavior. Each box represents the variance and mean of these correlations.", style={'textAlign': 'center'}),
+                    dcc.Graph(id='plot-global-boxplots')
+                ])
+            ]),
             
             
             # TAB 1: Inter-worm correlation
@@ -431,8 +440,9 @@ def render_content(pathname):
                     ], style={'width': '30%', 'display': 'inline-block', 'marginLeft': '2%'})
                 ], style={'padding': '20px', 'backgroundColor': "#9c9c9c", 'margin': '20px 0', 'borderRadius': '5px'}),
                 
-                
-                dcc.Graph(id='plot-corr-inter-worm', style={'display': 'flex', 'justifyContent': 'center'})
+                dcc.Graph(id='plot-corr-inter-worm', style={'display': 'flex', 'justifyContent': 'center'}),
+ 
+                html.Div(id='table-corr-inter-worm', style={'marginTop': '30px', 'padding': '0 10%'})
             ]),
 
             
@@ -463,8 +473,8 @@ def render_content(pathname):
                     ], style={'width': '30%', 'display': 'inline-block', 'marginLeft': '2%'})
                 ], style={'padding': '20px', 'backgroundColor': "#9c9c9c", 'margin': '20px 0', 'borderRadius': '5px'}),
                 
-                
-                dcc.Graph(id='plot-corr-behavior', style={'height': '700px'})
+                dcc.Graph(id='plot-corr-behavior', style={'height': '700px'}),
+                html.Div(id='table-corr-behavior', style={'marginTop': '30px', 'padding': '0 10%'})
             ]),
 
             
@@ -522,17 +532,18 @@ def render_content(pathname):
                         html.Label("Specific Neurons:", style={'fontWeight': 'bold', 'color': "#F7F0F8"}),
                         dcc.Dropdown(
                             id='corr-neuron-names',
-                            options=[], # Puste - doczytywane dynamicznie
-                            value=[],   # Pusta lista domyślnie
-                            multi=True, # Pozwala wybrać wiele nazw z listy
+                            options=[], 
+                            value=[],   
+                            multi=True, 
                             placeholder="Select specific neurons..."
                         )
                     ], style={'width': '18%', 'display': 'inline-block', 'marginLeft': '2%'})
 
                 ], style={'padding': '20px', 'backgroundColor': "#9c9c9c", 'margin': '20px 0', 'borderRadius': '5px'}),
                 
-                
-                dcc.Graph(id='plot-corr-neuron', style={'height': '4000px'}) 
+                dcc.Graph(id='plot-corr-neuron', style={'height': '4000px'}),
+
+                html.Div(id='table-corr-neuron', style={'marginTop': '30px', 'padding': '0 10%'})
             ])
         ])
     ], style={'padding': '20px', 'backgroundColor': '#f8f9fa', 'minHeight': '100vh'}), "Correlation Panel"
@@ -1048,25 +1059,37 @@ def update_neuron_names_options(selected_worm, selected_type):
     return [{'label': n, 'value': n} for n in valid_neurons]
 
 @app.callback(
-        Output('plot-corr-inter-worm', 'figure'),
-        [Input('corr-worm-behavior', 'value'),
-        Input('corr-worm-metric', 'value')
-        ]
+    [Output('plot-corr-inter-worm', 'figure'),
+     Output('table-corr-inter-worm', 'children')],
+    [Input('corr-worm-behavior', 'value'),
+     Input('corr-worm-metric', 'value')]
 )
-def update_inter_worm_corr(selected_behaviour, selected_metric):
-
-    return inter_worm_corr(selected_behaviour, selected_metric)
+def update_inter_worm_tab(behavior, metric):
+    fig, table = inter_worm_corr(target_behavior=behavior, target_metric=metric, num_worms=5)
+    return fig, table
 
 
 @app.callback(
-        Output('plot-corr-behavior', 'figure'),
+        [Output('plot-corr-behavior', 'figure'),
+          Output('table-corr-behavior', 'children')],
         [Input('corr-beh-worm', 'value'),
         Input('corr-beh-metric', 'value')
         ]
 )
 def update_inter_worm_corr(target_worm, target_metric):
 
-    return behaviour_corr(target_worm, target_metric)
+    fig, table = behaviour_corr(target_worm, target_metric)
+    return fig, table
+
+
+@app.callback(
+    Output('plot-global-boxplots', 'figure'),
+    Input('tabs-correlation', 'value')
+)
+def render_global_overview(tab):
+    if tab == 'tab-global-overview':
+        return generate_global_boxplot_summary(num_worms=5)
+    return dash.no_update
 
 
 
@@ -1089,7 +1112,7 @@ def update_neuron_corr_panel(selected_behavior, selected_worm, selected_metric, 
     )
     return fig
 
-##################### QUALITY CHECK SUMMARY CALLBACKS########################################################
+##################### QUALITY CHECK SUMMARY CALLBACKS ########################################################
 
 @app.callback(
     Output('quality-summary-container', 'children'),

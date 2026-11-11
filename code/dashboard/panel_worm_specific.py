@@ -8,6 +8,7 @@ import torch
 # Code for visualizations
 
 def latent_space_3D(selectedworm, x_, model, b_, behavior_names, palette):
+    
 
     with torch.no_grad():
             num_features = x_.shape[-1]
