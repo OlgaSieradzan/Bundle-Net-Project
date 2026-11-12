@@ -8,6 +8,8 @@
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage[table]{xcolor}
+
 
 \usepackage[backend=biber]{biblatex}
 
@@ -497,9 +499,11 @@ As stated by Mathis and Mathis (2026) \cite{mathis2026joint}, joint-modeling mod
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{boxplots.png} 
-    \caption{Compassion of SHAP and IG results correlation between worms per each behaviour}
+    \caption{Comparassion of SHAP and IG results consistency between worms per each behaviour}
     \label{fig:wykres1}
 \end{figure}
+
+
 
 At first glance, the results might seem unsatisfying,
  as the absolute consistency values across all comparisons are relatively low.
@@ -522,10 +526,23 @@ alongside different subsets of auxiliary neurons. This perfectly illustrates neu
 is reported by Trojanowski et al. (2014) \cite{trojanowski2014neural}.
 
 Lastly, these results provide insight not only into BunDLe-Net's trustworthiness
-but also into the performance of the chosen XAI methods. 
+but also into the performance of the chosen XAI methods. To visualize the variance in inter-subject
+consistency and directly compare the explainer methods, 
+we generated a head-to-head scatter plot array (Figure 3). Each data point represents the Rank-Biased Overlap
+for a single pair of worms. Points above the diagonal indicate SHAP is higher than IG. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{plot_3.png} 
+    \caption{Compassion of SHAP and IG results consistency between worms per each behaviour}
+    \label{fig:wykres3}
+\end{figure}
+
+
 SHAP values have proven to be higher and significantly more stable than Integrated Gradients (IG) across almost all
-behavioral states. For example, during the Forward behavior, the IG Jaccard score drops to as low as 0.077, which is practically at the level of statistical noise.
-This demonstrates that SHAP performs much better in filtering out biological noise to identify true predictive features.
+behavioral states. For example, during the Forward behavior, the IG Jaccard score drops to as low as 0.077, which is practically at the level of statistical noise. However,
+the scatter plot shows that its not case for all of the pairs of worms and the results are subjected to rather high variance in some categories like Dorsal Turn or Ventral turn. 
+Nevertheless findings suggest that SHAP performs much better in filtering out biological noise to identify true predictive features.
 
 
 
@@ -540,12 +557,224 @@ family, such as Reverse-1, Reverse-2, and Sustained Reversal, will display stron
 Nevertheless, based on our prior observations, some degree of
 correlation is expected across behaviors, reflecting the continuous nature of low-dimensional neural manifolds. 
 
-Because the cross-behavioral correlation patterns remain highly consistent
-across individual worms, this subsection focuses on Worm 0 as a representative case. In the Table 10 and 11,
-the cross-behaviour correlation was shown. 
+Each cell in Table 11 and 12 displays Rank-Biased Overlap
+(RBO, p = 0.9) followed by the Top-10 Jaccard Similarity (J), averaged across all worms.
+Cell backgrounds are color-coded based on the RBO value to highlight relations: very weak ($<0.20$, light orange),
+weak ($0.20-0.30$, light gray), moderate ($0.30-0.40$, light blue),
+strong ($0.40-0.50$, medium blue), and very strong ($\ge0.50$, dark blue).
+The upper triangle is omitted for clarity.
+   
+
+
+% Definiowanie niestandardowych kolorów
+\definecolor{verylow}{HTML}{FDDBC7}  % Jasny pomarańczowy dla bardzo niskich (<0.20)
+\definecolor{low}{HTML}{F7F7F7}      % Jasnoszary dla niskich (0.20 - 0.30)
+\definecolor{moderate}{HTML}{D1E5F0} % Jasnoniebieski dla umiarkowanych (0.30 - 0.40)
+\definecolor{high}{HTML}{92C5DE}     % Średni niebieski dla wysokich (0.40 - 0.50)
+\definecolor{veryhigh}{HTML}{4393C3} % Ciemniejszy niebieski dla bardzo wysokich (>0.50)
+\definecolor{diag}{HTML}{FFFFFF}     % Biały dla przekątnej (1.00)
+\newcommand{\cval}[3]{\cellcolor{#1} #2 $\mid$ J: #3}
+\newcommand{\cdiag}{\cellcolor{diag} 1.00}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{l ccccccc}
+        \toprule
+        \textbf{Behavior} & \textbf{Fwd} & \textbf{Rev-1} & \textbf{Rev-2} & \textbf{Sust-Rev} & \textbf{Slow} & \textbf{Dorsal} & \textbf{Ventral} \\
+        \midrule
+        \textbf{Fwd}      
+        & \cdiag & & & & & & \\
+        
+        \textbf{Rev-1}    
+        & \cval{moderate}{0.36}{0.33} 
+        & \cdiag & & & & & \\
+        
+        \textbf{Rev-2}    
+        & \cval{moderate}{0.31}{0.23} 
+        & \cval{low}{0.29}{0.21} 
+        & \cdiag & & & & \\
+        
+        \textbf{Sust-Rev} 
+        & \cval{high}{0.42}{0.38} 
+        & \cval{high}{0.45}{0.34} 
+        & \cval{moderate}{0.38}{0.25} 
+        & \cdiag & & & \\
+        
+        \textbf{Slow}     
+        & \cval{moderate}{0.37}{0.31} 
+        & \cval{high}{0.48}{0.43} 
+        & \cval{moderate}{0.35}{0.22} 
+        & \cval{veryhigh}{0.61}{0.47} 
+        & \cdiag & & \\
+        
+        \textbf{Dorsal}   
+        & \cval{moderate}{0.37}{0.38} 
+        & \cval{veryhigh}{0.56}{0.38} 
+        & \cval{moderate}{0.33}{0.24} 
+        & \cval{veryhigh}{0.52}{0.48} 
+        & \cval{veryhigh}{0.50}{0.47} 
+        & \cdiag & \\
+        
+        \textbf{Ventral}  
+        & \cval{moderate}{0.38}{0.32} 
+        & \cval{high}{0.49}{0.39} 
+        & \cval{moderate}{0.38}{0.21} 
+        & \cval{high}{0.49}{0.38} 
+        & \cval{high}{0.49}{0.34} 
+        & \cval{veryhigh}{0.77}{0.65} 
+        & \cdiag \\
+        \bottomrule
+    \end{tabular}
+    }
+    \caption{Inter-behavior consistency matrix using \textbf{SHAP}.}
+    \label{tab:behavior_vs_behavior_shap_colored}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{l ccccccc}
+        \toprule
+        \textbf{Behavior} & \textbf{Fwd} & \textbf{Rev-1} & \textbf{Rev-2} & \textbf{Sust-Rev} & \textbf{Slow} & \textbf{Dorsal} & \textbf{Ventral} \\
+        \midrule
+        \textbf{Fwd}      
+        & \cdiag & & & & & & \\
+        
+        \textbf{Rev-1}    
+        & \cval{low}{0.25}{0.14} 
+        & \cdiag & & & & & \\
+        
+        \textbf{Rev-2}    
+        & \cval{moderate}{0.33}{0.21} 
+        & \cval{low}{0.22}{0.11} 
+        & \cdiag & & & & \\
+        
+        \textbf{Sust-Rev} 
+        & \cval{moderate}{0.35}{0.29} 
+        & \cval{low}{0.27}{0.22} 
+        & \cval{moderate}{0.32}{0.29} 
+        & \cdiag & & & \\
+        
+        \textbf{Slow}     
+        & \cval{moderate}{0.33}{0.18} 
+        & \cval{moderate}{0.32}{0.29} 
+        & \cval{moderate}{0.36}{0.28} 
+        & \cval{high}{0.43}{0.36} 
+        & \cdiag & & \\
+        
+        \textbf{Dorsal}   
+        & \cval{moderate}{0.37}{0.32} 
+        & \cval{verylow}{0.15}{0.09} 
+        & \cval{low}{0.24}{0.18} 
+        & \cval{high}{0.43}{0.29} 
+        & \cval{moderate}{0.37}{0.25} 
+        & \cdiag & \\
+        
+        \textbf{Ventral}  
+        & \cval{low}{0.23}{0.10} 
+        & \cval{high}{0.48}{0.35} 
+        & \cval{low}{0.22}{0.11} 
+        & \cval{low}{0.22}{0.17} 
+        & \cval{moderate}{0.35}{0.26} 
+        & \cval{verylow}{0.13}{0.09} 
+        & \cdiag \\
+        \bottomrule
+    \end{tabular}
+    }
+    \caption{Inter-behavior consistency matrix using \textbf{Integrated Gradients}.}
+    \label{tab:behavior_vs_behavior_ig_colored}
+\end{table}
+
+The inter-behavior consistency is generally higher than initially anticipated.
+Notably, the SHAP attributions reveal a strong,
+shared neural substrate across nearly all behavioral states,
+whereas the Integrated Gradients (IG) results exhibit greater
+variance and overall lower overlap. 
+
+Interestingly, the \textit{Forward} state maintains
+a moderate and uniform consistency with all other behaviors,
+including reversals. While one might intuitively expect opposing movements
+to utilize entirely distinct neural circuits, this shared overlap likely reflects the continuous,
+default nature of forward locomotion in \textit{C. elegans}. It implies the existence of a baseline network state that other behaviors modulate,
+rather than completely replace. Similarly, within the family of reverse movements (\textit{Reverse-1}, \textit{Reverse-2}, \textit{Sustained Reversal}),
+the internal consistency does not stand out as uniquely high compared to other cross-behavior pairs. 
+
+Instead, the highest feature overlaps in the SHAP evaluation are observed among
+\textit{Slowing}, \textit{Dorsal Turn}, and \textit{Ventral Turn} movements.
+Most strikingly, there is a sharp divergence between the two explainer methods for
+specific behavioral pairs. Pairings that yield the highest consistency under SHAP, such as \textit{Dorsal Turn} vs. \textit{Ventral Turn} (RBO of 0.77), or \textit{Reverse-1} vs. \textit{Dorsal Turn}, 
+simultaneously exhibit some of the lowest overlap scores when evaluated with IG.
+This stark contrast suggests that SHAP successfully identifies the shared underlying 
+command structure of complex directional transitions, whereas IG is highly susceptible 
+to biological noise and struggles to maintain attribution stability across 
+structurally related states. 
+
+However, since those are only averaged results, valuable insight might come from also considering variance
+of the results. In the Figure 4, we decided to show boxplots of each pair of behaviours consistency for SHAP and IG vaules. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{plot_4.png} 
+    \caption{Compassion of SHAP and IG results consistency between behaviours per each worm}
+    \label{fig:wykres4}
+\end{figure}
+
+While the inter-subject variance appears broadly similar for both
+XAI methods across several simpler behavioral transitions, 
+significant divergences emerge when examining complex movements, 
+particularly those involving Dorsal and Ventral turns. 
+Within these specific categories, the boxplot distributions
+ exhibit striking differences in attribution stability. 
+ For instance, in comparisons such as \textit{Dorsal Turn} vs. \textit{Sustained Reversal} 
+ and \textit{Ventral Turn} vs. \textit{Slowing}, the SHAP values remain 
+tightly clustered. This indicates a highly robust and consistent neural overlap across all individual 
+subjects. In stark contrast, the Integrated Gradients (IG) scores for these same pairs display wide dispersion, 
+underscoring the method's vulnerability to individual biological noise. 
+
+\subsubsection{Summary}
+
+The main aim of this subsection was to assess whether BunDLe-Net
+is able to faithfully mirror the biological neural dynamics of 
+\textit{C. elegans}. We identified several 'ground truths' 
+that should find confirmation across our results:
+
+\begin{itemize}
+    \item Diminishing saliency of neuron importance
+    \item High importance of core neurons (aligning with Kato et al., 2015) alongside neural degeneracy
+    \item High consistency of feature importance across individual worms
+    \item Different levels of consistency between specific pairs of behaviors
+\end{itemize}
+
+The results suggest that the model
+ can mirror these biological principles well, 
+ though not perfectly. There are several deviations 
+ from the ground truths, for instance, in the unexpected 
+ consistency outcomes when comparing certain pairs of behaviors 
+ (e.g., the overlap between forward and reverse states). 
+ This suggests that while these results promisingly 
+ position BunDLe-Net as a trustworthy model, further and 
+ deeper research should be done in this area. 
+
+Furthermore, the findings are limited by the 
+chosen explanation methods. As the authors of 
+xCEBRA highlighted, this type of neural data is 
+subject to extremely high correlation, which can 
+heavily influence simple XAI methods \cite{schneider2025time}. Nevertheless, the performance 
+across the conducted analyses clearly shows that SHAP significantly 
+outperforms Integrated Gradients (IG), yielding higher and much more 
+stable results.
 
 
 
+
+
+
+
+
+\subsection{When the most importnat neurons are working?}
 
 \printbibliography
 

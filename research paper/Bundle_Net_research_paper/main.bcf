@@ -2449,6 +2449,7 @@
     <bcf:citekey order="74" intorder="1">edelman2001degeneracy</bcf:citekey>
     <bcf:citekey order="75" intorder="1">trojanowski2014neural</bcf:citekey>
     <bcf:citekey order="76" intorder="1">kato2015global</bcf:citekey>
+    <bcf:citekey order="77" intorder="1">schneider2025time</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

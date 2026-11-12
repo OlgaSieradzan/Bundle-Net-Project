@@ -593,4 +593,256 @@ def compute_behavior_vs_behavior_matrix(target_metric="shap", num_worms=5, top_k
                 
     return matrix_df
 
-           
+
+def generate_shap_vs_ig_scatter(num_worms=5, rbo_p=0.9):
+    
+    def compute_rbo(l1, l2, p):
+        if not l1 or not l2: return 0.0
+        agreement = 0.0
+        for d in range(1, min(len(l1), len(l2)) + 1):
+            set1 = set(l1[:d])
+            set2 = set(l2[:d])
+            a_d = len(set1.intersection(set2)) / d
+            agreement += (p ** (d - 1)) * a_d
+        return (1 - p) * agreement
+
+    behavior_map = {
+        'ALL': 'Global (All)', 0: 'Forward', 1: 'Reverse-1', 
+        2: 'Reverse-2', 3: 'Sustained Reversal', 4: 'Slowing', 
+        5: 'Dorsal Turn', 6: 'Ventral Turn'
+    }
+
+    # Wczytanie danych
+    worms_data = {}
+    for w in range(num_worms):
+        x_flat, b_, shap_matrix, ig_matrix, _, neuron_array, _, _ = load_all_data(
+            worm_idx=w, precomputed_data_path=DATA_PATH, xai_matrices_path=XAI_PATH
+        )
+        worms_data[w] = {
+            'b': b_.flatten(), 'shap': shap_matrix, 'ig': ig_matrix, 'neurons': neuron_array
+        }
+
+    fig = make_subplots(
+        rows=2, cols=4, 
+        subplot_titles=list(behavior_map.values()),
+        vertical_spacing=0.15, horizontal_spacing=0.08
+    )
+
+    row, col = 1, 1
+    for b_key, b_name in behavior_map.items():
+        shap_rbo_vals = []
+        ig_rbo_vals = []
+        
+        worm_ranked_shap = []
+        worm_ranked_ig = []
+        
+        # Wyciąganie rankingów dla SHAP i IG
+        for w in range(num_worms):
+            w_data = worms_data[w]
+            mask = (w_data['b'] == b_key) if b_key != 'ALL' else np.ones(len(w_data['b']), dtype=bool)
+            
+            if not np.any(mask):
+                worm_ranked_shap.append([])
+                worm_ranked_ig.append([])
+                continue
+                
+            for metric, lst in [('shap', worm_ranked_shap), ('ig', worm_ranked_ig)]:
+                matrix_to_use = w_data[metric][mask]
+                mean_scores = np.mean(np.abs(matrix_to_use), axis=0)
+                series = pd.Series(mean_scores, index=w_data['neurons'])
+                lst.append(series.sort_values(ascending=False).index.tolist())
+
+        valid_worms = [idx for idx, lst in enumerate(worm_ranked_shap) if len(lst) > 0]
+
+        # Obliczanie RBO dla par
+        for i in range(len(valid_worms)):
+            for j in range(i + 1, len(valid_worms)):
+                w_i, w_j = valid_worms[i], valid_worms[j]
+                
+                shap_val = compute_rbo(worm_ranked_shap[w_i], worm_ranked_shap[w_j], rbo_p)
+                ig_val = compute_rbo(worm_ranked_ig[w_i], worm_ranked_ig[w_j], rbo_p)
+                
+                shap_rbo_vals.append(shap_val)
+                ig_rbo_vals.append(ig_val)
+
+        # Rysowanie punktów
+        if shap_rbo_vals:
+            fig.add_trace(
+                go.Scatter(
+                    x=ig_rbo_vals, y=shap_rbo_vals,
+                    mode='markers',
+                    marker=dict(size=10, color='#8B0A50', opacity=0.8, line=dict(width=1, color='white')),
+                    name=b_name,
+                    showlegend=False,
+                    hovertemplate="IG: %{x:.2f}<br>SHAP: %{y:.2f}<extra></extra>"
+                ),
+                row=row, col=col
+            )
+            
+            # Linia y = x (punkty powyżej tej linii oznaczają przewagę SHAP)
+            fig.add_trace(
+                go.Scatter(
+                    x=[0, 1], y=[0, 1],
+                    mode='lines',
+                    line=dict(dash='dash', color='gray', width=1.5),
+                    showlegend=False,
+                    hoverinfo='skip'
+                ),
+                row=row, col=col
+            )
+
+        # Ustawienia osi dla każdego sub-wykresu
+        fig.update_xaxes(range=[0, 1], title_text="IG (RBO)" if row==2 else "", row=row, col=col)
+        fig.update_yaxes(range=[0, 1], title_text="SHAP (RBO)" if col==1 else "", row=row, col=col)
+
+        col += 1
+        if col > 4:
+            col = 1
+            row += 1
+
+    fig.update_yaxes(
+            range=[-0.05, 1.05], 
+            title_text="Score" if col==1 else "",
+            title_font=dict(size=18),  # Większy podpis osi Y
+            tickfont=dict(size=16)     # Większe cyferki na osi Y
+        )
+    fig.update_xaxes(showticklabels=False) 
+    
+    # 2. Zwiększenie czcionki dla tytułów poszczególnych paneli (Forward, Reverse-1 itd.)
+    for annotation in fig['layout']['annotations']:
+        annotation['font'] = dict(size=18)
+
+    # 3. Zwiększenie czcionki tytułu głównego, legendy i globalnych ustawień
+    fig.update_layout(
+        font=dict(size=16),        # Globalny rozmiar (np. dla dymków po najechaniu myszką)
+        height=850,                # Lekko zwiększona wysokość, by pomieścić większe napisy
+        width=1400,
+        boxmode='group', 
+        template="plotly_white",
+        legend=dict(
+            orientation="h", 
+            yanchor="bottom", 
+            y=1.06,                # Przesunięto legendę wyżej, by nie nachodziła na tytuły
+            xanchor="right", 
+            x=1,
+            font=dict(size=18)     # Większa czcionka w legendzie
+        )
+    )
+
+    return fig        
+
+
+def generate_inter_behavior_variance_matrix(num_worms=5, rbo_p=0.9):
+    
+    def compute_rbo(l1, l2, p):
+        if not l1 or not l2: return 0.0
+        agreement = 0.0
+        for d in range(1, min(len(l1), len(l2)) + 1):
+            set1 = set(l1[:d])
+            set2 = set(l2[:d])
+            a_d = len(set1.intersection(set2)) / d
+            agreement += (p ** (d - 1)) * a_d
+        return (1 - p) * agreement
+
+    behaviors = [0, 1, 2, 3, 4, 5, 6]
+    b_names = ['Fwd', 'Rev-1', 'Rev-2', 'Sust-Rev', 'Slow', 'Dorsal', 'Ventral']
+    
+    # Słownik przechowujący wyniki dla każdej pary zachowań
+    # Klucz: (i, j), Wartość: {'shap': [5 wartości], 'ig': [5 wartości]}
+    pair_data = { (i, j): {'shap': [], 'ig': []} for i in behaviors for j in behaviors if i > j }
+    
+    # 1. Obliczanie RBO dla każdego robaka i każdej pary zachowań
+    for w in range(num_worms):
+        x_flat, b_, shap_matrix, ig_matrix, _, neuron_array, _, _ = load_all_data(w, DATA_PATH, XAI_PATH)
+        b_flat = b_.flatten()
+        
+        b_ranked_shap = {}
+        b_ranked_ig = {}
+        
+        for b_idx in behaviors:
+            mask = (b_flat == b_idx)
+            if np.any(mask):
+                # SHAP
+                mean_shap = np.mean(np.abs(shap_matrix[mask]), axis=0)
+                b_ranked_shap[b_idx] = pd.Series(mean_shap, index=neuron_array).sort_values(ascending=False).index.tolist()
+                
+                # IG
+                mean_ig = np.mean(np.abs(ig_matrix[mask]), axis=0)
+                b_ranked_ig[b_idx] = pd.Series(mean_ig, index=neuron_array).sort_values(ascending=False).index.tolist()
+            else:
+                b_ranked_shap[b_idx] = None
+                b_ranked_ig[b_idx] = None
+
+        # Obliczanie kombinacji dolnego trójkąta (i > j)
+        for i in behaviors:
+            for j in behaviors:
+                if i > j: 
+                    if b_ranked_shap[i] and b_ranked_shap[j]:
+                        pair_data[(i, j)]['shap'].append(compute_rbo(b_ranked_shap[i], b_ranked_shap[j], rbo_p))
+                    if b_ranked_ig[i] and b_ranked_ig[j]:
+                        pair_data[(i, j)]['ig'].append(compute_rbo(b_ranked_ig[i], b_ranked_ig[j], rbo_p))
+
+    # 2. Tworzenie macierzy wykresów (7 wierszy, 7 kolumn)
+    fig = make_subplots(
+        rows=7, cols=7, 
+        shared_xaxes=True, shared_yaxes=True,
+        vertical_spacing=0.02, horizontal_spacing=0.02
+    )
+
+    # 3. Wypełnianie komórek macierzy punktami robaków
+    for i in range(7):
+        for j in range(7):
+            row = i + 1
+            col = j + 1
+            
+            if i > j: # Rysujemy tylko dolny trójkąt
+                shap_vals = pair_data[(i, j)]['shap']
+                ig_vals = pair_data[(i, j)]['ig']
+                
+                # Punkty SHAP
+                if shap_vals:
+                    fig.add_trace(go.Box(
+                        y=shap_vals, name='SHAP',
+                        boxpoints='all', jitter=0.3, pointpos=0,
+                        marker_color='#8B0A50', line_color='rgba(208, 28, 139, 0.4)',
+                        fillcolor='rgba(208, 28, 139, 0.1)', width=0.5,
+                        showlegend=(i==1 and j==0) # Pokazujemy w legendzie tylko raz
+                    ), row=row, col=col)
+                    
+                # Punkty IG
+                if ig_vals:
+                    fig.add_trace(go.Box(
+                        y=ig_vals, name='IG',
+                        boxpoints='all', jitter=0.3, pointpos=0,
+                        marker_color='#00688B', line_color='rgba(31, 119, 180, 0.4)',
+                        fillcolor='rgba(31, 119, 180, 0.1)', width=0.5,
+                        showlegend=(i==1 and j==0)
+                    ), row=row, col=col)
+                    
+            # Ukrywanie linii siatki i osi w pustych komórkach nad przekątną
+            elif i <= j:
+                fig.update_xaxes(showgrid=False, zeroline=False, showticklabels=False, row=row, col=col)
+                fig.update_yaxes(showgrid=False, zeroline=False, showticklabels=False, row=row, col=col)
+
+            # Ustawianie stałego zakresu [0,1] dla RBO
+            if i > j:
+                fig.update_yaxes(range=[-0.05, 1.05], showticklabels=(col==1), row=row, col=col)
+                fig.update_xaxes(showticklabels=False, row=row, col=col)
+                
+            # Podpisy rzędów (po lewej stronie) i kolumn (na dole)
+            if col == 1 and i > 0:
+                fig.update_yaxes(title_text=b_names[i], title_font=dict(size=20, color='black'), row=row, col=col)
+            if row == 7 and j < 6:
+                fig.update_xaxes(title_text=b_names[j], title_font=dict(size=20, color='black'), row=row, col=col)
+
+    fig.update_layout(
+        height=1200,
+        width=1400,
+        boxmode='group',
+        template="plotly_white",
+        showlegend=True,
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(size=22)),
+        margin=dict(t=100, b=80, l=80, r=40)
+    )
+
+    return fig

@@ -18,7 +18,7 @@ from panel_global_importance import global_importance_barplot, comparison_table_
 from panel_heatmap import temporal_dashboard
 from panel_worm_specific import latent_space_3D, empty_xai_bar_plots, CLICK_xai_barplots
 from xai_methods import BehaviorWrapper
-from panel_corr import inter_worm_corr, behaviour_corr, neurons_corr, generate_global_boxplot_summary, compute_behavior_vs_behavior_matrix
+from panel_corr import inter_worm_corr, behaviour_corr, neurons_corr, generate_global_boxplot_summary, generate_shap_vs_ig_scatter, generate_inter_behavior_variance_matrix
 import io
 import pandas as pd
 
@@ -408,7 +408,9 @@ def render_content(pathname):
                 html.Div([
                     html.H3("Summary of Feature Importance Consistency Across All Behaviors", style={'textAlign': 'center', 'marginTop': '20px'}),
                     html.P("This plot displays the distribution of pairwise Spearman correlations (10 pairs across 5 worms) for each behavior. Each box represents the variance and mean of these correlations.", style={'textAlign': 'center'}),
-                    dcc.Graph(id='plot-global-boxplots')
+                    dcc.Graph(id='plot-global-boxplots'),
+                    dcc.Graph(id = 'plot-scatter-shap-ig'),
+                    dcc.Graph(id = 'plot-scatter-behaviour')
                 ])
             ]),
             
@@ -1083,12 +1085,17 @@ def update_inter_worm_corr(target_worm, target_metric):
 
 
 @app.callback(
-    Output('plot-global-boxplots', 'figure'),
+    [Output('plot-global-boxplots', 'figure'),
+     Output('plot-scatter-shap-ig', 'figure'),
+     Output('plot-scatter-behaviour', 'figure')],
     Input('tabs-correlation', 'value')
 )
 def render_global_overview(tab):
     if tab == 'tab-global-overview':
-        return generate_global_boxplot_summary(num_worms=5)
+        fig1 = generate_global_boxplot_summary(num_worms=5)
+        fig2 = generate_shap_vs_ig_scatter()
+        fig3 = generate_inter_behavior_variance_matrix()
+        return fig1, fig2, fig3
     return dash.no_update
 
 

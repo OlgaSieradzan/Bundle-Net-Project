@@ -1,18 +1,18 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
 [0] Config.pm:331> INFO - Logfile is 'main.blg'
-[222] biber-MSWIN64:342> INFO - === 
-[318] Biber.pm:421> INFO - Reading 'main.bcf'
-[544] Biber.pm:1002> INFO - Found 41 citekeys in bib section 0
-[574] Biber.pm:4487> INFO - Processing section 0
-[594] Biber.pm:4678> INFO - Looking for bibtex file 'bibliography.bib' for section 0
-[686] bibtex.pm:1713> INFO - LaTeX decoding ...
-[775] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliography.bib'
-[1200] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1200] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1200] Biber.pm:4307> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[1201] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
-[1255] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[1299] bbl.pm:779> INFO - Output to main.bbl
-[1299] Biber.pm:132> WARN - Duplicate entry key: 'schneider2023learnable' in file 'bibliography.bib', skipping ...
-[1300] Biber.pm:132> WARN - Duplicate entry key: 'pandarinath2018inferring' in file 'bibliography.bib', skipping ...
-[1300] Biber.pm:134> INFO - WARNINGS: 2
+[84] biber-MSWIN64:342> INFO - === 
+[111] Biber.pm:421> INFO - Reading 'main.bcf'
+[192] Biber.pm:1002> INFO - Found 41 citekeys in bib section 0
+[203] Biber.pm:4487> INFO - Processing section 0
+[211] Biber.pm:4678> INFO - Looking for bibtex file 'bibliography.bib' for section 0
+[251] bibtex.pm:1713> INFO - LaTeX decoding ...
+[289] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliography.bib'
+[485] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[485] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[485] Biber.pm:4307> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[485] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[513] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[533] bbl.pm:779> INFO - Output to main.bbl
+[533] Biber.pm:132> WARN - Duplicate entry key: 'schneider2023learnable' in file 'bibliography.bib', skipping ...
+[533] Biber.pm:132> WARN - Duplicate entry key: 'pandarinath2018inferring' in file 'bibliography.bib', skipping ...
+[533] Biber.pm:134> INFO - WARNINGS: 2
